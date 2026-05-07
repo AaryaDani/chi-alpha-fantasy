@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 """
-update_grosses.py - Chi Alpha Fantasy Box Office
-Pulls grosses from published Google Sheet (CSV export) and patches index.html.
-
-Column mapping confirmed from spreadsheet:
-  2026_Mojo:   A=Rank, B=Title, C=Genre, D=Budget, E=Runtime, F=Gross, G=Theaters, H=Total Gross
-  Player tabs: A=Category, B=Movie, C=$$$
+update_grosses.py - DEBUG VERSION
+Prints raw CSV data so we can see exactly what the sheet is returning.
 """
 
 import re, sys, csv, ssl, io, urllib.request, urllib.error, urllib.parse
@@ -20,12 +16,6 @@ PLAYER_TABS = [
     "AJ","Cecily","Daniel","Katie","Micah","Tizzle","Andrew"
 ]
 
-# Column indices (0-based)
-MOJO_TITLE_COL = 1   # B
-MOJO_GROSS_COL = 5   # F (weekly gross — what we use, not cumulative)
-PLAYER_MOVIE_COL = 1  # B
-PLAYER_GROSS_COL = 2  # C
-
 def make_ctx():
     return ssl.create_default_context()
 
@@ -35,7 +25,6 @@ def fetch_csv(sheet_name):
         f"https://docs.google.com/spreadsheets/d/e/{PUB_ID}/pub?output=csv&sheet={name_enc}",
         f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/pub?output=csv&sheet={name_enc}",
         f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={name_enc}",
-        f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&sheet={name_enc}",
     ]
     for url in urls:
         try:
@@ -43,151 +32,38 @@ def fetch_csv(sheet_name):
             with urllib.request.urlopen(req, timeout=20, context=make_ctx()) as resp:
                 text = resp.read().decode("utf-8-sig", errors="replace")
                 if text.strip():
+                    print(f"    fetched from: {url[:80]}")
                     return text
         except Exception as e:
-            print(f"    try failed: {e}")
+            print(f"    failed: {e}")
     raise Exception(f"All URLs failed for '{sheet_name}'")
 
-def parse_gross(val):
-    """Convert '$403,288,805' or '403288805' to int. Returns None if N/A or blank."""
-    if not val: return None
-    v = str(val).strip().replace("$","").replace(",","").replace(" ","")
-    if v.upper() in ("#N/A","N/A","#VALUE!","#REF!","#ERROR!","","NULL","FALSE","TRUE"):
-        return None
-    try:
-        f = float(v)
-        return int(f) if f > 100 else None
-    except ValueError:
-        return None
+def main():
+    print(f"[{datetime.utcnow().isoformat()}] DEBUG: printing raw sheet data\n")
 
-def fetch_all_grosses():
-    all_grosses = {}
-
-    # ── 2026_Mojo: use column F (index 5) = weekly/current gross ─────────────
-    print("\n[SHEET] 2026_Mojo (col B=title, col F=gross)")
+    # Print first 5 rows of 2026_Mojo
+    print("=== 2026_Mojo RAW ROWS ===")
     try:
         text = fetch_csv("2026_Mojo")
         reader = csv.reader(io.StringIO(text))
         rows = list(reader)
-        print(f"    {len(rows)} rows")
-        found = 0
-        for row in rows[1:]:  # skip header row 1
-            if len(row) <= MOJO_TITLE_COL: continue
-            title = str(row[MOJO_TITLE_COL]).strip()
-            if not title or title.lower() in ("release","title","movie","b",""): continue
-            gross = parse_gross(row[MOJO_GROSS_COL]) if len(row) > MOJO_GROSS_COL else None
-            if title and gross:
-                all_grosses[title.lower()] = gross
-                found += 1
-                print(f"    {title}: ${gross:,}")
-        print(f"    {found} grosses extracted")
+        print(f"Total rows: {len(rows)}")
+        for i, row in enumerate(rows[:8]):
+            print(f"row[{i}]: {row}")
     except Exception as e:
-        print(f"    WARN: {e}")
+        print(f"ERROR: {e}")
 
-    # ── Player tabs: col B=movie, col C=$$$ ───────────────────────────────────
-    for player in PLAYER_TABS:
-        print(f"\n[SHEET] {player} (col B=movie, col C=gross)")
-        try:
-            text = fetch_csv(player)
-            reader = csv.reader(io.StringIO(text))
-            found = 0
-            for row in reader:
-                if len(row) <= PLAYER_MOVIE_COL: continue
-                title = str(row[PLAYER_MOVIE_COL]).strip()
-                # Skip header/total/blank rows
-                if not title or title.lower() in (
-                    "movie","title","total","b","","katie","pablo","daniel",
-                    "dom","reuel","aarya","megan","aj","cecily","tracy",
-                    "micah","tizzle","andrew","josh"
-                ): continue
-                gross = parse_gross(row[PLAYER_GROSS_COL]) if len(row) > PLAYER_GROSS_COL else None
-                if gross:
-                    # Player tabs are authoritative — override mojo value
-                    all_grosses[title.lower()] = gross
-                    found += 1
-                    print(f"    {title}: ${gross:,}")
-            print(f"    {found} grosses")
-        except Exception as e:
-            print(f"    WARN: {e}")
-
-    return all_grosses
-
-def patch_html(html, all_grosses):
-    changes = 0
-
-    def roster_replacer(m):
-        nonlocal changes
-        pre, old, suf = m.group(1), m.group(2), m.group(3)
-        tm = re.search(r"movie:(?:'([^']+)'|\"([^\"]+)\")", pre)
-        if not tm: return m.group(0)
-        title = (tm.group(1) or tm.group(2)).lower()
-        new = all_grosses.get(title)
-        if new is None or str(new) == old: return m.group(0)
-        changes += 1
-        print(f"  roster  {title}: {old} -> {new}")
-        return f"{pre}{new}{suf}"
-
-    html = re.sub(
-        r'(\{cat:[^}]+?movie:(?:\'[^\']+\'|"[^"]+"),gross:)(null|\d+)(\})',
-        roster_replacer, html
-    )
-
-    def mojo_replacer(m):
-        nonlocal changes
-        pre, old, suf = m.group(1), m.group(2), m.group(3)
-        tm = re.search(r"title:(?:'([^']+)'|\"([^\"]+)\")", pre)
-        if not tm: return m.group(0)
-        title = (tm.group(1) or tm.group(2)).lower()
-        new = all_grosses.get(title)
-        if new is None or str(new) == old: return m.group(0)
-        changes += 1
-        print(f"  mojo    {title}: ${int(old):,} -> ${new:,}")
-        return f"{pre}{new}{suf}"
-
-    html = re.sub(
-        r'(\{rank:\d+,title:(?:\'[^\']+\'|"[^"]+"),gross:)(\d+)(\})',
-        mojo_replacer, html
-    )
-    return html, changes
-
-def add_timestamp(html):
-    now = datetime.utcnow().strftime("%b %d, %Y %H:%M UTC")
-    html = re.sub(
-        r'Data (?:from|synced from).*?</a>(\s*&nbsp;·&nbsp;\s*Updated [^<]+)?',
-        f'Data synced from <a href="https://docs.google.com/spreadsheets/d/{SHEET_ID}" '
-        f'target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated {now}',
-        html
-    )
-    return html
-
-def main():
-    print(f"[{datetime.utcnow().isoformat()}] Updating from Google Sheet...")
-
-    all_grosses = fetch_all_grosses()
-
-    if not all_grosses:
-        print("\n[ERROR] No data retrieved from any sheet tab.")
-        print("Ensure sheet is published: File -> Share -> Publish to web -> Publish")
-        sys.exit(1)
-
-    print(f"\n[INFO] {len(all_grosses)} gross values fetched")
-
-    with open(INDEX_FILE, "r", encoding="utf-8") as f:
-        html = f.read()
-
-    print("\n[INFO] Patching index.html...")
-    html, changes = patch_html(html, all_grosses)
-    html = add_timestamp(html)
-
-    with open(INDEX_FILE, "w", encoding="utf-8") as f:
-        f.write(html)
-
-    print(f"\n[DONE] {changes} values updated")
-    if changes == 0:
-        print("[INFO] All values already match the sheet")
+    # Print first 5 rows of Katie
+    print("\n=== Katie RAW ROWS ===")
+    try:
+        text = fetch_csv("Katie")
+        reader = csv.reader(io.StringIO(text))
+        rows = list(reader)
+        print(f"Total rows: {len(rows)}")
+        for i, row in enumerate(rows[:12]):
+            print(f"row[{i}]: {row}")
+    except Exception as e:
+        print(f"ERROR: {e}")
 
 if __name__ == "__main__":
     main()
-
-row[0]: ['Rank', 'Release', 'Genre', ...]
-row[1]: ['1', 'The Super Mario Galaxy Movie', '-', '-', '-', '$404,245,175', ...]
