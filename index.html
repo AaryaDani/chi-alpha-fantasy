@@ -517,7 +517,8 @@
 
 <footer>
   Chi Alpha Fantasy &nbsp;·&nbsp; Box Office 2026 &nbsp;·&nbsp;
-  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated May 07, 2026 01:07 UTC</footer>
+  Data from <a href="https://www.the-numbers.com/market/2026/top-grossing-movies" target="_blank">The Numbers</a>
+</footer>
 
 <div class="modal-overlay hidden" id="claim-modal">
   <div class="modal">
@@ -544,10 +545,10 @@ const LEAGUE2 = ['Pablo','Reuel','Josh','Dom','Tracy','Aarya','Megan'];
 
 // Scoreboard totals (from SCOREBOARD tab — the "official" numbers)
 const officialTotals = {
-  Katie:607566560, Daniel:526181142, Dom:517235065, Reuel:432100202,
-  Aarya:404860254, Pablo:275783764, Micah:259384054, Tizzle:221062169,
-  Andrew:107867753, Cecily:84001072, Tracy:78863272, AJ:7851600,
-  Megan:3891255, Josh:0
+  Katie:598232717, Daniel:525224772, Dom:507816648, Reuel:430898331,
+  Aarya:396540678, Pablo:275783764, Micah:217384054, Tizzle:215306793,
+  Andrew:72867753, Cecily:84001072, Tracy:78863272, AJ:7851600,
+  Megan:3540829, Josh:0
 };
 
 // Tab totals (summed from individual player sheets)
@@ -575,10 +576,10 @@ const rosters = {
   Reuel: [
     {cat:'Action/Blockbuster',movie:'Supergirl',gross:null},
     {cat:'Action/Blockbuster',movie:'Street Fighter',gross:null},
-    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:404245175},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:403288805},
     {cat:'Animation',movie:'Ray Gunn',gross:null},
     {cat:'Comedy/Horror',movie:'Jumanji 3',gross:null},
-    {cat:'Comedy/Horror',movie:"Lee Cronin's The Mummy",gross:27855027},
+    {cat:'Comedy/Horror',movie:"Lee Cronin's The Mummy",gross:27609526},
     {cat:'Drama/Musical',movie:'The Social Reckoning',gross:null},
     {cat:'Drama/Musical',movie:'Godzilla Minus 0',gross:null},
     {cat:'Wild Card',movie:'Peaky Blinders',gross:null},
@@ -597,13 +598,13 @@ const rosters = {
     {cat:'Wild Card',movie:'Focker-in-Law',gross:null},
   ],
   Dom: [
-    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:320048017},
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:319033750},
     {cat:'Action/Blockbuster',movie:'How to Rob a Bank',gross:null},
     {cat:'Animation',movie:'Toy Story 5',gross:null},
     {cat:'Animation',movie:'Coyote vs Acme',gross:null},
     {cat:'Comedy/Horror',movie:'Terrifier 4',gross:null},
     {cat:'Comedy/Horror',movie:'Digger',gross:null},
-    {cat:'Drama/Musical',movie:'Michael',gross:195187048},
+    {cat:'Drama/Musical',movie:'Michael',gross:188782898},
     {cat:'Drama/Musical',movie:'Disclosure Day',gross:null},
     {cat:'Wild Card',movie:'Breadwinner',gross:null},
     {cat:'Wild Card',movie:'Artificial',gross:null},
@@ -624,10 +625,10 @@ const rosters = {
     {cat:'Action/Blockbuster',movie:'The Odyssey',gross:null},
     {cat:'Action/Blockbuster',movie:'Mutiny',gross:null},
     {cat:'Animation',movie:'Minions 3',gross:null},
-    {cat:'Animation',movie:'Hoppers',gross:165415764},
+    {cat:'Animation',movie:'Hoppers',gross:165360594},
     {cat:'Comedy/Horror',movie:'Send Help',gross:64734795},
     {cat:'Comedy/Horror',movie:'Clayface',gross:null},
-    {cat:'Drama/Musical',movie:'The Devil Wears Prada 2',gross:90708623},
+    {cat:'Drama/Musical',movie:'The Devil Wears Prada 2',gross:82444217},
     {cat:'Drama/Musical',movie:'Wuthering Heights',gross:84001072},
     {cat:'Wild Card',movie:'Hexed',gross:null},
     {cat:'Wild Card',movie:'Animal Friends',gross:null},
@@ -641,7 +642,7 @@ const rosters = {
     {cat:'Comedy/Horror',movie:'Whalefall',gross:null},
     {cat:'Drama/Musical',movie:'Moana',gross:null},
     {cat:'Drama/Musical',movie:'Practical Magic 2',gross:null},
-    {cat:'Wild Card',movie:'Animal Farm',gross:3891255},
+    {cat:'Wild Card',movie:'Animal Farm',gross:3540829},
     {cat:'Wild Card',movie:'Young Washington',gross:null},
   ],
   AJ: [
@@ -671,7 +672,7 @@ const rosters = {
   Daniel: [
     {cat:'Action/Blockbuster',movie:'Masters of the Universe',gross:null},
     {cat:'Action/Blockbuster',movie:'Mortal Kombat II',gross:null},
-    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:404245175},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:403288805},
     {cat:'Animation',movie:'Wild Wood',gross:null},
     {cat:'Comedy/Horror',movie:'Scream 7',gross:121935967},
     {cat:'Comedy/Horror',movie:'Evil Dead Burn',gross:null},
@@ -682,12 +683,12 @@ const rosters = {
   ],
   Katie: [
     {cat:'Action/Blockbuster',movie:'Dune 3',gross:null},
-    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:320048017},
-    {cat:'Animation',movie:'Hoppers',gross:165415764},
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:319033750},
+    {cat:'Animation',movie:'Hoppers',gross:165360594},
     {cat:'Animation',movie:'Coyote vs Acme',gross:null},
     {cat:'Comedy/Horror',movie:'The Wrecking Crew',gross:null},
     {cat:'Comedy/Horror',movie:'Insidious: Out of the Further',gross:null},
-    {cat:'Drama/Musical',movie:"The Devil Wears Prada 2",gross:90708623},
+    {cat:'Drama/Musical',movie:"The Devil Wears Prada 2",gross:82444217},
     {cat:'Drama/Musical',movie:'I Can Only Imagine 2',gross:18588615},
     {cat:'Wild Card',movie:'Shelter',gross:12805541},
     {cat:'Wild Card',movie:'Chasing Summer',gross:null},
@@ -708,10 +709,10 @@ const rosters = {
     {cat:'Action/Blockbuster',movie:'Digger',gross:null},
     {cat:'Action/Blockbuster',movie:'Cliffhanger',gross:null},
     {cat:'Animation',movie:'Toy Story 5',gross:null},
-    {cat:'Animation',movie:'Animal Farm',gross:3891255},
+    {cat:'Animation',movie:'Animal Farm',gross:3540829},
     {cat:'Comedy/Horror',movie:'Ready or Not 2',gross:22983066},
     {cat:'Comedy/Horror',movie:'The Great Beyond',gross:null},
-    {cat:'Drama/Musical',movie:'Michael',gross:195187048},
+    {cat:'Drama/Musical',movie:'Michael',gross:188782898},
     {cat:'Drama/Musical',movie:'Power Ballad',gross:null},
     {cat:'Wild Card',movie:'Godzilla Minus 0',gross:null},
     {cat:'Wild Card',movie:'The Adventures of Cliff Booth',gross:null},
@@ -731,28 +732,28 @@ const rosters = {
 };
 
 const mojoData = [
-  {rank:1,title:'The Super Mario Galaxy Movie',gross:404245175},
-  {rank:2,title:'Project Hail Mary',gross:320048017},
-  {rank:3,title:'Michael',gross:195187048},
-  {rank:4,title:'Hoppers',gross:165415764},
+  {rank:1,title:'The Super Mario Galaxy Movie',gross:403288805},
+  {rank:2,title:'Project Hail Mary',gross:319033750},
+  {rank:3,title:'Michael',gross:188782898},
+  {rank:4,title:'Hoppers',gross:165360594},
   {rank:5,title:'Scream 7',gross:121935967},
   {rank:6,title:'GOAT',gross:103316898},
   {rank:7,title:'Wuthering Heights',gross:84001072},
-  {rank:8,title:'The Devil Wears Prada 2',gross:90708623},
+  {rank:8,title:'The Devil Wears Prada 2',gross:82444217},
   {rank:9,title:'Send Help',gross:64734795},
-  {rank:10,title:'Reminders of Him',gross:48556155},
+  {rank:10,title:'Reminders of Him',gross:48554315},
   {rank:11,title:'The Drama',gross:46948216},
   {rank:12,title:'Crime 101',gross:36588336},
-  {rank:13,title:"Lee Cronin's The Mummy",gross:27855027},
+  {rank:13,title:"Lee Cronin's The Mummy",gross:27609526},
   {rank:14,title:'Mercy',gross:24390303},
-  {rank:15,title:'Ready or Not 2: Here I Come',gross:22983866},
+  {rank:15,title:'Ready or Not 2: Here I Come',gross:22983066},
   {rank:16,title:'I Can Only Imagine 2',gross:18588615},
   {rank:17,title:'Shelter',gross:12805541},
   {rank:18,title:'The Bride!',gross:12744025},
   {rank:19,title:'The Strangers: Chapter 3',gross:8560986},
   {rank:20,title:'How to Make a Killing',gross:7851600},
   {rank:21,title:'Return to Silent Hill',gross:5544971},
-  {rank:22,title:'Animal Farm',gross:3891255},
+  {rank:22,title:'Animal Farm',gross:3540829},
   {rank:23,title:'The Pout-Pout Fish',gross:2925502},
   {rank:24,title:'Mother Mary',gross:2319794},
   {rank:25,title:'Cold Storage',gross:1529234},
@@ -770,10 +771,10 @@ const manualBonuses = {
   Cecily:[], Tracy:[], AJ:[], Megan:[], Josh:[]
 };
 
-// Returns live roster gross sum + all manual adjustments for that player
-// (officialTotals is only used as a fallback before rosters are ready)
+// Returns the official scoreboard total (kept in sync with Google Sheet daily)
+// plus any manual bonus adjustments added via the Games tab.
 function getEffectiveTotal(name) {
-  const base = (rosters[name] || []).reduce((s, r) => s + (r.gross || 0), 0);
+  const base = officialTotals[name] || 0;
   const adj  = (manualBonuses[name] || []).reduce((s, b) => s + b.amount, 0);
   return base + adj;
 }
