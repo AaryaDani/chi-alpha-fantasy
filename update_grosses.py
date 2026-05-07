@@ -188,3 +188,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+row[0]: ['Rank', 'Release', 'Genre', ...]
+row[1]: ['1', 'The Super Mario Galaxy Movie', '-', '-', '-', '$404,245,175', ...]
