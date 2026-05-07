@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi Alpha Fantasy · Box Office 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #D4A843;
+    --gold-light: #F0C96A;
+    --dark: #0A0A0F;
+    --dark2: #111118;
+    --dark3: #1A1A24;
+    --dark4: #22222F;
+    --text: #E8E8F0;
+    --text-muted: #888899;
+    --border: rgba(212,168,67,0.15);
+    --green: #2ECC71;
+    --red: #E74C3C;
+    --blue: #3B82F6;
+    --purple: #9B59B6;
+  }
+
+  html, body { min-height: 100%; }
+  body { background: var(--dark); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+  /* ── Film strip ── */
+  .film-strip {
+    height: 36px;
+    background:
+      repeating-linear-gradient(90deg,
+        transparent 0px, transparent 6px,
+        var(--dark) 6px, var(--dark) 10px,
+        transparent 10px, transparent 40px,
+        var(--dark) 40px, var(--dark) 44px
+      ),
+      linear-gradient(180deg, #2a1f00 0%, var(--gold) 50%, #2a1f00 100%);
+    opacity: 0.75;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 3rem 1rem 1.5rem;
+    overflow: hidden;
+    border-bottom: 2px solid rgba(212,168,67,0.3);
+    background: #060608;
+  }
+  /* Radial spotlight glow behind title */
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 20%, rgba(212,168,67,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 100% 80% at 50% 100%, rgba(180,30,30,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  /* Curtain side accents */
+  header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(120,20,20,0.35) 0%, transparent 18%),
+      linear-gradient(270deg, rgba(120,20,20,0.35) 0%, transparent 18%);
+    pointer-events: none;
+  }
+
+  .header-inner { position: relative; z-index: 1; }
+
+  /* Stars sprinkled across header */
+  .header-stars {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .header-stars span {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: twinkle var(--dur, 3s) var(--delay, 0s) infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(1); }
+    50%      { opacity: var(--op, 0.6); transform: scale(1.5); }
+  }
+
+  .league-icon { font-size: 2.2rem; margin-bottom: 0.4rem; display: block; filter: drop-shadow(0 0 12px rgba(212,168,67,0.6)); }
+  .league-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    letter-spacing: 0.1em;
+    background: linear-gradient(160deg, #fff8e1 0%, #F0C96A 30%, #D4A843 60%, #a07010 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    text-shadow: none;
+    filter: drop-shadow(0 2px 24px rgba(212,168,67,0.35));
+  }
+  .league-year {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    letter-spacing: 0.35em;
+    color: #c8323e;
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+  }
+  .league-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+  }
+  /* Decorative divider under title */
+  .title-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.75rem; margin: 0.75rem auto 0; max-width: 340px;
+  }
+  .title-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .title-divider-star { color: var(--gold); font-size: 0.9rem; }
+
+  /* ESPN-style progress bar */
+  .season-bar-wrap { max-width: 500px; margin: 1rem auto 0; padding: 0 1rem; }
+  .season-stats { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.4rem; }
+  .season-stats span strong { color: var(--gold-light); }
+  .season-bar-track { height: 6px; background: var(--dark4); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .season-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 0.6s ease; }
+
+  nav { display: flex; justify-content: center; background: var(--dark2); border-bottom: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-btn { padding: 0.85rem 1.4rem; background: none; border: none; color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
+  .nav-btn:hover { color: var(--gold-light); }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  main { max-width: 1020px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-heading { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* LEAGUE TABS */
+  .league-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .league-tab { padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid var(--border); background: var(--dark3); color: var(--text-muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .league-tab:hover { border-color: var(--gold); color: var(--gold-light); }
+  .league-tab.active { background: var(--gold); color: #0A0A0F; border-color: var(--gold); }
+
+  /* SCOREBOARD */
+  .scoreboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+  .player-card { background: var(--dark3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; position: relative; overflow: hidden; transition: transform 0.15s, border-color 0.15s; cursor: pointer; }
+  .player-card:hover { transform: translateY(-2px); border-color: rgba(212,168,67,0.4); }
+  .player-card.rank-1 { border-color: #D4A843; }
+  .player-card.rank-2 { border-color: #A8A8C0; }
+  .player-card.rank-3 { border-color: #C47C3A; }
+
+  .rank-badge { position: absolute; top: 0.75rem; right: 0.75rem; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; font-family: 'Bebas Neue', sans-serif; }
+  .rank-1 .rank-badge { background: #D4A843; color: #0A0A0F; }
+  .rank-2 .rank-badge { background: #A8A8C0; color: #0A0A0F; }
+  .rank-3 .rank-badge { background: #C47C3A; color: #0A0A0F; }
+  .rank-other .rank-badge { background: var(--dark4); color: var(--text-muted); }
+
+  .player-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 0.1rem; }
+  .player-league-badge { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 3px; display: inline-block; margin-bottom: 0.3rem; }
+  .league1-badge { background: rgba(59,130,246,0.15); color: #93C5FD; }
+  .league2-badge { background: rgba(155,89,182,0.15); color: #C99DE5; }
+  .player-gross { font-size: 1.1rem; font-weight: 600; color: var(--gold-light); }
+  .player-gross-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .bar-track { height: 3px; background: var(--dark4); border-radius: 2px; margin-top: 0.85rem; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; }
+
+  /* ROSTERS */
+  .player-select-row { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .player-pill { padding: 0.35rem 0.8rem; background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
+  .player-pill:hover { color: var(--text); border-color: var(--gold); }
+  .player-pill.active { background: var(--gold); color: #0A0A0F; border-color: var(--gold); font-weight: 600; }
+  .player-pill.l1 { border-color: rgba(59,130,246,0.3); }
+  .player-pill.l2 { border-color: rgba(155,89,182,0.3); }
+
+  .table-wrap { background: var(--dark2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .table-scroll { overflow-x: auto; }
+
+  .roster-table, .mojo-table { width: 100%; border-collapse: collapse; }
+  .roster-table th, .mojo-table th { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; background: var(--dark3); }
+  .roster-table td, .mojo-table td { padding: 0.65rem 0.9rem; font-size: 0.86rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .roster-table tr:last-child td, .mojo-table tr:last-child td { border-bottom: none; }
+  .roster-table tbody tr:hover td, .mojo-table tbody tr:hover td { background: rgba(212,168,67,0.04); }
+
+  .category-badge { font-size: 0.63rem; padding: 0.18rem 0.5rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; display: inline-block; }
+  .cat-action { background: rgba(224,48,48,0.15); color: #F07070; }
+  .cat-anim   { background: rgba(46,204,113,0.15); color: #7EEFA3; }
+  .cat-comedy { background: rgba(78,120,220,0.15); color: #90B0F5; }
+  .cat-drama  { background: rgba(212,168,67,0.15); color: var(--gold-light); }
+  .cat-wild   { background: rgba(155,89,182,0.15); color: #C99DE5; }
+
+  .gross-value { font-weight: 600; color: var(--gold-light); font-variant-numeric: tabular-nums; }
+  .gross-na    { color: var(--text-muted); font-size: 0.78rem; font-style: italic; }
+  .movie-title { font-weight: 500; }
+
+  .roster-total { display: flex; align-items: center; justify-content: space-between; background: var(--dark4); border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; border: 1px solid var(--border); }
+  .roster-total-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .roster-total-val   { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; color: var(--gold); }
+
+  /* DISCREPANCY ROW */
+  .disc-row td { background: rgba(231,76,60,0.07) !important; }
+  .disc-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(231,76,60,0.15); color: #F08080; font-size: 0.68rem; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.04em; }
+  .disc-positive { background: rgba(46,204,113,0.15); color: #7EEFA3; }
+
+  /* BOX OFFICE */
+  .search-bar { width: 100%; background: var(--dark3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.65rem 1rem; margin-bottom: 1.25rem; outline: none; transition: border-color 0.2s; }
+  .search-bar::placeholder { color: var(--text-muted); }
+  .search-bar:focus { border-color: var(--gold); }
+  .mojo-table th:last-child, .mojo-table td:last-child { text-align: right; }
+  .mojo-table td:last-child { font-weight: 600; color: var(--gold-light); font-variant-numeric: tabular-nums; }
+  .rank-num { font-size: 0.75rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .source-note { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .source-note a { color: var(--gold); text-decoration: none; }
+
+  /* TRADES */
+  .trades-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 600px) { .trades-grid { grid-template-columns: 1fr; } }
+  .trade-panel { background: var(--dark3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+  .trade-panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.75rem; }
+  .trade-select { width: 100%; background: var(--dark4); border: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.86rem; padding: 0.5rem 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; outline: none; appearance: none; cursor: pointer; }
+  .trade-select:focus { border-color: var(--gold); }
+  .trade-movie-list { max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; background: var(--dark4); }
+  .trade-movie-item { padding: 0.55rem 0.75rem; font-size: 0.82rem; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 0.5rem; transition: background 0.12s; }
+  .trade-movie-item:last-child { border-bottom: none; }
+  .trade-movie-item:hover { background: rgba(212,168,67,0.08); }
+  .trade-movie-item.selected { background: rgba(212,168,67,0.15); color: var(--gold-light); }
+  .trade-movie-item .check { width: 14px; height: 14px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; }
+  .trade-movie-item.selected .check { background: var(--gold); border-color: var(--gold); color: #0A0A0F; }
+
+  .trade-arrow { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gold); }
+  .trade-confirm-btn { width: 100%; padding: 0.75rem; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: #0A0A0F; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s; margin-top: 1rem; }
+  .trade-confirm-btn:hover { opacity: 0.9; }
+  .trade-confirm-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .trade-log { max-height: 300px; overflow-y: auto; }
+  .trade-log-item { padding: 0.75rem; border-radius: 8px; background: var(--dark3); border: 1px solid var(--border); margin-bottom: 0.6rem; font-size: 0.82rem; }
+  .trade-log-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; }
+  .trade-log-names { font-weight: 600; color: var(--gold-light); }
+  .trade-log-time { font-size: 0.68rem; color: var(--text-muted); }
+  .trade-log-detail { display: flex; gap: 1rem; color: var(--text-muted); font-size: 0.78rem; }
+  .trade-log-detail span { flex: 1; }
+  .trade-undo-btn { padding: 0.2rem 0.5rem; background: none; border: 1px solid rgba(231,76,60,0.4); color: #F08080; border-radius: 4px; font-size: 0.68rem; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .trade-undo-btn:hover { background: rgba(231,76,60,0.1); }
+  .empty-state { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem; }
+
+  /* WAIVER WIRE */
+  .waiver-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .waiver-filter-btn { padding: 0.35rem 0.8rem; background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
+  .waiver-filter-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+  .waiver-filter-btn.active { background: var(--dark4); border-color: var(--gold); color: var(--gold); }
+
+  .waiver-table { width: 100%; border-collapse: collapse; }
+  .waiver-table th { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); background: var(--dark3); }
+  .waiver-table td { padding: 0.65rem 0.9rem; font-size: 0.86rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .waiver-table tbody tr:hover td { background: rgba(212,168,67,0.04); }
+  .waiver-table tr:last-child td { border-bottom: none; }
+  .claim-btn { padding: 0.3rem 0.7rem; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); color: #7EEFA3; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; letter-spacing: 0.05em; }
+  .claim-btn:hover { background: rgba(46,204,113,0.2); border-color: #7EEFA3; }
+
+  /* Claim modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+  .modal-overlay.hidden { display: none; }
+  .modal { background: var(--dark3); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; max-width: 420px; width: 100%; }
+  .modal h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 1rem; }
+  .modal p { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+  .modal label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: block; margin-bottom: 0.35rem; }
+  .modal-select { width: 100%; background: var(--dark4); border: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.86rem; padding: 0.55rem 0.75rem; border-radius: 6px; margin-bottom: 0.75rem; outline: none; appearance: none; }
+  .modal-select:focus { border-color: var(--gold); }
+  .modal-btns { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+  .modal-btn { flex: 1; padding: 0.65rem; border-radius: 7px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.08em; cursor: pointer; border: none; transition: opacity 0.15s; }
+  .modal-btn-confirm { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: #0A0A0F; }
+  .modal-btn-cancel  { background: var(--dark4); color: var(--text-muted); border: 1px solid var(--border); }
+  .modal-btn:hover { opacity: 0.85; }
+
+  /* toast */
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--dark3); border: 1px solid var(--gold); color: var(--gold-light); font-size: 0.85rem; padding: 0.65rem 1.25rem; border-radius: 8px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+  .toast.show { opacity: 1; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem; }
+  footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="film-strip"></div>
+
+<header>
+  <!-- Twinkling stars -->
+  <div class="header-stars" id="header-stars"></div>
+
+  <div class="header-inner">
+    <span class="league-icon">🎬</span>
+    <div class="league-title">Chi Alpha Fantasy</div>
+    <div class="league-year">Box Office · 2026</div>
+    <div class="title-divider">
+      <div class="title-divider-line"></div>
+      <span class="title-divider-star">★</span>
+      <div class="title-divider-line"></div>
+    </div>
+    <div class="league-sub">14 Players &nbsp;·&nbsp; 2 Leagues &nbsp;·&nbsp; Live Grosses</div>
+    <div class="season-bar-wrap">
+      <div class="season-stats">
+        <span>🎥 Released: <strong id="stat-played">0</strong></span>
+        <span>🍿 Remaining: <strong id="stat-remaining">0</strong></span>
+      </div>
+      <div class="season-bar-track">
+        <div class="season-bar-fill" id="season-bar" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active"  onclick="showTab('scoreboard')">Scoreboard</button>
+  <button class="nav-btn"         onclick="showTab('rosters')">Rosters</button>
+  <button class="nav-btn"         onclick="showTab('trades')">Trades</button>
+  <button class="nav-btn"         onclick="showTab('waiver')">Waiver Wire</button>
+  <button class="nav-btn"         onclick="showTab('boxoffice')">Box Office</button>
+  <button class="nav-btn"         onclick="showTab('games')">Games</button>
+</nav>
+
+<main>
+
+  <!-- SCOREBOARD -->
+  <section id="scoreboard" class="section active">
+    <div class="section-heading">Current Standings</div>
+    <div class="league-tabs">
+      <button class="league-tab active" onclick="setScoreLeague('all')">All Players</button>
+      <button class="league-tab" onclick="setScoreLeague('1')">League 1</button>
+      <button class="league-tab" onclick="setScoreLeague('2')">League 2</button>
+    </div>
+    <div class="scoreboard-grid" id="scoreboard-grid"></div>
+  </section>
+
+  <!-- ROSTERS -->
+  <section id="rosters" class="section">
+    <div class="section-heading">Player Rosters</div>
+    <div class="league-tabs">
+      <button class="league-tab active" id="roster-league-tab-all" onclick="setRosterLeague('all')">All</button>
+      <button class="league-tab" id="roster-league-tab-1" onclick="setRosterLeague('1')">League 1</button>
+      <button class="league-tab" id="roster-league-tab-2" onclick="setRosterLeague('2')">League 2</button>
+    </div>
+    <div class="player-select-row" id="player-pills"></div>
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table class="roster-table" id="roster-table"></table>
+      </div>
+    </div>
+    <div class="roster-total">
+      <span class="roster-total-label">Total Gross</span>
+      <span class="roster-total-val" id="roster-total-val">—</span>
+    </div>
+  </section>
+
+  <!-- TRADES -->
+  <section id="trades" class="section">
+    <div class="section-heading">Trade Center</div>
+    <div class="trades-grid">
+      <div class="trade-panel">
+        <div class="trade-panel-title">Team A</div>
+        <select class="trade-select" id="trade-player-a" onchange="renderTradeMovies('a')">
+          <option value="">— Select Player —</option>
+        </select>
+        <div class="trade-movie-list" id="trade-movies-a"></div>
+      </div>
+      <div class="trade-panel">
+        <div class="trade-panel-title">Team B</div>
+        <select class="trade-select" id="trade-player-b" onchange="renderTradeMovies('b')">
+          <option value="">— Select Player —</option>
+        </select>
+        <div class="trade-movie-list" id="trade-movies-b"></div>
+      </div>
+    </div>
+    <button class="trade-confirm-btn" id="trade-confirm-btn" onclick="executeTrade()" disabled>⇌ &nbsp;Confirm Trade</button>
+
+    <div style="margin-top:2rem">
+      <div class="section-heading" style="font-size:1.3rem">Trade History</div>
+      <div id="trade-log"></div>
+    </div>
+  </section>
+
+  <!-- WAIVER WIRE -->
+  <section id="waiver" class="section">
+    <div class="section-heading">Waiver Wire</div>
+    <p class="source-note" style="margin-bottom:1rem">
+      Search for any unreleased movie to add it to the pool, then claim it for a player.
+      Movies only available in one league are marked with a league badge — players from the other league cannot claim them.
+    </p>
+
+    <!-- Search to add unreleased movie -->
+    <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--gold);margin-bottom:0.85rem">Add Unreleased Movie to Wire</div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-end">
+        <div style="flex:1;min-width:200px">
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">Movie Title</label>
+          <input id="waiver-add-input" type="text" placeholder="e.g. Fantastic Four, Blade…"
+            style="width:100%;background:var(--dark4);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.86rem;padding:0.52rem 0.85rem;border-radius:6px;outline:none"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"
+            onkeydown="if(event.key==='Enter')addToWaiverWire()">
+        </div>
+        <div>
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">Category</label>
+          <select id="waiver-add-cat" class="trade-select" style="margin:0;min-width:160px">
+            <option value="Action/Blockbuster">Action / Blockbuster</option>
+            <option value="Animation">Animation</option>
+            <option value="Comedy/Horror">Comedy / Horror</option>
+            <option value="Drama/Musical">Drama / Musical</option>
+            <option value="Wild Card">Wild Card</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">League Restriction</label>
+          <select id="waiver-add-league" class="trade-select" style="margin:0;min-width:140px">
+            <option value="any">Any (both leagues)</option>
+            <option value="1">League 1 only</option>
+            <option value="2">League 2 only</option>
+          </select>
+        </div>
+        <div>
+          <button onclick="addToWaiverWire()"
+            style="padding:0.52rem 1.1rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#0A0A0F;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;border:none;border-radius:6px;cursor:pointer;white-space:nowrap"
+            onmouseover="this.style.opacity=0.88" onmouseout="this.style.opacity=1">+ Add to Wire</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter + search row -->
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+      <input class="search-bar" type="text" id="waiver-search" placeholder="Filter wire…"
+        style="margin:0;flex:1;min-width:180px;max-width:300px" oninput="renderWaiver()">
+      <div class="waiver-filters" id="waiver-filters" style="margin:0"></div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table class="waiver-table" id="waiver-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOX OFFICE -->
+  <section id="boxoffice" class="section">
+    <div class="section-heading">2026 Box Office</div>
+    <p class="source-note">Data sourced from <a href="https://www.the-numbers.com/market/2026/top-grossing-movies" target="_blank">The Numbers</a>.</p>
+    <input class="search-bar" type="text" id="mojo-search" placeholder="Search movies..." oninput="filterMojo()">
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table class="mojo-table" id="mojo-table"></table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- GAMES -->
+  <section id="games" class="section">
+    <div class="section-heading">Games</div>
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6;">
+      Discrepancies between each player's official scoreboard total and their roster tab sum. Use the form below to apply manual bonuses or penalties — these affect the live scoreboard and all totals.
+    </p>
+
+    <!-- Add Adjustment Form -->
+    <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1.75rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--gold);margin-bottom:1rem">Add Adjustment</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:0.75rem;align-items:end" id="adj-form-grid">
+        <div>
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">Player</label>
+          <select id="adj-player" class="trade-select" style="margin:0">
+            <option value="">— Select —</option>
+            <option>Katie</option><option>Daniel</option><option>Dom</option><option>Reuel</option>
+            <option>Aarya</option><option>Pablo</option><option>Micah</option><option>Tizzle</option>
+            <option>Andrew</option><option>Cecily</option><option>Tracy</option><option>AJ</option>
+            <option>Megan</option><option>Josh</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">Amount ($)</label>
+          <input id="adj-amount" type="number" placeholder="e.g. 42000000 or -5000000"
+            style="width:100%;background:var(--dark4);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.86rem;padding:0.5rem 0.75rem;border-radius:6px;outline:none"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <label style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);display:block;margin-bottom:0.3rem">Note (optional)</label>
+          <input id="adj-note" type="text" placeholder="e.g. Spreadsheet bonus, side bet win..."
+            style="width:100%;background:var(--dark4);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.86rem;padding:0.5rem 0.75rem;border-radius:6px;outline:none"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <button onclick="addAdjustment()"
+            style="padding:0.52rem 1.1rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#0A0A0F;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;border:none;border-radius:6px;cursor:pointer;white-space:nowrap;transition:opacity 0.15s"
+            onmouseover="this.style.opacity=0.88" onmouseout="this.style.opacity=1">
+            + Apply
+          </button>
+        </div>
+      </div>
+      <style>
+        @media(max-width:640px){
+          #adj-form-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+      </style>
+    </div>
+
+    <div id="games-table-wrap"></div>
+  </section>
+
+</main>
+
+<footer>
+  Chi Alpha Fantasy &nbsp;·&nbsp; Box Office 2026 &nbsp;·&nbsp;
+  Data from <a href="https://www.the-numbers.com/market/2026/top-grossing-movies" target="_blank">The Numbers</a>
+</footer>
+
+<div class="modal-overlay hidden" id="claim-modal">
+  <div class="modal">
+    <h3>Claim Movie</h3>
+    <p id="claim-modal-desc">Select the player who will claim this movie, and choose which movie to drop from their roster.</p>
+    <label>Claiming Player</label>
+    <select class="modal-select" id="claim-player" onchange="renderDropOptions()"></select>
+    <label>Drop from Roster</label>
+    <select class="modal-select" id="claim-drop"></select>
+    <div class="modal-btns">
+      <button class="modal-btn modal-btn-cancel" onclick="closeClaimModal()">Cancel</button>
+      <button class="modal-btn modal-btn-confirm" onclick="confirmClaim()">Claim</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const LEAGUE1 = ['AJ','Cecily','Daniel','Katie','Micah','Tizzle','Andrew'];
+const LEAGUE2 = ['Pablo','Reuel','Josh','Dom','Tracy','Aarya','Megan'];
+
+// Scoreboard totals (from SCOREBOARD tab — the "official" numbers)
+const officialTotals = {
+  Katie:598232717, Daniel:525224772, Dom:507816648, Reuel:430898331,
+  Aarya:396540678, Pablo:275783764, Micah:217384054, Tizzle:215306793,
+  Andrew:72867753, Cecily:84001072, Tracy:78863272, AJ:7851600,
+  Megan:3540829, Josh:0
+};
+
+// Tab totals (summed from individual player sheets)
+const tabTotals = {
+  Pablo:275783764, Reuel:430898331, Josh:0, Dom:507816648,
+  Tracy:78863272, Aarya:396540678, Megan:3540829, AJ:7851600,
+  Cecily:84001072, Daniel:525224772, Katie:598232717, Micah:217384054,
+  Tizzle:215306793, Andrew:72867753
+};
+
+// Rosters (live, modified by trades/waivers)
+const rosters = {
+  Pablo: [
+    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday',gross:null},
+    {cat:'Action/Blockbuster',movie:'Mercy',gross:24390303},
+    {cat:'Animation',movie:'GOAT',gross:103316898},
+    {cat:'Animation',movie:'Angry Birds 3',gross:null},
+    {cat:'Comedy/Horror',movie:'Scream 7',gross:121935967},
+    {cat:'Comedy/Horror',movie:'Sheep Detectives',gross:null},
+    {cat:'Drama/Musical',movie:'The Bride!',gross:12744025},
+    {cat:'Drama/Musical',movie:'How to Make a Killing',gross:7851600},
+    {cat:'Wild Card',movie:'Narnia',gross:null},
+    {cat:'Wild Card',movie:'Return to Silent Hill',gross:5544971},
+  ],
+  Reuel: [
+    {cat:'Action/Blockbuster',movie:'Supergirl',gross:null},
+    {cat:'Action/Blockbuster',movie:'Street Fighter',gross:null},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:403288805},
+    {cat:'Animation',movie:'Ray Gunn',gross:null},
+    {cat:'Comedy/Horror',movie:'Jumanji 3',gross:null},
+    {cat:'Comedy/Horror',movie:"Lee Cronin's The Mummy",gross:27609526},
+    {cat:'Drama/Musical',movie:'The Social Reckoning',gross:null},
+    {cat:'Drama/Musical',movie:'Godzilla Minus 0',gross:null},
+    {cat:'Wild Card',movie:'Peaky Blinders',gross:null},
+    {cat:'Wild Card',movie:'Cliff Booth',gross:null},
+  ],
+  Josh: [
+    {cat:'Action/Blockbuster',movie:'Mando & Grogu',gross:null},
+    {cat:'Action/Blockbuster',movie:'Cliffhanger',gross:null},
+    {cat:'Animation',movie:'Paw Patrol!',gross:null},
+    {cat:'Animation',movie:'Forgotten Island',gross:null},
+    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further',gross:null},
+    {cat:'Comedy/Horror',movie:'Resident Evil',gross:null},
+    {cat:'Drama/Musical',movie:'Verity',gross:null},
+    {cat:'Drama/Musical',movie:'Apex',gross:null},
+    {cat:'Wild Card',movie:'Sunrise on the Reaping',gross:null},
+    {cat:'Wild Card',movie:'Focker-in-Law',gross:null},
+  ],
+  Dom: [
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:319033750},
+    {cat:'Action/Blockbuster',movie:'How to Rob a Bank',gross:null},
+    {cat:'Animation',movie:'Toy Story 5',gross:null},
+    {cat:'Animation',movie:'Coyote vs Acme',gross:null},
+    {cat:'Comedy/Horror',movie:'Terrifier 4',gross:null},
+    {cat:'Comedy/Horror',movie:'Digger',gross:null},
+    {cat:'Drama/Musical',movie:'Michael',gross:188782898},
+    {cat:'Drama/Musical',movie:'Disclosure Day',gross:null},
+    {cat:'Wild Card',movie:'Breadwinner',gross:null},
+    {cat:'Wild Card',movie:'Artificial',gross:null},
+  ],
+  Tracy: [
+    {cat:'Action/Blockbuster',movie:'Spiderman 4',gross:null},
+    {cat:'Action/Blockbuster',movie:'Shelter',gross:12805541},
+    {cat:'Animation',movie:'Asterix',gross:null},
+    {cat:'Animation',movie:'The Pout-Pout Fish',gross:2925502},
+    {cat:'Comedy/Horror',movie:'The Strangers: Chapter 3',gross:8560986},
+    {cat:'Comedy/Horror',movie:'Werwulf',gross:null},
+    {cat:'Drama/Musical',movie:'I Can Only Imagine 2',gross:18588615},
+    {cat:'Drama/Musical',movie:'Mother Mary',gross:2319794},
+    {cat:'Wild Card',movie:'Mortal Kombat II',gross:null},
+    {cat:'Wild Card',movie:'Crime 101',gross:36588336},
+  ],
+  Aarya: [
+    {cat:'Action/Blockbuster',movie:'The Odyssey',gross:null},
+    {cat:'Action/Blockbuster',movie:'Mutiny',gross:null},
+    {cat:'Animation',movie:'Minions 3',gross:null},
+    {cat:'Animation',movie:'Hoppers',gross:165360594},
+    {cat:'Comedy/Horror',movie:'Send Help',gross:64734795},
+    {cat:'Comedy/Horror',movie:'Clayface',gross:null},
+    {cat:'Drama/Musical',movie:'The Devil Wears Prada 2',gross:82444217},
+    {cat:'Drama/Musical',movie:'Wuthering Heights',gross:84001072},
+    {cat:'Wild Card',movie:'Hexed',gross:null},
+    {cat:'Wild Card',movie:'Animal Friends',gross:null},
+  ],
+  Megan: [
+    {cat:'Action/Blockbuster',movie:'Dune 3',gross:null},
+    {cat:'Action/Blockbuster',movie:'Masters of the Universe',gross:null},
+    {cat:'Animation',movie:'Cat in the Hat',gross:null},
+    {cat:'Animation',movie:"Wizards!",gross:null},
+    {cat:'Comedy/Horror',movie:'Scary Movie 6',gross:null},
+    {cat:'Comedy/Horror',movie:'Whalefall',gross:null},
+    {cat:'Drama/Musical',movie:'Moana',gross:null},
+    {cat:'Drama/Musical',movie:'Practical Magic 2',gross:null},
+    {cat:'Wild Card',movie:'Animal Farm',gross:3540829},
+    {cat:'Wild Card',movie:'Young Washington',gross:null},
+  ],
+  AJ: [
+    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday',gross:null},
+    {cat:'Action/Blockbuster',movie:'Violent Night 2',gross:null},
+    {cat:'Animation',movie:'Minions 3',gross:null},
+    {cat:'Animation',movie:'Forgotten Island',gross:null},
+    {cat:'Comedy/Horror',movie:'Jumanji 3',gross:null},
+    {cat:'Comedy/Horror',movie:'Clayface',gross:null},
+    {cat:'Drama/Musical',movie:'Verity',gross:null},
+    {cat:'Drama/Musical',movie:'How to Make a Killing',gross:7851600},
+    {cat:'Wild Card',movie:'Resident Evil',gross:null},
+    {cat:'Wild Card',movie:'Animal Friends',gross:null},
+  ],
+  Cecily: [
+    {cat:'Action/Blockbuster',movie:'Supergirl',gross:null},
+    {cat:'Action/Blockbuster',movie:'Narnia',gross:null},
+    {cat:'Animation',movie:'Paw Patrol',gross:null},
+    {cat:'Animation',movie:'Dog Stars',gross:null},
+    {cat:'Comedy/Horror',movie:'Terrifier 4',gross:null},
+    {cat:'Comedy/Horror',movie:'Werwulf',gross:null},
+    {cat:'Drama/Musical',movie:'Wuthering Heights',gross:84001072},
+    {cat:'Drama/Musical',movie:'Social Reckoning',gross:null},
+    {cat:'Wild Card',movie:'Sunrise on the Reaping',gross:null},
+    {cat:'Wild Card',movie:'Scary Movie 6',gross:null},
+  ],
+  Daniel: [
+    {cat:'Action/Blockbuster',movie:'Masters of the Universe',gross:null},
+    {cat:'Action/Blockbuster',movie:'Mortal Kombat II',gross:null},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:403288805},
+    {cat:'Animation',movie:'Wild Wood',gross:null},
+    {cat:'Comedy/Horror',movie:'Scream 7',gross:121935967},
+    {cat:'Comedy/Horror',movie:'Evil Dead Burn',gross:null},
+    {cat:'Drama/Musical',movie:'Disclosure Day',gross:null},
+    {cat:'Drama/Musical',movie:'Apex',gross:null},
+    {cat:'Wild Card',movie:'Street Fighter',gross:null},
+    {cat:'Wild Card',movie:'Flowervale St',gross:null},
+  ],
+  Katie: [
+    {cat:'Action/Blockbuster',movie:'Dune 3',gross:null},
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:319033750},
+    {cat:'Animation',movie:'Hoppers',gross:165360594},
+    {cat:'Animation',movie:'Coyote vs Acme',gross:null},
+    {cat:'Comedy/Horror',movie:'The Wrecking Crew',gross:null},
+    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further',gross:null},
+    {cat:'Drama/Musical',movie:"The Devil Wears Prada 2",gross:82444217},
+    {cat:'Drama/Musical',movie:'I Can Only Imagine 2',gross:18588615},
+    {cat:'Wild Card',movie:'Shelter',gross:12805541},
+    {cat:'Wild Card',movie:'Chasing Summer',gross:null},
+  ],
+  Micah: [
+    {cat:'Action/Blockbuster',movie:'Spiderman 4',gross:null},
+    {cat:'Action/Blockbuster',movie:'Mutiny',gross:null},
+    {cat:'Animation',movie:'The Cat in the Hat',gross:null},
+    {cat:'Animation',movie:'GOAT',gross:103316898},
+    {cat:'Comedy/Horror',movie:'Focker-in-Law',gross:null},
+    {cat:'Comedy/Horror',movie:'Send Help',gross:64734795},
+    {cat:'Drama/Musical',movie:'The Bride!',gross:12744025},
+    {cat:'Drama/Musical',movie:'Crime 101',gross:36588336},
+    {cat:'Wild Card',movie:'Mando & Grogu',gross:null},
+    {cat:'Wild Card',movie:'The Breadwinners',gross:null},
+  ],
+  Tizzle: [
+    {cat:'Action/Blockbuster',movie:'Digger',gross:null},
+    {cat:'Action/Blockbuster',movie:'Cliffhanger',gross:null},
+    {cat:'Animation',movie:'Toy Story 5',gross:null},
+    {cat:'Animation',movie:'Animal Farm',gross:3540829},
+    {cat:'Comedy/Horror',movie:'Ready or Not 2',gross:22983066},
+    {cat:'Comedy/Horror',movie:'The Great Beyond',gross:null},
+    {cat:'Drama/Musical',movie:'Michael',gross:188782898},
+    {cat:'Drama/Musical',movie:'Power Ballad',gross:null},
+    {cat:'Wild Card',movie:'Godzilla Minus 0',gross:null},
+    {cat:'Wild Card',movie:'The Adventures of Cliff Booth',gross:null},
+  ],
+  Andrew: [
+    {cat:'Action/Blockbuster',movie:'The Odyssey',gross:null},
+    {cat:'Action/Blockbuster',movie:'Mercy',gross:24390303},
+    {cat:'Animation',movie:'Angry Birds 3',gross:null},
+    {cat:'Animation',movie:'Sense and Sensibility',gross:null},
+    {cat:'Comedy/Horror',movie:'Sheep Detective',gross:null},
+    {cat:'Comedy/Horror',movie:'Cold Storage',gross:1529234},
+    {cat:'Drama/Musical',movie:'Moana',gross:null},
+    {cat:'Drama/Musical',movie:'The Drama',gross:46948216},
+    {cat:'Wild Card',movie:'Hexed',gross:null},
+    {cat:'Wild Card',movie:'Death of Robin Hood',gross:null},
+  ],
+};
+
+const mojoData = [
+  {rank:1,title:'The Super Mario Galaxy Movie',gross:403288805},
+  {rank:2,title:'Project Hail Mary',gross:319033750},
+  {rank:3,title:'Michael',gross:188782898},
+  {rank:4,title:'Hoppers',gross:165360594},
+  {rank:5,title:'Scream 7',gross:121935967},
+  {rank:6,title:'GOAT',gross:103316898},
+  {rank:7,title:'Wuthering Heights',gross:84001072},
+  {rank:8,title:'The Devil Wears Prada 2',gross:82444217},
+  {rank:9,title:'Send Help',gross:64734795},
+  {rank:10,title:'Reminders of Him',gross:48554315},
+  {rank:11,title:'The Drama',gross:46948216},
+  {rank:12,title:'Crime 101',gross:36588336},
+  {rank:13,title:"Lee Cronin's The Mummy",gross:27609526},
+  {rank:14,title:'Mercy',gross:24390303},
+  {rank:15,title:'Ready or Not 2: Here I Come',gross:22983066},
+  {rank:16,title:'I Can Only Imagine 2',gross:18588615},
+  {rank:17,title:'Shelter',gross:12805541},
+  {rank:18,title:'The Bride!',gross:12744025},
+  {rank:19,title:'The Strangers: Chapter 3',gross:8560986},
+  {rank:20,title:'How to Make a Killing',gross:7851600},
+  {rank:21,title:'Return to Silent Hill',gross:5544971},
+  {rank:22,title:'Animal Farm',gross:3540829},
+  {rank:23,title:'The Pout-Pout Fish',gross:2925502},
+  {rank:24,title:'Mother Mary',gross:2319794},
+  {rank:25,title:'Cold Storage',gross:1529234},
+];
+
+// Manual bonus/penalty adjustments (from Games tab)
+// { playerName: [ { amount, note, id, time }, ... ] }
+const manualBonuses = {
+  Katie:[], Daniel:[],
+  Dom:[   { id:1, amount:2000000,   note:'Spreadsheet bonus', locked:true, time:'—' }],
+  Reuel:[], Aarya:[], Pablo:[],
+  Micah:[ { id:2, amount:42000000,  note:'Spreadsheet bonus', locked:true, time:'—' }],
+  Tizzle:[{ id:3, amount:-1000000,  note:'Spreadsheet delta', locked:true, time:'—' }],
+  Andrew:[{ id:4, amount:35000000,  note:'Spreadsheet bonus', locked:true, time:'—' }],
+  Cecily:[], Tracy:[], AJ:[], Megan:[], Josh:[]
+};
+
+// Returns live roster gross sum + all manual adjustments for that player
+// (officialTotals is only used as a fallback before rosters are ready)
+function getEffectiveTotal(name) {
+  const base = (rosters[name] || []).reduce((s, r) => s + (r.gross || 0), 0);
+  const adj  = (manualBonuses[name] || []).reduce((s, b) => s + b.amount, 0);
+  return base + adj;
+}
+
+// Trade history
+let tradeHistory = [];
+let selectedTradeMovies = { a: new Set(), b: new Set() };
+let pendingClaimMovie = null;
+let scoreLeague = 'all';
+let rosterLeague = 'all';
+let currentPlayer = 'Katie';
+
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function fmt(n) {
+  if (!n) return '$0';
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + Math.round(n / 1e6) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'K';
+  return '$' + n.toLocaleString();
+}
+function catClass(c) {
+  if (!c) return 'cat-wild';
+  if (c.includes('Action'))    return 'cat-action';
+  if (c.includes('Animation')) return 'cat-anim';
+  if (c.includes('Comedy'))    return 'cat-comedy';
+  if (c.includes('Drama'))     return 'cat-drama';
+  return 'cat-wild';
+}
+function catShort(c) {
+  if (!c) return '—';
+  if (c.includes('Action'))    return 'Action';
+  if (c.includes('Animation')) return 'Animation';
+  if (c.includes('Comedy'))    return 'Comedy / Horror';
+  if (c.includes('Drama'))     return 'Drama / Musical';
+  return 'Wild Card';
+}
+function leagueOf(name) { return LEAGUE1.includes(name) ? '1' : '2'; }
+function getRosterTotal(name) {
+  return (rosters[name]||[]).reduce((s,r) => s + (r.gross||0), 0);
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── SEASON PROGRESS BAR ────────────────────────────────────────────────────
+function updateSeasonBar() {
+  // Count all unique movies across all rosters
+  const allMovies = new Set();
+  const releasedMovies = new Set();
+  Object.values(rosters).forEach(rs => {
+    rs.forEach(r => {
+      allMovies.add(r.movie);
+      if (r.gross !== null) releasedMovies.add(r.movie);
+    });
+  });
+  const total = allMovies.size;
+  const played = releasedMovies.size;
+  const remaining = total - played;
+  document.getElementById('stat-played').textContent = played;
+  document.getElementById('stat-remaining').textContent = remaining;
+  const pct = total > 0 ? (played / total * 100) : 0;
+  document.getElementById('season-bar').style.width = pct.toFixed(1) + '%';
+}
+
+// ─── SCOREBOARD ─────────────────────────────────────────────────────────────
+function setScoreLeague(l) {
+  scoreLeague = l;
+  document.querySelectorAll('#scoreboard .league-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', ['all','1','2'][i] === l);
+  });
+  renderScoreboard();
+}
+
+function renderScoreboard() {
+  const allNames = Object.keys(officialTotals);
+  let names = allNames;
+  if (scoreLeague === '1') names = allNames.filter(n => LEAGUE1.includes(n));
+  if (scoreLeague === '2') names = allNames.filter(n => LEAGUE2.includes(n));
+  
+  const sorted = names.slice().sort((a,b) => getEffectiveTotal(b) - getEffectiveTotal(a));
+  const maxGross = getEffectiveTotal(sorted[0]) || 1;
+  const grid = document.getElementById('scoreboard-grid');
+  grid.innerHTML = '';
+
+  sorted.forEach((name, i) => {
+    const rank = i + 1;
+    const rankClass = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-other';
+    const pct = (getEffectiveTotal(name) / maxGross * 100).toFixed(1);
+    const lNum = leagueOf(name);
+    const card = document.createElement('div');
+    card.className = `player-card ${rankClass}`;
+    card.innerHTML = `
+      <div class="rank-badge">${rank}</div>
+      <div class="player-name">${name}</div>
+      <span class="player-league-badge league${lNum}-badge">League ${lNum}</span>
+      <div class="player-gross">${fmt(getEffectiveTotal(name))}</div>
+      <div class="player-gross-sub">Official gross</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+    `;
+    card.onclick = () => { showTab('rosters'); selectPlayer(name); };
+    grid.appendChild(card);
+  });
+}
+
+// ─── ROSTERS ─────────────────────────────────────────────────────────────────
+function setRosterLeague(l) {
+  rosterLeague = l;
+  ['all','1','2'].forEach((v,i) => {
+    document.getElementById('roster-league-tab-' + ['all','1','2'][i]).classList.toggle('active', v === l);
+  });
+  renderPills();
+}
+
+function renderPills() {
+  const playerOrder = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh'];
+  const filtered = playerOrder.filter(n => {
+    if (rosterLeague === '1') return LEAGUE1.includes(n);
+    if (rosterLeague === '2') return LEAGUE2.includes(n);
+    return true;
+  });
+  const row = document.getElementById('player-pills');
+  row.innerHTML = '';
+  filtered.forEach(name => {
+    const btn = document.createElement('button');
+    const lNum = leagueOf(name);
+    btn.className = `player-pill l${lNum}` + (name === currentPlayer ? ' active' : '');
+    btn.textContent = name;
+    btn.id = 'pill-' + name;
+    btn.onclick = () => selectPlayer(name);
+    row.appendChild(btn);
+  });
+}
+
+function selectPlayer(name) {
+  currentPlayer = name;
+  document.querySelectorAll('.player-pill').forEach(p => p.classList.remove('active'));
+  const pill = document.getElementById('pill-' + name);
+  if (pill) pill.classList.add('active');
+
+  const data = rosters[name] || [];
+  const official = getEffectiveTotal(name);
+  const tabSum = data.reduce((s,r) => s+(r.gross||0), 0);
+  const discrepancy = official - tabSum;
+
+  const tbl = document.getElementById('roster-table');
+  const rows = data.map(r => `
+    <tr>
+      <td><span class="category-badge ${catClass(r.cat)}">${catShort(r.cat)}</span></td>
+      <td class="movie-title">${r.movie}</td>
+      <td style="text-align:right">${r.gross
+        ? `<span class="gross-value">${fmt(r.gross)}</span>`
+        : '<span class="gross-na">Not yet released</span>'
+      }</td>
+    </tr>
+  `).join('');
+
+  // Only show delta row if there are manual bonus adjustments
+  const bonusAdj = (manualBonuses[name]||[]).reduce((s,b) => s + b.amount, 0);
+  let discRow = '';
+  if (bonusAdj !== 0) {
+    const sign = bonusAdj > 0 ? '+' : '';
+    const cls  = bonusAdj > 0 ? 'disc-positive' : '';
+    discRow = `
+      <tr class="disc-row">
+        <td colspan="2" style="font-size:0.78rem;color:var(--text-muted);">
+          <span class="disc-badge ${cls}">${bonusAdj > 0 ? '🎉' : '📉'} Games Adjustment</span>
+          &nbsp;Roster sum ${fmt(tabSum)} ${bonusAdj > 0 ? '+' : ''}${fmt(bonusAdj)} bonus from Games tab
+        </td>
+        <td style="text-align:right"><span class="disc-badge ${cls}">${fmt(official)}</span></td>
+      </tr>
+    `;
+  }
+
+  tbl.innerHTML = `
+    <thead><tr>
+      <th style="width:150px">Category</th>
+      <th>Movie</th>
+      <th style="text-align:right">US Gross</th>
+    </tr></thead>
+    <tbody>${rows}${discRow}</tbody>
+  `;
+  document.getElementById('roster-total-val').textContent = fmt(official);
+}
+
+// ─── TRADES ──────────────────────────────────────────────────────────────────
+function initTrades() {
+  const playerOrder = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh'];
+  ['a','b'].forEach(side => {
+    const sel = document.getElementById('trade-player-' + side);
+    playerOrder.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value = n; opt.textContent = n + (LEAGUE1.includes(n) ? ' (L1)' : ' (L2)');
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function renderTradeMovies(side) {
+  const sel = document.getElementById('trade-player-' + side);
+  const name = sel.value;
+  const list = document.getElementById('trade-movies-' + side);
+  selectedTradeMovies[side].clear();
+  if (!name) { list.innerHTML = ''; updateTradeBtn(); return; }
+  const data = rosters[name] || [];
+  list.innerHTML = data.map((r,i) => `
+    <div class="trade-movie-item" onclick="toggleTradeMovie('${side}',${i})" id="tm-${side}-${i}">
+      <div class="check"></div>
+      <span>${r.movie}</span>
+      <span style="margin-left:auto;font-size:0.72rem;color:var(--text-muted)">${r.gross ? fmt(r.gross) : '—'}</span>
+    </div>
+  `).join('');
+  updateTradeBtn();
+}
+
+function toggleTradeMovie(side, idx) {
+  const key = side + '-' + idx;
+  const el = document.getElementById('tm-' + key);
+  if (selectedTradeMovies[side].has(idx)) {
+    selectedTradeMovies[side].delete(idx);
+    el.classList.remove('selected');
+    el.querySelector('.check').textContent = '';
+  } else {
+    selectedTradeMovies[side].add(idx);
+    el.classList.add('selected');
+    el.querySelector('.check').textContent = '✓';
+  }
+  updateTradeBtn();
+}
+
+function updateTradeBtn() {
+  const btn = document.getElementById('trade-confirm-btn');
+  const pA = document.getElementById('trade-player-a').value;
+  const pB = document.getElementById('trade-player-b').value;
+  btn.disabled = !(pA && pB && pA !== pB && selectedTradeMovies.a.size > 0 && selectedTradeMovies.b.size > 0);
+}
+
+function executeTrade() {
+  const pA = document.getElementById('trade-player-a').value;
+  const pB = document.getElementById('trade-player-b').value;
+  if (!pA || !pB || pA === pB) return;
+
+  const idxA = [...selectedTradeMovies.a];
+  const idxB = [...selectedTradeMovies.b];
+  const moviesA = idxA.map(i => ({...rosters[pA][i]}));
+  const moviesB = idxB.map(i => ({...rosters[pB][i]}));
+
+  // Snapshot for undo
+  const snapA = rosters[pA].map(r => ({...r}));
+  const snapB = rosters[pB].map(r => ({...r}));
+
+  // Execute swap using pre-captured snapshots so reads and writes never interfere.
+  // For equal trades (N:N): pair each slot directly.
+  // For unequal trades (e.g. 2:1): the player giving more movies replaces the
+  // receiving player's selected slot with the first incoming movie, then the
+  // extra movies are appended to keep roster size consistent on both sides.
+  const minLen = Math.min(idxA.length, idxB.length);
+
+  // Pair-wise direct swap for the shared count
+  for (let n = 0; n < minLen; n++) {
+    rosters[pA][idxA[n]] = snapB[idxB[n]];
+    rosters[pB][idxB[n]] = snapA[idxA[n]];
+  }
+
+  // Any extras from A go to B (appended), the extra A slots get removed
+  if (idxA.length > idxB.length) {
+    const extraFromA = idxA.slice(minLen).map(i => snapA[i]);
+    rosters[pB].push(...extraFromA);
+    // Remove the extra slots from A (highest indices first to preserve lower ones)
+    idxA.slice(minLen).sort((a,b) => b-a).forEach(i => rosters[pA].splice(i, 1));
+  } else if (idxB.length > idxA.length) {
+    const extraFromB = idxB.slice(minLen).map(i => snapB[i]);
+    rosters[pA].push(...extraFromB);
+    idxB.slice(minLen).sort((a,b) => b-a).forEach(i => rosters[pB].splice(i, 1));
+  }
+
+  const tradeId = Date.now();
+  tradeHistory.unshift({
+    id: tradeId,
+    playerA: pA, playerB: pB,
+    moviesA: moviesA.map(m=>m.movie),
+    moviesB: moviesB.map(m=>m.movie),
+    snapA, snapB,
+    time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
+  });
+
+  selectedTradeMovies.a.clear();
+  selectedTradeMovies.b.clear();
+  renderTradeMovies('a');
+  renderTradeMovies('b');
+  renderTradeLog();
+  renderScoreboard();
+  if (currentPlayer === pA || currentPlayer === pB) selectPlayer(currentPlayer);
+  updateSeasonBar();
+  renderGames();
+  showToast(`✓ Trade complete: ${pA} ⇌ ${pB}`);
+}
+
+function undoTrade(id) {
+  const t = tradeHistory.find(x => x.id === id);
+  if (!t) return;
+  rosters[t.playerA] = t.snapA;
+  rosters[t.playerB] = t.snapB;
+  tradeHistory = tradeHistory.filter(x => x.id !== id);
+  renderTradeLog();
+  renderScoreboard();
+  if (currentPlayer === t.playerA || currentPlayer === t.playerB) selectPlayer(currentPlayer);
+  updateSeasonBar();
+  renderGames();
+  showToast('↩ Trade undone');
+}
+
+function renderTradeLog() {
+  const log = document.getElementById('trade-log');
+  if (!tradeHistory.length) {
+    log.innerHTML = '<div class="empty-state">No trades yet.</div>';
+    return;
+  }
+  log.innerHTML = tradeHistory.map(t => `
+    <div class="trade-log-item">
+      <div class="trade-log-header">
+        <span class="trade-log-names">${t.playerA} ⇌ ${t.playerB}</span>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <span class="trade-log-time">${t.time}</span>
+          <button class="trade-undo-btn" onclick="undoTrade(${t.id})">Undo</button>
+        </div>
+      </div>
+      <div class="trade-log-detail">
+        <span><strong>${t.playerA}</strong> gave: ${t.moviesA.join(', ')}</span>
+        <span><strong>${t.playerB}</strong> gave: ${t.moviesB.join(', ')}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── WAIVER WIRE ─────────────────────────────────────────────────────────────
+function getDraftedMovies() {
+  const drafted = new Set();
+  Object.values(rosters).forEach(rs => rs.forEach(r => drafted.add(r.movie.toLowerCase().trim())));
+  return drafted;
+}
+
+// ─── WAIVER WIRE DATA ────────────────────────────────────────────────────────
+// Master pool of unreleased movies on the wire.
+// leagueRestriction: 'any' | '1' (L1 only) | '2' (L2 only)
+const waiverPool = [
+  // Drafted in League 1 only → League 2 players can claim
+  { title:'Violent Night 2',               cat:'Comedy/Horror',      leagueRestriction:'2' },
+  { title:'Dog Stars',                     cat:'Animation',          leagueRestriction:'2' },
+  { title:'Wild Wood',                     cat:'Animation',          leagueRestriction:'2' },
+  { title:'Evil Dead Burn',                cat:'Comedy/Horror',      leagueRestriction:'2' },
+  { title:'Flowervale St',                 cat:'Wild Card',          leagueRestriction:'2' },
+  { title:'The Wrecking Crew',             cat:'Comedy/Horror',      leagueRestriction:'2' },
+  { title:'Chasing Summer',                cat:'Wild Card',          leagueRestriction:'2' },
+  { title:'The Breadwinners',              cat:'Wild Card',          leagueRestriction:'2' },
+  { title:'The Great Beyond',              cat:'Comedy/Horror',      leagueRestriction:'2' },
+  { title:'Power Ballad',                  cat:'Drama/Musical',      leagueRestriction:'2' },
+  { title:'The Adventures of Cliff Booth', cat:'Wild Card',          leagueRestriction:'2' },
+  { title:'Sense and Sensibility',         cat:'Animation',          leagueRestriction:'2' },
+  { title:'Death of Robin Hood',           cat:'Wild Card',          leagueRestriction:'2' },
+  // Drafted in League 2 only → League 1 players can claim
+  { title:'Ray Gunn',                      cat:'Animation',          leagueRestriction:'1' },
+  { title:'Peaky Blinders',                cat:'Wild Card',          leagueRestriction:'1' },
+  { title:'Cliff Booth',                   cat:'Wild Card',          leagueRestriction:'1' },
+  { title:'How to Rob a Bank',             cat:'Action/Blockbuster', leagueRestriction:'1' },
+  { title:'Breadwinner',                   cat:'Wild Card',          leagueRestriction:'1' },
+  { title:'Artificial',                    cat:'Wild Card',          leagueRestriction:'1' },
+  { title:'Asterix',                       cat:'Animation',          leagueRestriction:'1' },
+  { title:'Wizards!',                      cat:'Animation',          leagueRestriction:'1' },
+  { title:'Whalefall',                     cat:'Comedy/Horror',      leagueRestriction:'1' },
+  { title:'Practical Magic 2',             cat:'Drama/Musical',      leagueRestriction:'1' },
+  { title:'Young Washington',              cat:'Wild Card',          leagueRestriction:'1' },
+  // Undrafted in both leagues — anyone can claim
+  { title:'Fantastic Four: First Steps',   cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Superman',                      cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Blade',                         cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'The Accountant 2',              cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Thunderbolts',                  cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'28 Years Later',                cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'Lilo & Stitch',                 cat:'Animation',          leagueRestriction:'any' },
+  { title:'How to Train Your Dragon',      cat:'Animation',          leagueRestriction:'any' },
+  { title:'Jurassic World Rebirth',        cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Mission: Impossible 8',         cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'The Naked Gun',                 cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'Karate Kid: Legends',           cat:'Drama/Musical',      leagueRestriction:'any' },
+  { title:'Reminders of Him',              cat:'Drama/Musical',      leagueRestriction:'any' },
+  { title:'Novocaine',                     cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'The Phoenician Scheme',         cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Heart Eyes',                    cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'Wolf Man',                      cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'The Conjuring: Last Rites',     cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'Bugonia',                       cat:'Comedy/Horror',      leagueRestriction:'any' },
+  { title:'Bridget Jones: Mad About the Boy', cat:'Drama/Musical',   leagueRestriction:'any' },
+  { title:'Companion',                     cat:'Drama/Musical',      leagueRestriction:'any' },
+  { title:'The Life of Chuck',             cat:'Drama/Musical',      leagueRestriction:'any' },
+  { title:'Alto Knights',                  cat:'Drama/Musical',      leagueRestriction:'any' },
+  { title:'The Smurfs Movie',              cat:'Animation',          leagueRestriction:'any' },
+  { title:'Dog Man',                       cat:'Animation',          leagueRestriction:'any' },
+  { title:'The Bad Guys 2',               cat:'Animation',          leagueRestriction:'any' },
+  { title:'Puss in Boots 3',              cat:'Animation',          leagueRestriction:'any' },
+  { title:'Heads of State',               cat:'Action/Blockbuster', leagueRestriction:'any' },
+  { title:'Warfare',                       cat:'Action/Blockbuster', leagueRestriction:'any' },
+];
+
+function getDraftedMovies() {
+  const drafted = new Set();
+  Object.values(rosters).forEach(rs => rs.forEach(r => drafted.add(r.movie.toLowerCase().trim())));
+  return drafted;
+}
+
+function addToWaiverWire() {
+  const rawTitle = document.getElementById('waiver-add-input').value.trim();
+  const cat      = document.getElementById('waiver-add-cat').value;
+  const league   = document.getElementById('waiver-add-league').value;
+  if (!rawTitle) { showToast('⚠ Enter a movie title'); return; }
+  const title = rawTitle.replace(/\s+/g, ' ').trim();
+  if (!title || !cat || !league) { showToast('⚠ Fill in all fields'); return; }
+  const dup = waiverPool.find(m => m.title && m.title.toLowerCase() === title.toLowerCase());
+  if (dup) { showToast('⚠ Already on the wire'); return; }
+
+  // Check which leagues have this movie drafted
+  const titleLower = title.toLowerCase();
+  const draftedInL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const draftedInL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
+
+  // Block only if drafted in BOTH leagues (truly unavailable to everyone)
+  if (draftedInL1 && draftedInL2) {
+    showToast('⚠ ' + title + ' is drafted in both leagues — no one can claim it');
+    return;
+  }
+
+  // Released movies auto-appear on the wire — no need to add them manually
+  const alreadyReleased = mojoData.find(m => m.title.toLowerCase() === titleLower);
+  if (alreadyReleased) {
+    showToast('⚠ ' + title + ' is already released — it auto-appears in the wire above');
+    return;
+  }
+
+  // Auto-set league restriction based on which league already has it
+  let restriction = league;
+  if (draftedInL1 && !draftedInL2) restriction = '2'; // L1 has it → only L2 can claim
+  if (draftedInL2 && !draftedInL1) restriction = '1'; // L2 has it → only L1 can claim
+
+  waiverPool.push({ title, cat, leagueRestriction: restriction, addedManually: true });
+  document.getElementById('waiver-add-input').value = '';
+  renderWaiver();
+  const note = restriction !== 'any' ? ' (League ' + restriction + ' only)' : '';
+  showToast('✓ "' + title + '" added to waiver wire' + note);
+}
+
+function getLeagueRestriction(titleLower) {
+  // Returns 'any', '1', or '2' based on which leagues have drafted this movie
+  const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  if (inL1 && !inL2) return '2'; // drafted only in L1 → only L2 can claim
+  if (inL2 && !inL1) return '1'; // drafted only in L2 → only L1 can claim
+  return 'any';
+}
+
+function getWaiverMovies() {
+  const releasedTitles = new Set(mojoData.map(m => m.title.toLowerCase().trim()));
+
+  // For released movies: show if NOT drafted in both leagues
+  const released = mojoData
+    .filter(m => {
+      const tl = m.title.toLowerCase().trim();
+      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
+      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
+      return !(inL1 && inL2); // show unless drafted in BOTH leagues
+    })
+    .map(m => ({
+      title: m.title, cat: null, gross: m.gross, rank: m.rank,
+      released: true, leagueRestriction: getLeagueRestriction(m.title.toLowerCase().trim())
+    }));
+
+  // For unreleased pool: show if NOT drafted in both leagues
+  const drafted = getDraftedMovies(); // used only for waiverPool filter (both leagues)
+  const unreleased = waiverPool
+    .filter(m => {
+      if (!m || !m.title || typeof m.title !== 'string') return false;
+      if (releasedTitles.has(m.title.toLowerCase().trim())) return false;
+      const tl = m.title.toLowerCase().trim();
+      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
+      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
+      return !(inL1 && inL2); // show unless drafted in both leagues
+    })
+    .map(m => {
+      const restriction = getLeagueRestriction(m.title.toLowerCase().trim());
+      // If restriction changed (e.g. movie was claimed, other league's copy now free), update it
+      const effectiveRestriction = restriction !== 'any' ? restriction : m.leagueRestriction;
+      return { ...m, gross: null, rank: null, released: false, leagueRestriction: effectiveRestriction };
+    });
+
+  return {
+    released:   released.sort((a,b) => (a.rank||0) - (b.rank||0)),
+    unreleased: unreleased.sort((a,b) => {
+      const order = { any:0, '1':1, '2':2 };
+      return (order[a.leagueRestriction] - order[b.leagueRestriction])
+          || (a.title||'').localeCompare(b.title||'');
+    })
+  };
+}
+
+let waiverCatFilter = 'all';
+const waiverCategories = ['all','Action/Blockbuster','Animation','Comedy/Horror','Drama/Musical','Wild Card'];
+
+function initWaiverFilters() {
+  const row = document.getElementById('waiver-filters');
+  const labels = { all:'All', 'Action/Blockbuster':'Action', 'Animation':'Anim',
+    'Comedy/Horror':'Comedy/Horror', 'Drama/Musical':'Drama', 'Wild Card':'Wild Card' };
+  waiverCategories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'waiver-filter-btn' + (cat === waiverCatFilter ? ' active' : '');
+    btn.textContent = labels[cat] || cat;
+    btn.onclick = () => {
+      waiverCatFilter = cat;
+      document.querySelectorAll('.waiver-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderWaiver();
+    };
+    row.appendChild(btn);
+  });
+}
+
+function leagueBadge(restriction) {
+  if (restriction === 'any') return '';
+  const col = restriction === '1'
+    ? 'background:rgba(59,130,246,0.15);color:#93C5FD'
+    : 'background:rgba(155,89,182,0.15);color:#C99DE5';
+  return `<span style="${col};font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.1rem 0.45rem;border-radius:3px;font-weight:600;margin-left:0.5rem;display:inline-block">L${restriction} only</span>`;
+}
+
+function canClaim(playerName, restriction) {
+  if (restriction === 'any') return true;
+  return leagueOf(playerName) === restriction;
+}
+
+// Cache last-rendered waiver lists so waiverClaim can look up by index safely
+let _lastReleasedWaiver   = [];
+let _lastUnreleasedWaiver = [];
+
+function waiverClaim(btn) {
+  const idx = btn.getAttribute('data-widx');
+  if (idx.startsWith('r')) {
+    const m = _lastReleasedWaiver[parseInt(idx.slice(1))];
+    if (!m) return;
+    // Recompute restriction fresh at click time so it reflects current roster state
+    const restriction = getLeagueRestriction(m.title.toLowerCase());
+    openClaimModal(m.title, m.gross, restriction, m.cat);
+  } else {
+    const m = _lastUnreleasedWaiver[parseInt(idx.slice(1))];
+    if (!m) return;
+    const restriction = getLeagueRestriction(m.title.toLowerCase());
+    const effective = restriction !== 'any' ? restriction : m.leagueRestriction;
+    openClaimModal(m.title, m.gross, effective, m.cat);
+  }
+}
+
+function renderWaiver() {
+  var searchEl = document.getElementById('waiver-search');
+  var searchVal = searchEl ? searchEl.value.toLowerCase() : '';
+  var wm = getWaiverMovies();
+  var released = wm.released;
+  var unreleased = wm.unreleased;
+
+  var filteredReleased = [];
+  var filteredUnreleased = [];
+
+  for (var i = 0; i < released.length; i++) {
+    var m = released[i];
+    if (!m || !m.title) continue;
+    if (waiverCatFilter !== 'all' && m.cat !== waiverCatFilter) continue;
+    if (searchVal && m.title.toLowerCase().indexOf(searchVal) === -1) continue;
+    filteredReleased.push(m);
+  }
+  for (var i = 0; i < unreleased.length; i++) {
+    var m = unreleased[i];
+    if (!m || !m.title) continue;
+    if (waiverCatFilter !== 'all' && m.cat !== waiverCatFilter) continue;
+    if (searchVal && m.title.toLowerCase().indexOf(searchVal) === -1) continue;
+    filteredUnreleased.push(m);
+  }
+
+  _lastReleasedWaiver   = filteredReleased;
+  _lastUnreleasedWaiver = filteredUnreleased;
+
+  var tbl = document.getElementById('waiver-table');
+  var thS = 'font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);background:var(--dark3)';
+  var sepS = 'padding:0.4rem 0.9rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);background:var(--dark3);border-bottom:1px solid var(--border)';
+
+  if (!filteredReleased.length && !filteredUnreleased.length) {
+    tbl.innerHTML = '<tbody><tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem">' + (searchVal ? 'No matches.' : 'All movies drafted!') + '</td></tr></tbody>';
+    return;
+  }
+
+  var html = '<thead><tr>';
+  html += '<th style="' + thS + ';width:50px">Rank</th>';
+  html += '<th style="' + thS + '">Movie</th>';
+  html += '<th style="' + thS + '">Category</th>';
+  html += '<th style="' + thS + ';text-align:right">US Gross</th>';
+  html += '<th style="' + thS + ';text-align:right">Action</th>';
+  html += '</tr></thead><tbody>';
+
+  if (filteredReleased.length) {
+    html += '<tr><td colspan="5" style="' + sepS + '">Released — Undrafted (' + filteredReleased.length + ')</td></tr>';
+    for (var i = 0; i < filteredReleased.length; i++) {
+      var m = filteredReleased[i];
+      html += '<tr>';
+      html += '<td class="rank-num">' + escHtml(String(m.rank)) + '</td>';
+      html += '<td class="movie-title">' + escHtml(m.title) + '</td>';
+      html += '<td><span style="font-size:0.68rem;color:var(--text-muted)">—</span></td>';
+      html += '<td style="text-align:right"><span class="gross-value">' + fmt(m.gross) + '</span></td>';
+      html += '<td style="text-align:right"><button class="claim-btn" data-widx="r' + i + '" onclick="waiverClaim(this)">+ Claim</button></td>';
+      html += '</tr>';
+    }
+  }
+
+  if (filteredUnreleased.length) {
+    html += '<tr><td colspan="5" style="' + sepS + ';border-top:1px solid var(--border)">Not Yet Released (' + filteredUnreleased.length + ')</td></tr>';
+    for (var i = 0; i < filteredUnreleased.length; i++) {
+      var m = filteredUnreleased[i];
+      var badge = leagueBadge(m.leagueRestriction);
+      var catB = '<span class="category-badge ' + catClass(m.cat) + '">' + catShort(m.cat) + '</span>';
+      html += '<tr style="opacity:0.85">';
+      html += '<td class="rank-num">—</td>';
+      html += '<td class="movie-title">' + escHtml(m.title) + badge + '</td>';
+      html += '<td>' + catB + '</td>';
+      html += '<td style="text-align:right"><span class="gross-na">Not yet released</span></td>';
+      html += '<td style="text-align:right"><button class="claim-btn" data-widx="u' + i + '" onclick="waiverClaim(this)">+ Claim</button></td>';
+      html += '</tr>';
+    }
+  }
+
+  html += '</tbody>';
+  tbl.innerHTML = html;
+
+}
+function openClaimModal(title, gross, leagueRestriction, cat) {
+  pendingClaimMovie = { title, gross, leagueRestriction: leagueRestriction || 'any', cat: cat || null };
+  const titleLower = title.toLowerCase();
+  const eligiblePlayers = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh']
+    .filter(n => canClaim(n, leagueRestriction || 'any'))
+    .filter(n => !(rosters[n]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const leagueNote = leagueRestriction && leagueRestriction !== 'any'
+    ? ` (League ${leagueRestriction} players only)` : '';
+  const alreadyOwners = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh']
+    .filter(n => (rosters[n]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const ownerNote = alreadyOwners.length ? ' · ' + alreadyOwners.join(', ') + ' already own this.' : '';
+  document.getElementById('claim-modal-desc').textContent =
+    'Claim "' + title + '" (' + (gross !== null ? fmt(gross) : 'not yet released') + ') for a player' + leagueNote + '.' + ownerNote + ' Select who claims it and which movie to drop.';
+  const sel = document.getElementById('claim-player');
+  sel.innerHTML = '';
+  if (!eligiblePlayers.length) {
+    sel.innerHTML = '<option disabled>No eligible players</option>';
+  } else {
+    eligiblePlayers.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value = n; opt.textContent = n + (LEAGUE1.includes(n) ? ' (L1)' : ' (L2)');
+      sel.appendChild(opt);
+    });
+  }
+  renderDropOptions();
+  document.getElementById('claim-modal').classList.remove('hidden');
+}
+
+function renderDropOptions() {
+  const player = document.getElementById('claim-player').value;
+  const claimTitle = pendingClaimMovie ? pendingClaimMovie.title.toLowerCase() : '';
+  const sel = document.getElementById('claim-drop');
+  sel.innerHTML = '';
+  (rosters[player]||[]).forEach((r,i) => {
+    // Don't offer to drop the same movie being claimed
+    if (r.movie.toLowerCase() === claimTitle) return;
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = r.movie + ' (' + (r.gross ? fmt(r.gross) : 'unreleased') + ')';
+    sel.appendChild(opt);
+  });
+}
+
+function closeClaimModal() {
+  document.getElementById('claim-modal').classList.add('hidden');
+  pendingClaimMovie = null;
+}
+
+function confirmClaim() {
+  if (!pendingClaimMovie) return;
+  const player       = document.getElementById('claim-player').value;
+  // Final guard: player can't claim a movie they already own
+  const alreadyOwns = (rosters[player]||[]).some(r => r.movie.toLowerCase() === pendingClaimMovie.title.toLowerCase());
+  if (alreadyOwns) { showToast('⚠ ' + player + ' already has ' + pendingClaimMovie.title); closeClaimModal(); return; }
+  const dropIdx      = parseInt(document.getElementById('claim-drop').value);
+  const droppedEntry = rosters[player][dropIdx];
+  const droppedTitle = droppedEntry.movie;
+  const droppedGross = droppedEntry.gross;
+  const droppedCat   = droppedEntry.cat;
+  const cat          = pendingClaimMovie.cat || droppedCat;
+  const claimedTitle = pendingClaimMovie.title;
+  const claimedGross = pendingClaimMovie.gross;
+
+  // Swap the roster slot
+  rosters[player][dropIdx] = { cat, movie: claimedTitle, gross: claimedGross };
+
+  // Put the dropped movie back on the wire so others can pick it up
+  const alreadyInMojo   = mojoData.some(m => m.title.toLowerCase() === droppedTitle.toLowerCase());
+  const alreadyInPool   = waiverPool.some(m => m.title && m.title.toLowerCase() === droppedTitle.toLowerCase());
+  const alreadyDrafted  = Object.values(rosters).some(rs => rs.some(r => r.movie.toLowerCase() === droppedTitle.toLowerCase()));
+
+  if (!alreadyDrafted) {
+    if (droppedGross !== null && droppedGross !== undefined && !alreadyInMojo) {
+      // Released movie — add back to mojoData so it shows in Released Undrafted
+      const maxRank = mojoData.reduce((mx, m) => Math.max(mx, m.rank||0), 0);
+      mojoData.push({ rank: maxRank + 1, title: droppedTitle, gross: droppedGross });
+    } else if ((droppedGross === null || droppedGross === undefined) && !alreadyInPool) {
+      // Unreleased movie — add back to waiverPool
+      waiverPool.push({ title: droppedTitle, cat: droppedCat, leagueRestriction: 'any', addedManually: false });
+    }
+  }
+
+  closeClaimModal();
+  renderWaiver();
+  renderScoreboard();
+  if (currentPlayer === player) selectPlayer(player);
+  updateSeasonBar();
+  renderGames();
+  showToast('✓ ' + player + ' claimed ' + claimedTitle + ', dropped ' + droppedTitle);
+}
+
+// ─── BOX OFFICE ──────────────────────────────────────────────────────────────
+function renderMojo(filter) {
+  const tbl = document.getElementById('mojo-table');
+  const filtered = mojoData.filter(m => !filter || m.title.toLowerCase().includes(filter.toLowerCase()));
+  tbl.innerHTML = `
+    <thead><tr>
+      <th style="width:50px">Rank</th>
+      <th>Title</th>
+      <th style="text-align:right">US Gross</th>
+    </tr></thead>
+    <tbody>
+      ${filtered.map(m => `
+        <tr>
+          <td class="rank-num">${m.rank}</td>
+          <td class="movie-title">${m.title}</td>
+          <td style="text-align:right">$${m.gross.toLocaleString()}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+}
+
+function filterMojo() {
+  renderMojo(document.getElementById('mojo-search').value);
+}
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
+const tabIds  = ['scoreboard','rosters','trades','waiver','boxoffice','games'];
+const navBtns = document.querySelectorAll('.nav-btn');
+
+function showTab(tab) {
+  tabIds.forEach(id => document.getElementById(id).classList.toggle('active', id === tab));
+  navBtns.forEach((btn, i) => btn.classList.toggle('active', tabIds[i] === tab));
+  if (tab === 'waiver') renderWaiver();
+  if (tab === 'games')  renderGames();
+}
+
+// ─── GAMES TAB ───────────────────────────────────────────────────────────────
+function addAdjustment() {
+  const player = document.getElementById('adj-player').value;
+  const rawAmt = document.getElementById('adj-amount').value.trim();
+  const note   = document.getElementById('adj-note').value.trim() || '—';
+  if (!player) { showToast('⚠ Pick a player first'); return; }
+  const amount = parseFloat(rawAmt);
+  if (!rawAmt || isNaN(amount) || amount === 0) { showToast('⚠ Enter a non-zero dollar amount'); return; }
+  manualBonuses[player].push({
+    id: Date.now(),
+    amount,
+    note,
+    time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+  });
+  document.getElementById('adj-amount').value = '';
+  document.getElementById('adj-note').value   = '';
+  renderGames();
+  renderScoreboard();
+  if (currentPlayer === player) selectPlayer(player);
+  updateSeasonBar();
+  const sign = amount > 0 ? '+' : '';
+  showToast(`✓ ${sign}${fmt(amount)} applied to ${player}`);
+}
+
+function removeAdjustment(player, id) {
+  const entry = (manualBonuses[player]||[]).find(b => b.id === id);
+  if (entry && entry.locked) { showToast('🔒 Spreadsheet bonuses cannot be removed'); return; }
+  manualBonuses[player] = manualBonuses[player].filter(b => b.id !== id);
+  renderGames();
+  renderScoreboard();
+  if (currentPlayer === player) selectPlayer(player);
+  updateSeasonBar();
+  showToast('↩ Adjustment removed');
+}
+
+function renderGames() {
+  const playerOrder = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh'];
+  const rows = playerOrder.map(name => {
+    const rosterSum = (rosters[name]||[]).reduce((s,r) => s + (r.gross||0), 0);
+    const adjSum    = (manualBonuses[name]||[]).reduce((s,b) => s + b.amount, 0);
+    const effective = rosterSum + adjSum;
+    return { name, rosterSum, adjSum, effective, delta: adjSum };
+  });
+
+  // Sort: biggest absolute delta first, then alphabetical
+  rows.sort((a,b) => Math.abs(b.delta) - Math.abs(a.delta) || a.name.localeCompare(b.name));
+
+  const hasAnyDelta = rows.some(r => r.delta !== 0);
+
+  const thStyle = "font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);background:var(--dark3)";
+  const wrap = document.getElementById('games-table-wrap');
+  wrap.innerHTML = `
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="${thStyle};text-align:left">Player</th>
+              <th style="${thStyle};text-align:left">League</th>
+              <th style="${thStyle};text-align:right">Base Total</th>
+              <th style="${thStyle};text-align:right">Adjustments</th>
+              <th style="${thStyle};text-align:right">Effective Total</th>
+              <th style="${thStyle};text-align:right">Spreadsheet Delta</th>
+              <th style="${thStyle};text-align:left">Adjustments Log</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(r => {
+              const lNum   = leagueOf(r.name);
+              const lBadge = `<span class="player-league-badge league${lNum}-badge">League ${lNum}</span>`;
+              const adjs      = manualBonuses[r.name] || [];
+              const adjSum    = r.adjSum;
+              const effective = r.effective;
+              const netDelta  = r.delta;
+
+              let deltaStr  = netDelta === 0 ? '—' : (netDelta > 0 ? '+' : '') + fmt(netDelta);
+              let deltaColor = netDelta === 0 ? 'var(--text-muted)' : netDelta > 0 ? '#7EEFA3' : '#F08080';
+              let rowBg      = netDelta === 0 ? '' : netDelta > 0 ? 'background:rgba(46,204,113,0.03);' : 'background:rgba(231,76,60,0.03);';
+
+              let adjSumStr  = adjSum === 0 ? '<span style="color:var(--text-muted)">—</span>'
+                             : `<span style="color:${adjSum>0?'#7EEFA3':'#F08080'};font-weight:600">${adjSum>0?'+':''}${fmt(adjSum)}</span>`;
+
+              // Adjustment log pills
+              const adjLog = adjs.length === 0
+                ? '<span style="color:var(--text-muted);font-size:0.72rem">None</span>'
+                : adjs.map(b => `
+                    <span style="display:inline-flex;align-items:center;gap:0.3rem;background:${b.amount>0?'rgba(46,204,113,0.1)':'rgba(231,76,60,0.1)'};color:${b.amount>0?'#7EEFA3':'#F08080'};border-radius:5px;padding:0.15rem 0.4rem 0.15rem 0.55rem;font-size:0.72rem;font-weight:600;margin:0.1rem;white-space:nowrap">
+                      ${b.locked ? '🔒 ' : ''}${b.amount>0?'+':''}${fmt(b.amount)}
+                      ${b.note !== '—' ? `<span style="font-weight:400;color:inherit;opacity:0.75"> · ${b.note}</span>` : ''}
+                      ${b.locked ? '' : `<button onclick="removeAdjustment('${r.name}',${b.id})" style="background:none;border:none;color:inherit;opacity:0.6;cursor:pointer;padding:0 0.1rem;font-size:0.75rem;line-height:1" title="Remove">✕</button>`}
+                    </span>`).join('');
+
+              return `<tr style="${rowBg}">
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.05em">${r.name}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04)">${lBadge}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;color:var(--text-muted);font-variant-numeric:tabular-nums">${fmt(r.rosterSum)}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;font-variant-numeric:tabular-nums">${adjSumStr}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;font-weight:700;color:var(--gold-light);font-variant-numeric:tabular-nums">${fmt(effective)}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;font-weight:700;color:${deltaColor};font-variant-numeric:tabular-nums">${deltaStr}</td>
+                <td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);max-width:280px">${adjLog}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderScoreboard();
+renderPills();
+selectPlayer(currentPlayer);
+initTrades();
+renderTradeLog();
+initWaiverFilters();
+renderWaiver();
+renderMojo('');
+updateSeasonBar();
+renderGames();
+// ─── HEADER STARS ────────────────────────────────────────────────────────────
+(function() {
+  var container = document.getElementById('header-stars');
+  if (!container) return;
+  for (var i = 0; i < 40; i++) {
+    var s = document.createElement('span');
+    s.style.left  = Math.random() * 100 + '%';
+    s.style.top   = Math.random() * 100 + '%';
+    s.style.setProperty('--dur',   (2 + Math.random() * 4).toFixed(1) + 's');
+    s.style.setProperty('--delay', (Math.random() * 5).toFixed(1) + 's');
+    s.style.setProperty('--op',    (0.3 + Math.random() * 0.5).toFixed(2));
+    s.style.width  = (Math.random() > 0.7 ? 3 : 2) + 'px';
+    s.style.height = s.style.width;
+    container.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
