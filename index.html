@@ -50,7 +50,6 @@
     border-bottom: 2px solid rgba(212,168,67,0.3);
     background: #060608;
   }
-  /* Radial spotlight glow behind title */
   header::before {
     content: '';
     position: absolute;
@@ -60,7 +59,6 @@
       radial-gradient(ellipse 100% 80% at 50% 100%, rgba(180,30,30,0.18) 0%, transparent 60%);
     pointer-events: none;
   }
-  /* Curtain side accents */
   header::after {
     content: '';
     position: absolute;
@@ -73,7 +71,6 @@
 
   .header-inner { position: relative; z-index: 1; }
 
-  /* Stars sprinkled across header */
   .header-stars {
     position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
   }
@@ -120,7 +117,6 @@
     margin-top: 0.5rem;
     opacity: 0.8;
   }
-  /* Decorative divider under title */
   .title-divider {
     display: flex; align-items: center; justify-content: center;
     gap: 0.75rem; margin: 0.75rem auto 0; max-width: 340px;
@@ -128,7 +124,6 @@
   .title-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
   .title-divider-star { color: var(--gold); font-size: 0.9rem; }
 
-  /* ESPN-style progress bar */
   .season-bar-wrap { max-width: 500px; margin: 1rem auto 0; padding: 0 1rem; }
   .season-stats { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.4rem; }
   .season-stats span strong { color: var(--gold-light); }
@@ -147,13 +142,11 @@
   .section-heading { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
   .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* LEAGUE TABS */
   .league-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .league-tab { padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid var(--border); background: var(--dark3); color: var(--text-muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
   .league-tab:hover { border-color: var(--gold); color: var(--gold-light); }
   .league-tab.active { background: var(--gold); color: #0A0A0F; border-color: var(--gold); }
 
-  /* SCOREBOARD */
   .scoreboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
   .player-card { background: var(--dark3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; position: relative; overflow: hidden; transition: transform 0.15s, border-color 0.15s; cursor: pointer; }
   .player-card:hover { transform: translateY(-2px); border-color: rgba(212,168,67,0.4); }
@@ -176,7 +169,6 @@
   .bar-track { height: 3px; background: var(--dark4); border-radius: 2px; margin-top: 0.85rem; overflow: hidden; }
   .bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; }
 
-  /* ROSTERS */
   .player-select-row { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .player-pill { padding: 0.35rem 0.8rem; background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
   .player-pill:hover { color: var(--text); border-color: var(--gold); }
@@ -208,12 +200,10 @@
   .roster-total-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
   .roster-total-val   { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; color: var(--gold); }
 
-  /* DISCREPANCY ROW */
   .disc-row td { background: rgba(231,76,60,0.07) !important; }
   .disc-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(231,76,60,0.15); color: #F08080; font-size: 0.68rem; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.04em; }
   .disc-positive { background: rgba(46,204,113,0.15); color: #7EEFA3; }
 
-  /* BOX OFFICE */
   .search-bar { width: 100%; background: var(--dark3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.65rem 1rem; margin-bottom: 1.25rem; outline: none; transition: border-color 0.2s; }
   .search-bar::placeholder { color: var(--text-muted); }
   .search-bar:focus { border-color: var(--gold); }
@@ -223,7 +213,6 @@
   .source-note { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 1rem; }
   .source-note a { color: var(--gold); text-decoration: none; }
 
-  /* TRADES */
   .trades-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
   @media (max-width: 600px) { .trades-grid { grid-template-columns: 1fr; } }
   .trade-panel { background: var(--dark3); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
@@ -254,7 +243,6 @@
   .trade-undo-btn:hover { background: rgba(231,76,60,0.1); }
   .empty-state { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem; }
 
-  /* WAIVER WIRE */
   .waiver-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
   .waiver-filter-btn { padding: 0.35rem 0.8rem; background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted); font-weight: 500; font-family: 'DM Sans', sans-serif; }
   .waiver-filter-btn:hover { border-color: var(--gold); color: var(--gold-light); }
@@ -268,7 +256,6 @@
   .claim-btn { padding: 0.3rem 0.7rem; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); color: #7EEFA3; border-radius: 5px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; letter-spacing: 0.05em; }
   .claim-btn:hover { background: rgba(46,204,113,0.2); border-color: #7EEFA3; }
 
-  /* Claim modal */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
   .modal-overlay.hidden { display: none; }
   .modal { background: var(--dark3); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; max-width: 420px; width: 100%; }
@@ -283,7 +270,6 @@
   .modal-btn-cancel  { background: var(--dark4); color: var(--text-muted); border: 1px solid var(--border); }
   .modal-btn:hover { opacity: 0.85; }
 
-  /* toast */
   .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--dark3); border: 1px solid var(--gold); color: var(--gold-light); font-size: 0.85rem; padding: 0.65rem 1.25rem; border-radius: 8px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   .toast.show { opacity: 1; }
 
@@ -296,7 +282,6 @@
 <div class="film-strip"></div>
 
 <header>
-  <!-- Twinkling stars -->
   <div class="header-stars" id="header-stars"></div>
 
   <div class="header-inner">
@@ -399,7 +384,6 @@
       Movies only available in one league are marked with a league badge — players from the other league cannot claim them.
     </p>
 
-    <!-- Search to add unreleased movie -->
     <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--gold);margin-bottom:0.85rem">Add Unreleased Movie to Wire</div>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-end">
@@ -436,7 +420,6 @@
       </div>
     </div>
 
-    <!-- Filter + search row -->
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
       <input class="search-bar" type="text" id="waiver-search" placeholder="Filter wire…"
         style="margin:0;flex:1;min-width:180px;max-width:300px" oninput="renderWaiver()">
@@ -509,206 +492,215 @@ const officialTotals = {
   Megan:89588673, Josh:176830344
 };
 
-
-// Rosters (live, modified by trades/waivers)
-const rosters = {
-  Pablo: [
-    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday',gross:null},
-    {cat:'Action/Blockbuster',movie:'Mercy',gross:24390303},
-    {cat:'Animation',movie:'GOAT',gross:103316898},
-    {cat:'Animation',movie:'Angry Birds 3',gross:null},
-    {cat:'Comedy/Horror',movie:'Scream 7',gross:121935967},
-    {cat:'Comedy/Horror',movie:'Sheep Detectives',gross:null},
-    {cat:'Drama/Musical',movie:'The Bride!',gross:12744025},
-    {cat:'Drama/Musical',movie:'How to Make a Killing',gross:7851600},
-    {cat:'Wild Card',movie:'Narnia',gross:null},
-    {cat:'Wild Card',movie:'Return to Silent Hill',gross:5544971},
-  ],
-  Reuel: [
-    {cat:'Action/Blockbuster',movie:'Supergirl',gross:48900000},
-    {cat:'Action/Blockbuster',movie:'Street Fighter',gross:null},
-    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:429814610},
-    {cat:'Animation',movie:'Ray Gunn',gross:null},
-    {cat:'Comedy/Horror',movie:'Jumanji 3',gross:null},
-    {cat:'Comedy/Horror',movie:"Lee Cronin's The Mummy",gross:29152113},
-    {cat:'Drama/Musical',movie:'The Social Reckoning',gross:null},
-    {cat:'Drama/Musical',movie:'Godzilla Minus 0',gross:null},
-    {cat:'Wild Card',movie:'Peaky Blinders',gross:null},
-    {cat:'Wild Card',movie:'Cliff Booth',gross:null},
-  ],
-  Josh: [
-    {cat:'Action/Blockbuster',movie:'Star Wars: The Mandalorian and Grogu',gross:null},
-    {cat:'Action/Blockbuster',movie:'Cliffhanger',gross:null},
-    {cat:'Animation',movie:'Paw Patrol!',gross:null},
-    {cat:'Animation',movie:'Forgotten Island',gross:null},
-    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further',gross:null},
-    {cat:'Comedy/Horror',movie:'Resident Evil',gross:null},
-    {cat:'Drama/Musical',movie:'Verity',gross:null},
-    {cat:'Drama/Musical',movie:'Apex',gross:null},
-    {cat:'Wild Card',movie:'Sunrise on the Reaping',gross:null},
-    {cat:'Wild Card',movie:'Focker-in-Law',gross:null},
-  ],
-  Dom: [
-    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:344050007},
-    {cat:'Action/Blockbuster',movie:'How to Rob a Bank',gross:null},
-    {cat:'Animation',movie:'Toy Story 5',gross:366348690},
-    {cat:'Animation',movie:'Coyote vs Acme',gross:null},
-    {cat:'Comedy/Horror',movie:'Terrifier 4',gross:null},
-    {cat:'Comedy/Horror',movie:'Digger',gross:null},
-    {cat:'Drama/Musical',movie:'Michael',gross:370685426},
-    {cat:'Drama/Musical',movie:'Disclosure Day',gross:105311885},
-    {cat:'Wild Card',movie:'Breadwinner',gross:null},
-    {cat:'Wild Card',movie:'Artificial',gross:null},
-  ],
-  Tracy: [
-    {cat:'Action/Blockbuster',movie:'Spiderman 4',gross:null},
-    {cat:'Action/Blockbuster',movie:'Shelter',gross:12805541},
-    {cat:'Animation',movie:'Asterix',gross:null},
-    {cat:'Animation',movie:'The Pout-Pout Fish',gross:2925502},
-    {cat:'Comedy/Horror',movie:'The Strangers: Chapter 3',gross:8560986},
-    {cat:'Comedy/Horror',movie:'Werwulf',gross:null},
-    {cat:'Drama/Musical',movie:'I Can Only Imagine 2',gross:18588615},
-    {cat:'Drama/Musical',movie:'Mother Mary',gross:2565507},
-    {cat:'Wild Card',movie:'Mortal Kombat II',gross:79719161},
-    {cat:'Wild Card',movie:'Crime 101',gross:36588336},
-  ],
-  Aarya: [
-    {cat:'Action/Blockbuster',movie:'The Odyssey',gross:null},
-    {cat:'Action/Blockbuster',movie:'Mutiny',gross:null},
-    {cat:'Animation',movie:'Minions & Monsters',gross:null},
-    {cat:'Animation',movie:'Hoppers',gross:166010783},
-    {cat:'Comedy/Horror',movie:'Send Help',gross:64734795},
-    {cat:'Comedy/Horror',movie:'Clayface',gross:null},
-    {cat:'Drama/Musical',movie:'The Devil Wears Prada 2',gross:220282322},
-    {cat:'Drama/Musical',movie:'Wuthering Heights',gross:84001072},
-    {cat:'Wild Card',movie:'Hexed',gross:null},
-    {cat:'Wild Card',movie:'Evil Dead Burn',gross:null},
-  ],
-  Megan: [
-    {cat:'Action/Blockbuster',movie:'Dune 3',gross:null},
-    {cat:'Action/Blockbuster',movie:'Masters of the Universe',gross:63152003},
-    {cat:'Animation',movie:'Cat in the Hat',gross:null},
-    {cat:'Animation',movie:"Wizards!",gross:null},
-    {cat:'Comedy/Horror',movie:'Scary Movie 6',gross:null},
-    {cat:'Comedy/Horror',movie:'Whalefall',gross:null},
-    {cat:'Drama/Musical',movie:'Moana',gross:null},
-    {cat:'Drama/Musical',movie:'Practical Magic 2',gross:null},
-    {cat:'Wild Card',movie:'Animal Farm',gross:5588982},
-    {cat:'Wild Card',movie:'Young Washington',gross:20847688},
-  ],
-  AJ: [
-    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday',gross:null},
-    {cat:'Action/Blockbuster',movie:'Violent Night 2',gross:null},
-    {cat:'Animation',movie:'Minions & Monsters',gross:null},
-    {cat:'Animation',movie:'Forgotten Island',gross:null},
-    {cat:'Comedy/Horror',movie:'Jumanji 3',gross:null},
-    {cat:'Comedy/Horror',movie:'Clayface',gross:null},
-    {cat:'Drama/Musical',movie:'Verity',gross:null},
-    {cat:'Drama/Musical',movie:'How to Make a Killing',gross:7851600},
-    {cat:'Wild Card',movie:'Resident Evil',gross:null},
-    {cat:'Wild Card',movie:'Animal Friends',gross:null},
-  ],
-  Cecily: [
-    {cat:'Action/Blockbuster',movie:'Supergirl',gross:48900000},
-    {cat:'Action/Blockbuster',movie:'Narnia',gross:null},
-    {cat:'Animation',movie:'Paw Patrol',gross:null},
-    {cat:'Animation',movie:'Dog Stars',gross:null},
-    {cat:'Comedy/Horror',movie:'Terrifier 4',gross:null},
-    {cat:'Comedy/Horror',movie:'Werwulf',gross:null},
-    {cat:'Drama/Musical',movie:'Wuthering Heights',gross:84001072},
-    {cat:'Drama/Musical',movie:'Social Reckoning',gross:null},
-    {cat:'Wild Card',movie:'Sunrise on the Reaping',gross:null},
-    {cat:'Wild Card',movie:'Scary Movie 6',gross:null},
-  ],
-  Daniel: [
-    {cat:'Action/Blockbuster',movie:'Masters of the Universe',gross:63152003},
-    {cat:'Action/Blockbuster',movie:'Mortal Kombat II',gross:79719161},
-    {cat:'Animation',movie:'The Super Mario Galaxy Movie',gross:429814610},
-    {cat:'Animation',movie:'Wild Wood',gross:null},
-    {cat:'Comedy/Horror',movie:'Scream 7',gross:121935967},
-    {cat:'Comedy/Horror',movie:'Evil Dead Burn',gross:null},
-    {cat:'Drama/Musical',movie:'Disclosure Day',gross:105311885},
-    {cat:'Drama/Musical',movie:'Apex',gross:null},
-    {cat:'Wild Card',movie:'Street Fighter',gross:null},
-    {cat:'Wild Card',movie:'Flowervale St',gross:null},
-  ],
-  Katie: [
-    {cat:'Action/Blockbuster',movie:'Dune 3',gross:null},
-    {cat:'Action/Blockbuster',movie:'Project Hail Mary',gross:344050007},
-    {cat:'Animation',movie:'Hoppers',gross:166010783},
-    {cat:'Animation',movie:'Coyote vs Acme',gross:null},
-    {cat:'Comedy/Horror',movie:'The Wrecking Crew',gross:null},
-    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further',gross:null},
-    {cat:'Drama/Musical',movie:"The Devil Wears Prada 2",gross:220282322},
-    {cat:'Drama/Musical',movie:'I Can Only Imagine 2',gross:18588615},
-    {cat:'Wild Card',movie:'Shelter',gross:12805541},
-    {cat:'Wild Card',movie:'Chasing Summer',gross:null},
-  ],
-  Micah: [
-    {cat:'Action/Blockbuster',movie:'Spiderman 4',gross:null},
-    {cat:'Action/Blockbuster',movie:'Mutiny',gross:null},
-    {cat:'Animation',movie:'The Cat in the Hat',gross:null},
-    {cat:'Animation',movie:'GOAT',gross:103316898},
-    {cat:'Comedy/Horror',movie:'Focker-in-Law',gross:null},
-    {cat:'Comedy/Horror',movie:'Send Help',gross:64734795},
-    {cat:'Drama/Musical',movie:'The Bride!',gross:12744025},
-    {cat:'Drama/Musical',movie:'Crime 101',gross:36588336},
-    {cat:'Wild Card',movie:'Star Wars: The Mandalorian and Grogu',gross:null},
-    {cat:'Wild Card',movie:'The Breadwinners',gross:null},
-  ],
-  Tizzle: [
-    {cat:'Action/Blockbuster',movie:'Digger',gross:null},
-    {cat:'Action/Blockbuster',movie:'The Great Beyond',gross:null},
-    {cat:'Animation',movie:'Toy Story 5',gross:366348690},
-    {cat:'Animation',movie:'Animal Farm',gross:5588982},
-    {cat:'Comedy/Horror',movie:'Ready or Not 2',gross:22983066},
-    {cat:'Comedy/Horror',movie:'Backrooms',gross:187171741},
-    {cat:'Drama/Musical',movie:'Michael',gross:370685426},
-    {cat:'Drama/Musical',movie:'Paper Tiger',gross:null},
-    {cat:'Wild Card',movie:'Godzilla Minus 0',gross:null},
-    {cat:'Wild Card',movie:'The Adventures of Cliff Booth',gross:null},
-  ],
-  Andrew: [
-    {cat:'Action/Blockbuster',movie:'The Odyssey',gross:null},
-    {cat:'Action/Blockbuster',movie:'Mercy',gross:24390303},
-    {cat:'Animation',movie:'Angry Birds 3',gross:null},
-    {cat:'Animation',movie:'Sense and Sensibility',gross:null},
-    {cat:'Comedy/Horror',movie:'Sheep Detective',gross:null},
-    {cat:'Comedy/Horror',movie:'Cold Storage',gross:1529234},
-    {cat:'Drama/Musical',movie:'Moana',gross:null},
-    {cat:'Drama/Musical',movie:'The Drama',gross:48062006},
-    {cat:'Wild Card',movie:'Hexed',gross:null},
-    {cat:'Wild Card',movie:'Death of Robin Hood',gross:null},
-  ],
-};
-
+// mojoData is the SINGLE SOURCE OF TRUTH for movie grosses.
+// Roster grosses are derived from this by title match (see syncRosterGrosses).
 const mojoData = [
   {rank:1,title:'The Super Mario Galaxy Movie',gross:429814610},
-  {rank:2,title:'Project Hail Mary',gross:344050007},
-  {rank:3,title:'Michael',gross:370685426},
-  {rank:4,title:'Hoppers',gross:166010783},
-  {rank:5,title:'Scream 7',gross:121935967},
-  {rank:6,title:'GOAT',gross:103316898},
-  {rank:7,title:'Wuthering Heights',gross:84001072},
-  {rank:8,title:'The Devil Wears Prada 2',gross:220282322},
-  {rank:9,title:'Send Help',gross:64734795},
-  {rank:10,title:'Reminders of Him',gross:48559430},
-  {rank:11,title:'The Drama',gross:48062006},
-  {rank:12,title:'Crime 101',gross:36588336},
-  {rank:13,title:"Lee Cronin's The Mummy",gross:29152113},
-  {rank:14,title:'Mercy',gross:24390303},
-  {rank:15,title:'Ready or Not 2: Here I Come',gross:22986054},
-  {rank:16,title:'I Can Only Imagine 2',gross:18588615},
-  {rank:17,title:'Shelter',gross:12805541},
-  {rank:18,title:'The Bride!',gross:12744025},
-  {rank:19,title:'The Strangers: Chapter 3',gross:8560986},
-  {rank:20,title:'How to Make a Killing',gross:7851600},
-  {rank:21,title:'Return to Silent Hill',gross:5544971},
-  {rank:22,title:'Animal Farm',gross:5588982},
-  {rank:23,title:'The Pout-Pout Fish',gross:2925502},
-  {rank:24,title:'Mother Mary',gross:2565507},
-  {rank:25,title:'Cold Storage',gross:1529234},
+  {rank:2,title:'Michael',gross:370685426},
+  {rank:3,title:'Toy Story 5',gross:366348690},
+  {rank:4,title:'Project Hail Mary',gross:344050007},
+  {rank:5,title:'The Devil Wears Prada 2',gross:220282322},
+  {rank:6,title:'Backrooms',gross:187171741},
+  {rank:7,title:'Hoppers',gross:166010783},
+  {rank:8,title:'Scream 7',gross:121935967},
+  {rank:9,title:'Disclosure Day',gross:105311885},
+  {rank:10,title:'GOAT',gross:103316898},
+  {rank:11,title:'Wuthering Heights',gross:84001072},
+  {rank:12,title:'Mortal Kombat II',gross:79719161},
+  {rank:13,title:'Send Help',gross:64734795},
+  {rank:14,title:'Masters of the Universe',gross:63152003},
+  {rank:15,title:'Supergirl',gross:48900000},
+  {rank:16,title:'Reminders of Him',gross:48559430},
+  {rank:17,title:'The Drama',gross:48062006},
+  {rank:18,title:'Crime 101',gross:36588336},
+  {rank:19,title:"Lee Cronin's The Mummy",gross:29152113},
+  {rank:20,title:'Mercy',gross:24390303},
+  {rank:21,title:'Ready or Not 2: Here I Come',gross:22986054},
+  {rank:22,title:'I Can Only Imagine 2',gross:18588615},
+  {rank:23,title:'Shelter',gross:12805541},
+  {rank:24,title:'The Bride!',gross:12744025},
+  {rank:25,title:'The Strangers: Chapter 3',gross:8560986},
+  {rank:26,title:'How to Make a Killing',gross:7851600},
+  {rank:27,title:'Animal Farm',gross:5588982},
+  {rank:28,title:'Return to Silent Hill',gross:5544971},
+  {rank:29,title:'The Pout-Pout Fish',gross:2925502},
+  {rank:30,title:'Mother Mary',gross:2565507},
+  {rank:31,title:'Cold Storage',gross:1529234},
+  {rank:32,title:'Young Washington',gross:20847688},
 ];
+
+// Rosters — grosses left null; they are filled from mojoData at runtime by
+// syncRosterGrosses(). Any title not found in mojoData is treated as unreleased.
+const rosters = {
+  Pablo: [
+    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday'},
+    {cat:'Action/Blockbuster',movie:'Mercy'},
+    {cat:'Animation',movie:'GOAT'},
+    {cat:'Animation',movie:'Angry Birds 3'},
+    {cat:'Comedy/Horror',movie:'Scream 7'},
+    {cat:'Comedy/Horror',movie:'Sheep Detectives'},
+    {cat:'Drama/Musical',movie:'The Bride!'},
+    {cat:'Drama/Musical',movie:'How to Make a Killing'},
+    {cat:'Wild Card',movie:'Narnia'},
+    {cat:'Wild Card',movie:'Return to Silent Hill'},
+  ],
+  Reuel: [
+    {cat:'Action/Blockbuster',movie:'Supergirl'},
+    {cat:'Action/Blockbuster',movie:'Street Fighter'},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie'},
+    {cat:'Animation',movie:'Ray Gunn'},
+    {cat:'Comedy/Horror',movie:'Jumanji 3'},
+    {cat:'Comedy/Horror',movie:"Lee Cronin's The Mummy"},
+    {cat:'Drama/Musical',movie:'The Social Reckoning'},
+    {cat:'Drama/Musical',movie:'Godzilla Minus 0'},
+    {cat:'Wild Card',movie:'Peaky Blinders'},
+    {cat:'Wild Card',movie:'Cliff Booth'},
+  ],
+  Josh: [
+    {cat:'Action/Blockbuster',movie:'Star Wars: The Mandalorian and Grogu'},
+    {cat:'Action/Blockbuster',movie:'Cliffhanger'},
+    {cat:'Animation',movie:'Paw Patrol!'},
+    {cat:'Animation',movie:'Forgotten Island'},
+    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further'},
+    {cat:'Comedy/Horror',movie:'Resident Evil'},
+    {cat:'Drama/Musical',movie:'Verity'},
+    {cat:'Drama/Musical',movie:'Apex'},
+    {cat:'Wild Card',movie:'Sunrise on the Reaping'},
+    {cat:'Wild Card',movie:'Focker-in-Law'},
+  ],
+  Dom: [
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary'},
+    {cat:'Action/Blockbuster',movie:'How to Rob a Bank'},
+    {cat:'Animation',movie:'Toy Story 5'},
+    {cat:'Animation',movie:'Coyote vs Acme'},
+    {cat:'Comedy/Horror',movie:'Terrifier 4'},
+    {cat:'Comedy/Horror',movie:'Digger'},
+    {cat:'Drama/Musical',movie:'Michael'},
+    {cat:'Drama/Musical',movie:'Disclosure Day'},
+    {cat:'Wild Card',movie:'Breadwinner'},
+    {cat:'Wild Card',movie:'Artificial'},
+  ],
+  Tracy: [
+    {cat:'Action/Blockbuster',movie:'Spiderman 4'},
+    {cat:'Action/Blockbuster',movie:'Shelter'},
+    {cat:'Animation',movie:'Asterix'},
+    {cat:'Animation',movie:'The Pout-Pout Fish'},
+    {cat:'Comedy/Horror',movie:'The Strangers: Chapter 3'},
+    {cat:'Comedy/Horror',movie:'Werwulf'},
+    {cat:'Drama/Musical',movie:'I Can Only Imagine 2'},
+    {cat:'Drama/Musical',movie:'Mother Mary'},
+    {cat:'Wild Card',movie:'Mortal Kombat II'},
+    {cat:'Wild Card',movie:'Crime 101'},
+  ],
+  Aarya: [
+    {cat:'Action/Blockbuster',movie:'The Odyssey'},
+    {cat:'Action/Blockbuster',movie:'Mutiny'},
+    {cat:'Animation',movie:'Minions & Monsters'},
+    {cat:'Animation',movie:'Hoppers'},
+    {cat:'Comedy/Horror',movie:'Send Help'},
+    {cat:'Comedy/Horror',movie:'Clayface'},
+    {cat:'Drama/Musical',movie:'The Devil Wears Prada 2'},
+    {cat:'Drama/Musical',movie:'Wuthering Heights'},
+    {cat:'Wild Card',movie:'Hexed'},
+    {cat:'Wild Card',movie:'Evil Dead Burn'},
+  ],
+  Megan: [
+    {cat:'Action/Blockbuster',movie:'Dune 3'},
+    {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
+    {cat:'Animation',movie:'Cat in the Hat'},
+    {cat:'Animation',movie:"Wizards!"},
+    {cat:'Comedy/Horror',movie:'Scary Movie 6'},
+    {cat:'Comedy/Horror',movie:'Whalefall'},
+    {cat:'Drama/Musical',movie:'Moana'},
+    {cat:'Drama/Musical',movie:'Practical Magic 2'},
+    {cat:'Wild Card',movie:'Animal Farm'},
+    {cat:'Wild Card',movie:'Young Washington'},
+  ],
+  AJ: [
+    {cat:'Action/Blockbuster',movie:'Avengers: Doomsday'},
+    {cat:'Action/Blockbuster',movie:'Violent Night 2'},
+    {cat:'Animation',movie:'Minions & Monsters'},
+    {cat:'Animation',movie:'Forgotten Island'},
+    {cat:'Comedy/Horror',movie:'Jumanji 3'},
+    {cat:'Comedy/Horror',movie:'Clayface'},
+    {cat:'Drama/Musical',movie:'Verity'},
+    {cat:'Drama/Musical',movie:'How to Make a Killing'},
+    {cat:'Wild Card',movie:'Resident Evil'},
+    {cat:'Wild Card',movie:'Animal Friends'},
+  ],
+  Cecily: [
+    {cat:'Action/Blockbuster',movie:'Supergirl'},
+    {cat:'Action/Blockbuster',movie:'Narnia'},
+    {cat:'Animation',movie:'Paw Patrol'},
+    {cat:'Animation',movie:'Dog Stars'},
+    {cat:'Comedy/Horror',movie:'Terrifier 4'},
+    {cat:'Comedy/Horror',movie:'Werwulf'},
+    {cat:'Drama/Musical',movie:'Wuthering Heights'},
+    {cat:'Drama/Musical',movie:'Social Reckoning'},
+    {cat:'Wild Card',movie:'Sunrise on the Reaping'},
+    {cat:'Wild Card',movie:'Scary Movie 6'},
+  ],
+  Daniel: [
+    {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
+    {cat:'Action/Blockbuster',movie:'Mortal Kombat II'},
+    {cat:'Animation',movie:'The Super Mario Galaxy Movie'},
+    {cat:'Animation',movie:'Wild Wood'},
+    {cat:'Comedy/Horror',movie:'Scream 7'},
+    {cat:'Comedy/Horror',movie:'Evil Dead Burn'},
+    {cat:'Drama/Musical',movie:'Disclosure Day'},
+    {cat:'Drama/Musical',movie:'Apex'},
+    {cat:'Wild Card',movie:'Street Fighter'},
+    {cat:'Wild Card',movie:'Flowervale St'},
+  ],
+  Katie: [
+    {cat:'Action/Blockbuster',movie:'Dune 3'},
+    {cat:'Action/Blockbuster',movie:'Project Hail Mary'},
+    {cat:'Animation',movie:'Hoppers'},
+    {cat:'Animation',movie:'Coyote vs Acme'},
+    {cat:'Comedy/Horror',movie:'The Wrecking Crew'},
+    {cat:'Comedy/Horror',movie:'Insidious: Out of the Further'},
+    {cat:'Drama/Musical',movie:"The Devil Wears Prada 2"},
+    {cat:'Drama/Musical',movie:'I Can Only Imagine 2'},
+    {cat:'Wild Card',movie:'Shelter'},
+    {cat:'Wild Card',movie:'Chasing Summer'},
+  ],
+  Micah: [
+    {cat:'Action/Blockbuster',movie:'Spiderman 4'},
+    {cat:'Action/Blockbuster',movie:'Mutiny'},
+    {cat:'Animation',movie:'The Cat in the Hat'},
+    {cat:'Animation',movie:'GOAT'},
+    {cat:'Comedy/Horror',movie:'Focker-in-Law'},
+    {cat:'Comedy/Horror',movie:'Send Help'},
+    {cat:'Drama/Musical',movie:'The Bride!'},
+    {cat:'Drama/Musical',movie:'Crime 101'},
+    {cat:'Wild Card',movie:'Star Wars: The Mandalorian and Grogu'},
+    {cat:'Wild Card',movie:'The Breadwinners'},
+  ],
+  Tizzle: [
+    {cat:'Action/Blockbuster',movie:'Digger'},
+    {cat:'Action/Blockbuster',movie:'The Great Beyond'},
+    {cat:'Animation',movie:'Toy Story 5'},
+    {cat:'Animation',movie:'Animal Farm'},
+    {cat:'Comedy/Horror',movie:'Ready or Not 2: Here I Come'},
+    {cat:'Comedy/Horror',movie:'Backrooms'},
+    {cat:'Drama/Musical',movie:'Michael'},
+    {cat:'Drama/Musical',movie:'Paper Tiger'},
+    {cat:'Wild Card',movie:'Godzilla Minus 0'},
+    {cat:'Wild Card',movie:'The Adventures of Cliff Booth'},
+  ],
+  Andrew: [
+    {cat:'Action/Blockbuster',movie:'The Odyssey'},
+    {cat:'Action/Blockbuster',movie:'Mercy'},
+    {cat:'Animation',movie:'Angry Birds 3'},
+    {cat:'Animation',movie:'Sense and Sensibility'},
+    {cat:'Comedy/Horror',movie:'Sheep Detective'},
+    {cat:'Comedy/Horror',movie:'Cold Storage'},
+    {cat:'Drama/Musical',movie:'Moana'},
+    {cat:'Drama/Musical',movie:'The Drama'},
+    {cat:'Wild Card',movie:'Hexed'},
+    {cat:'Wild Card',movie:'Death of Robin Hood'},
+  ],
+};
 
 function getEffectiveTotal(name) {
   return officialTotals[name] || 0;
@@ -723,7 +715,7 @@ let rosterLeague = 'all';
 let currentPlayer = 'Katie';
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
- function normalizeTitle(title) {
+function normalizeTitle(title) {
   return String(title)
     .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ')
@@ -731,11 +723,31 @@ let currentPlayer = 'Katie';
     .toLowerCase();
 }
 
-function getMovieGrossFromMojo(title) {
-  const match = mojoData.find(m => normalizeTitle(m.title) === normalizeTitle(title));
-  return match ? match.gross : null;
+// Fast lookup map: normalized title -> gross. Rebuilt whenever mojoData changes.
+let mojoGrossByTitle = {};
+function rebuildMojoIndex() {
+  mojoGrossByTitle = {};
+  mojoData.forEach(m => { mojoGrossByTitle[normalizeTitle(m.title)] = m.gross; });
 }
- 
+
+function getMovieGrossFromMojo(title) {
+  const g = mojoGrossByTitle[normalizeTitle(title)];
+  return (g === undefined) ? null : g;
+}
+
+// Pull every roster movie's gross straight from mojoData by title match.
+// This is the "refresh from titles" step: it makes mojoData the single source
+// of truth so roster totals, scoreboard bars, trades and the games tab all
+// reflect the current box office numbers. Titles not in mojoData => unreleased.
+function syncRosterGrosses() {
+  rebuildMojoIndex();
+  Object.values(rosters).forEach(roster => {
+    roster.forEach(movie => {
+      movie.gross = getMovieGrossFromMojo(movie.movie); // null if unreleased
+    });
+  });
+}
+
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -781,13 +793,12 @@ function showToast(msg) {
 
 // ─── SEASON PROGRESS BAR ────────────────────────────────────────────────────
 function updateSeasonBar() {
-  // Count all unique movies across all rosters
   const allMovies = new Set();
   const releasedMovies = new Set();
   Object.values(rosters).forEach(rs => {
     rs.forEach(r => {
       allMovies.add(r.movie);
-      if (r.gross !== null) releasedMovies.add(r.movie);
+      if (r.gross !== null && r.gross !== undefined) releasedMovies.add(r.movie);
     });
   });
   const total = allMovies.size;
@@ -813,7 +824,7 @@ function renderScoreboard() {
   let names = allNames;
   if (scoreLeague === '1') names = allNames.filter(n => LEAGUE1.includes(n));
   if (scoreLeague === '2') names = allNames.filter(n => LEAGUE2.includes(n));
-  
+
   const sorted = names.slice().sort((a,b) => getEffectiveTotal(b) - getEffectiveTotal(a));
   const maxGross = getEffectiveTotal(sorted[0]) || 1;
   const grid = document.getElementById('scoreboard-grid');
@@ -828,7 +839,7 @@ function renderScoreboard() {
     card.className = `player-card ${rankClass}`;
     card.innerHTML = `
       <div class="rank-badge">${rank}</div>
-      <div class="player-name">${name}</div>
+      <div class="player-name">${escHtml(name)}</div>
       <span class="player-league-badge league${lNum}-badge">League ${lNum}</span>
       <div class="player-gross">${fmt(getEffectiveTotal(name))}</div>
       <div class="player-gross-sub">Official gross</div>
@@ -842,8 +853,8 @@ function renderScoreboard() {
 // ─── ROSTERS ─────────────────────────────────────────────────────────────────
 function setRosterLeague(l) {
   rosterLeague = l;
-  ['all','1','2'].forEach((v,i) => {
-    document.getElementById('roster-league-tab-' + ['all','1','2'][i]).classList.toggle('active', v === l);
+  ['all','1','2'].forEach((v) => {
+    document.getElementById('roster-league-tab-' + v).classList.toggle('active', v === l);
   });
   renderPills();
 }
@@ -857,6 +868,11 @@ function renderPills() {
   });
   const row = document.getElementById('player-pills');
   row.innerHTML = '';
+  // If the current player isn't in the filtered league, switch to the first one
+  if (!filtered.includes(currentPlayer) && filtered.length) {
+    currentPlayer = filtered[0];
+    selectPlayer(currentPlayer);
+  }
   filtered.forEach(name => {
     const btn = document.createElement('button');
     const lNum = leagueOf(name);
@@ -875,23 +891,20 @@ function selectPlayer(name) {
   if (pill) pill.classList.add('active');
 
   const data = rosters[name] || [];
-  const official = getEffectiveTotal(name);
-  const tabSum = data.reduce((s,r) => s+(r.gross||0), 0);
-  const discrepancy = official - tabSum;
 
   const tbl = document.getElementById('roster-table');
-  const rows = data.map(r => `
+  const rows = data.map(r => {
+    const g = (r.gross !== null && r.gross !== undefined) ? r.gross : getMovieGrossFromMojo(r.movie);
+    const grossCell = (g !== null && g !== undefined)
+      ? `<span class="gross-value">${fmt(g)}</span>`
+      : '<span class="gross-na">Not yet released</span>';
+    return `
     <tr>
       <td><span class="category-badge ${catClass(r.cat)}">${catShort(r.cat)}</span></td>
-      <td class="movie-title">${r.movie}</td>
-      <td style="text-align:right">${(r.gross || getMovieGrossFromMojo(r.movie))
-  ? `<span class="gross-value">${fmt(r.gross || getMovieGrossFromMojo(r.movie))}</span>`
-  : '<span class="gross-na">Not yet released</span>'
-}</td>
-    </tr>
-  `).join('');
-
-  let discRow = '';
+      <td class="movie-title">${escHtml(r.movie)}</td>
+      <td style="text-align:right">${grossCell}</td>
+    </tr>`;
+  }).join('');
 
   tbl.innerHTML = `
     <thead><tr>
@@ -899,9 +912,12 @@ function selectPlayer(name) {
       <th>Movie</th>
       <th style="text-align:right">US Gross</th>
     </tr></thead>
-    <tbody>${rows}${discRow}</tbody>
+    <tbody>${rows}</tbody>
   `;
-  document.getElementById('roster-total-val').textContent = fmt(official);
+  // Roster total shown = sum of this roster's tab grosses (kept consistent with
+  // the games-tab "Roster Tab Sum"). Official scoreboard number lives on the
+  // scoreboard; showing tab sum here makes any discrepancy visible.
+  document.getElementById('roster-total-val').textContent = fmt(getRosterTotal(name));
 }
 
 // ─── TRADES ──────────────────────────────────────────────────────────────────
@@ -927,7 +943,7 @@ function renderTradeMovies(side) {
   list.innerHTML = data.map((r,i) => `
     <div class="trade-movie-item" onclick="toggleTradeMovie('${side}',${i})" id="tm-${side}-${i}">
       <div class="check"></div>
-      <span>${r.movie}</span>
+      <span>${escHtml(r.movie)}</span>
       <span style="margin-left:auto;font-size:0.72rem;color:var(--text-muted)">${r.gross ? fmt(r.gross) : '—'}</span>
     </div>
   `).join('');
@@ -970,24 +986,16 @@ function executeTrade() {
   const snapA = rosters[pA].map(r => ({...r}));
   const snapB = rosters[pB].map(r => ({...r}));
 
-  // Execute swap using pre-captured snapshots so reads and writes never interfere.
-  // For equal trades (N:N): pair each slot directly.
-  // For unequal trades (e.g. 2:1): the player giving more movies replaces the
-  // receiving player's selected slot with the first incoming movie, then the
-  // extra movies are appended to keep roster size consistent on both sides.
   const minLen = Math.min(idxA.length, idxB.length);
 
-  // Pair-wise direct swap for the shared count
   for (let n = 0; n < minLen; n++) {
     rosters[pA][idxA[n]] = snapB[idxB[n]];
     rosters[pB][idxB[n]] = snapA[idxA[n]];
   }
 
-  // Any extras from A go to B (appended), the extra A slots get removed
   if (idxA.length > idxB.length) {
     const extraFromA = idxA.slice(minLen).map(i => snapA[i]);
     rosters[pB].push(...extraFromA);
-    // Remove the extra slots from A (highest indices first to preserve lower ones)
     idxA.slice(minLen).sort((a,b) => b-a).forEach(i => rosters[pA].splice(i, 1));
   } else if (idxB.length > idxA.length) {
     const extraFromB = idxB.slice(minLen).map(i => snapB[i]);
@@ -1013,6 +1021,7 @@ function executeTrade() {
   renderScoreboard();
   if (currentPlayer === pA || currentPlayer === pB) selectPlayer(currentPlayer);
   updateSeasonBar();
+  renderGames();
   showToast(`✓ Trade complete: ${pA} ⇌ ${pB}`);
 }
 
@@ -1026,6 +1035,7 @@ function undoTrade(id) {
   renderScoreboard();
   if (currentPlayer === t.playerA || currentPlayer === t.playerB) selectPlayer(currentPlayer);
   updateSeasonBar();
+  renderGames();
   showToast('↩ Trade undone');
 }
 
@@ -1038,32 +1048,22 @@ function renderTradeLog() {
   log.innerHTML = tradeHistory.map(t => `
     <div class="trade-log-item">
       <div class="trade-log-header">
-        <span class="trade-log-names">${t.playerA} ⇌ ${t.playerB}</span>
+        <span class="trade-log-names">${escHtml(t.playerA)} ⇌ ${escHtml(t.playerB)}</span>
         <div style="display:flex;gap:0.5rem;align-items:center">
           <span class="trade-log-time">${t.time}</span>
           <button class="trade-undo-btn" onclick="undoTrade(${t.id})">Undo</button>
         </div>
       </div>
       <div class="trade-log-detail">
-        <span><strong>${t.playerA}</strong> gave: ${t.moviesA.join(', ')}</span>
-        <span><strong>${t.playerB}</strong> gave: ${t.moviesB.join(', ')}</span>
+        <span><strong>${escHtml(t.playerA)}</strong> gave: ${escHtml(t.moviesA.join(', '))}</span>
+        <span><strong>${escHtml(t.playerB)}</strong> gave: ${escHtml(t.moviesB.join(', '))}</span>
       </div>
     </div>
   `).join('');
 }
 
-// ─── WAIVER WIRE ─────────────────────────────────────────────────────────────
-function getDraftedMovies() {
-  const drafted = new Set();
-  Object.values(rosters).forEach(rs => rs.forEach(r => drafted.add(r.movie.toLowerCase().trim())));
-  return drafted;
-}
-
 // ─── WAIVER WIRE DATA ────────────────────────────────────────────────────────
-// Master pool of unreleased movies on the wire.
-// leagueRestriction: 'any' | '1' (L1 only) | '2' (L2 only)
 const waiverPool = [
-  // Drafted in League 1 only → League 2 players can claim
   { title:'Violent Night 2',               cat:'Comedy/Horror',      leagueRestriction:'2' },
   { title:'Dog Stars',                     cat:'Animation',          leagueRestriction:'2' },
   { title:'Wild Wood',                     cat:'Animation',          leagueRestriction:'2' },
@@ -1077,7 +1077,6 @@ const waiverPool = [
   { title:'The Adventures of Cliff Booth', cat:'Wild Card',          leagueRestriction:'2' },
   { title:'Sense and Sensibility',         cat:'Animation',          leagueRestriction:'2' },
   { title:'Death of Robin Hood',           cat:'Wild Card',          leagueRestriction:'2' },
-  // Drafted in League 2 only → League 1 players can claim
   { title:'Ray Gunn',                      cat:'Animation',          leagueRestriction:'1' },
   { title:'Peaky Blinders',                cat:'Wild Card',          leagueRestriction:'1' },
   { title:'Cliff Booth',                   cat:'Wild Card',          leagueRestriction:'1' },
@@ -1089,7 +1088,6 @@ const waiverPool = [
   { title:'Whalefall',                     cat:'Comedy/Horror',      leagueRestriction:'1' },
   { title:'Practical Magic 2',             cat:'Drama/Musical',      leagueRestriction:'1' },
   { title:'Young Washington',              cat:'Wild Card',          leagueRestriction:'1' },
-  // Undrafted in both leagues — anyone can claim
   { title:'Fantastic Four: First Steps',   cat:'Action/Blockbuster', leagueRestriction:'any' },
   { title:'Superman',                      cat:'Action/Blockbuster', leagueRestriction:'any' },
   { title:'Blade',                         cat:'Action/Blockbuster', leagueRestriction:'any' },
@@ -1123,7 +1121,7 @@ const waiverPool = [
 
 function getDraftedMovies() {
   const drafted = new Set();
-  Object.values(rosters).forEach(rs => rs.forEach(r => drafted.add(r.movie.toLowerCase().trim())));
+  Object.values(rosters).forEach(rs => rs.forEach(r => drafted.add(normalizeTitle(r.movie))));
   return drafted;
 }
 
@@ -1134,31 +1132,27 @@ function addToWaiverWire() {
   if (!rawTitle) { showToast('⚠ Enter a movie title'); return; }
   const title = rawTitle.replace(/\s+/g, ' ').trim();
   if (!title || !cat || !league) { showToast('⚠ Fill in all fields'); return; }
-  const dup = waiverPool.find(m => m.title && m.title.toLowerCase() === title.toLowerCase());
+  const dup = waiverPool.find(m => m.title && normalizeTitle(m.title) === normalizeTitle(title));
   if (dup) { showToast('⚠ Already on the wire'); return; }
 
-  // Check which leagues have this movie drafted
-  const titleLower = title.toLowerCase();
-  const draftedInL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
-  const draftedInL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const titleLower = normalizeTitle(title);
+  const draftedInL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === titleLower));
+  const draftedInL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === titleLower));
 
-  // Block only if drafted in BOTH leagues (truly unavailable to everyone)
   if (draftedInL1 && draftedInL2) {
     showToast('⚠ ' + title + ' is drafted in both leagues — no one can claim it');
     return;
   }
 
-  // Released movies auto-appear on the wire — no need to add them manually
-  const alreadyReleased = mojoData.find(m => m.title.toLowerCase() === titleLower);
+  const alreadyReleased = mojoData.find(m => normalizeTitle(m.title) === titleLower);
   if (alreadyReleased) {
     showToast('⚠ ' + title + ' is already released — it auto-appears in the wire above');
     return;
   }
 
-  // Auto-set league restriction based on which league already has it
   let restriction = league;
-  if (draftedInL1 && !draftedInL2) restriction = '2'; // L1 has it → only L2 can claim
-  if (draftedInL2 && !draftedInL1) restriction = '1'; // L2 has it → only L1 can claim
+  if (draftedInL1 && !draftedInL2) restriction = '2';
+  if (draftedInL2 && !draftedInL1) restriction = '1';
 
   waiverPool.push({ title, cat, leagueRestriction: restriction, addedManually: true });
   document.getElementById('waiver-add-input').value = '';
@@ -1168,44 +1162,39 @@ function addToWaiverWire() {
 }
 
 function getLeagueRestriction(titleLower) {
-  // Returns 'any', '1', or '2' based on which leagues have drafted this movie
-  const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
-  const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === titleLower));
-  if (inL1 && !inL2) return '2'; // drafted only in L1 → only L2 can claim
-  if (inL2 && !inL1) return '1'; // drafted only in L2 → only L1 can claim
+  const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === titleLower));
+  const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === titleLower));
+  if (inL1 && !inL2) return '2';
+  if (inL2 && !inL1) return '1';
   return 'any';
 }
 
 function getWaiverMovies() {
-  const releasedTitles = new Set(mojoData.map(m => m.title.toLowerCase().trim()));
+  const releasedTitles = new Set(mojoData.map(m => normalizeTitle(m.title)));
 
-  // For released movies: show if NOT drafted in both leagues
   const released = mojoData
     .filter(m => {
-      const tl = m.title.toLowerCase().trim();
-      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
-      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
-      return !(inL1 && inL2); // show unless drafted in BOTH leagues
+      const tl = normalizeTitle(m.title);
+      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
+      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
+      return !(inL1 && inL2);
     })
     .map(m => ({
       title: m.title, cat: null, gross: m.gross, rank: m.rank,
-      released: true, leagueRestriction: getLeagueRestriction(m.title.toLowerCase().trim())
+      released: true, leagueRestriction: getLeagueRestriction(normalizeTitle(m.title))
     }));
 
-  // For unreleased pool: show if NOT drafted in both leagues
-  const drafted = getDraftedMovies(); // used only for waiverPool filter (both leagues)
   const unreleased = waiverPool
     .filter(m => {
       if (!m || !m.title || typeof m.title !== 'string') return false;
-      if (releasedTitles.has(m.title.toLowerCase().trim())) return false;
-      const tl = m.title.toLowerCase().trim();
-      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
-      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => r.movie.toLowerCase() === tl));
-      return !(inL1 && inL2); // show unless drafted in both leagues
+      if (releasedTitles.has(normalizeTitle(m.title))) return false;
+      const tl = normalizeTitle(m.title);
+      const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
+      const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
+      return !(inL1 && inL2);
     })
     .map(m => {
-      const restriction = getLeagueRestriction(m.title.toLowerCase().trim());
-      // If restriction changed (e.g. movie was claimed, other league's copy now free), update it
+      const restriction = getLeagueRestriction(normalizeTitle(m.title));
       const effectiveRestriction = restriction !== 'any' ? restriction : m.leagueRestriction;
       return { ...m, gross: null, rank: null, released: false, leagueRestriction: effectiveRestriction };
     });
@@ -1254,7 +1243,6 @@ function canClaim(playerName, restriction) {
   return leagueOf(playerName) === restriction;
 }
 
-// Cache last-rendered waiver lists so waiverClaim can look up by index safely
 let _lastReleasedWaiver   = [];
 let _lastUnreleasedWaiver = [];
 
@@ -1263,13 +1251,12 @@ function waiverClaim(btn) {
   if (idx.startsWith('r')) {
     const m = _lastReleasedWaiver[parseInt(idx.slice(1))];
     if (!m) return;
-    // Recompute restriction fresh at click time so it reflects current roster state
-    const restriction = getLeagueRestriction(m.title.toLowerCase());
+    const restriction = getLeagueRestriction(normalizeTitle(m.title));
     openClaimModal(m.title, m.gross, restriction, m.cat);
   } else {
     const m = _lastUnreleasedWaiver[parseInt(idx.slice(1))];
     if (!m) return;
-    const restriction = getLeagueRestriction(m.title.toLowerCase());
+    const restriction = getLeagueRestriction(normalizeTitle(m.title));
     const effective = restriction !== 'any' ? restriction : m.leagueRestriction;
     openClaimModal(m.title, m.gross, effective, m.cat);
   }
@@ -1324,9 +1311,10 @@ function renderWaiver() {
     html += '<tr><td colspan="5" style="' + sepS + '">Released — Undrafted (' + filteredReleased.length + ')</td></tr>';
     for (var i = 0; i < filteredReleased.length; i++) {
       var m = filteredReleased[i];
+      var badge = leagueBadge(m.leagueRestriction);
       html += '<tr>';
       html += '<td class="rank-num">' + escHtml(String(m.rank)) + '</td>';
-      html += '<td class="movie-title">' + escHtml(m.title) + '</td>';
+      html += '<td class="movie-title">' + escHtml(m.title) + badge + '</td>';
       html += '<td><span style="font-size:0.68rem;color:var(--text-muted)">—</span></td>';
       html += '<td style="text-align:right"><span class="gross-value">' + fmt(m.gross) + '</span></td>';
       html += '<td style="text-align:right"><button class="claim-btn" data-widx="r' + i + '" onclick="waiverClaim(this)">+ Claim</button></td>';
@@ -1352,21 +1340,22 @@ function renderWaiver() {
 
   html += '</tbody>';
   tbl.innerHTML = html;
-
 }
+
 function openClaimModal(title, gross, leagueRestriction, cat) {
   pendingClaimMovie = { title, gross, leagueRestriction: leagueRestriction || 'any', cat: cat || null };
-  const titleLower = title.toLowerCase();
-  const eligiblePlayers = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh']
+  const titleLower = normalizeTitle(title);
+  const allPlayers = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh'];
+  const eligiblePlayers = allPlayers
     .filter(n => canClaim(n, leagueRestriction || 'any'))
-    .filter(n => !(rosters[n]||[]).some(r => r.movie.toLowerCase() === titleLower));
+    .filter(n => !(rosters[n]||[]).some(r => normalizeTitle(r.movie) === titleLower));
   const leagueNote = leagueRestriction && leagueRestriction !== 'any'
     ? ` (League ${leagueRestriction} players only)` : '';
-  const alreadyOwners = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh']
-    .filter(n => (rosters[n]||[]).some(r => r.movie.toLowerCase() === titleLower));
+  const alreadyOwners = allPlayers
+    .filter(n => (rosters[n]||[]).some(r => normalizeTitle(r.movie) === titleLower));
   const ownerNote = alreadyOwners.length ? ' · ' + alreadyOwners.join(', ') + ' already own this.' : '';
   document.getElementById('claim-modal-desc').textContent =
-    'Claim "' + title + '" (' + (gross !== null ? fmt(gross) : 'not yet released') + ') for a player' + leagueNote + '.' + ownerNote + ' Select who claims it and which movie to drop.';
+    'Claim "' + title + '" (' + (gross !== null && gross !== undefined ? fmt(gross) : 'not yet released') + ') for a player' + leagueNote + '.' + ownerNote + ' Select who claims it and which movie to drop.';
   const sel = document.getElementById('claim-player');
   sel.innerHTML = '';
   if (!eligiblePlayers.length) {
@@ -1384,12 +1373,11 @@ function openClaimModal(title, gross, leagueRestriction, cat) {
 
 function renderDropOptions() {
   const player = document.getElementById('claim-player').value;
-  const claimTitle = pendingClaimMovie ? pendingClaimMovie.title.toLowerCase() : '';
+  const claimTitle = pendingClaimMovie ? normalizeTitle(pendingClaimMovie.title) : '';
   const sel = document.getElementById('claim-drop');
   sel.innerHTML = '';
   (rosters[player]||[]).forEach((r,i) => {
-    // Don't offer to drop the same movie being claimed
-    if (r.movie.toLowerCase() === claimTitle) return;
+    if (normalizeTitle(r.movie) === claimTitle) return;
     const opt = document.createElement('option');
     opt.value = i;
     opt.textContent = r.movie + ' (' + (r.gross ? fmt(r.gross) : 'unreleased') + ')';
@@ -1404,34 +1392,35 @@ function closeClaimModal() {
 
 function confirmClaim() {
   if (!pendingClaimMovie) return;
-  const player       = document.getElementById('claim-player').value;
-  // Final guard: player can't claim a movie they already own
-  const alreadyOwns = (rosters[player]||[]).some(r => r.movie.toLowerCase() === pendingClaimMovie.title.toLowerCase());
+  const player      = document.getElementById('claim-player').value;
+  if (!player || !rosters[player]) { closeClaimModal(); return; }
+  const alreadyOwns = (rosters[player]||[]).some(r => normalizeTitle(r.movie) === normalizeTitle(pendingClaimMovie.title));
   if (alreadyOwns) { showToast('⚠ ' + player + ' already has ' + pendingClaimMovie.title); closeClaimModal(); return; }
-  const dropIdx      = parseInt(document.getElementById('claim-drop').value);
+  const dropVal = document.getElementById('claim-drop').value;
+  if (dropVal === '' || dropVal === null) { showToast('⚠ Select a movie to drop'); return; }
+  const dropIdx      = parseInt(dropVal);
   const droppedEntry = rosters[player][dropIdx];
+  if (!droppedEntry) { closeClaimModal(); return; }
   const droppedTitle = droppedEntry.movie;
   const droppedGross = droppedEntry.gross;
   const droppedCat   = droppedEntry.cat;
   const cat          = pendingClaimMovie.cat || droppedCat;
   const claimedTitle = pendingClaimMovie.title;
-  const claimedGross = pendingClaimMovie.gross;
+  // Always resolve the claimed gross from mojoData so it stays consistent.
+  const claimedGross = getMovieGrossFromMojo(claimedTitle);
 
-  // Swap the roster slot
   rosters[player][dropIdx] = { cat, movie: claimedTitle, gross: claimedGross };
 
-  // Put the dropped movie back on the wire so others can pick it up
-  const alreadyInMojo   = mojoData.some(m => m.title.toLowerCase() === droppedTitle.toLowerCase());
-  const alreadyInPool   = waiverPool.some(m => m.title && m.title.toLowerCase() === droppedTitle.toLowerCase());
-  const alreadyDrafted  = Object.values(rosters).some(rs => rs.some(r => r.movie.toLowerCase() === droppedTitle.toLowerCase()));
+  const alreadyInMojo   = mojoData.some(m => normalizeTitle(m.title) === normalizeTitle(droppedTitle));
+  const alreadyInPool   = waiverPool.some(m => m.title && normalizeTitle(m.title) === normalizeTitle(droppedTitle));
+  const alreadyDrafted  = Object.values(rosters).some(rs => rs.some(r => normalizeTitle(r.movie) === normalizeTitle(droppedTitle)));
 
   if (!alreadyDrafted) {
-    if (droppedGross !== null && droppedGross !== undefined && !alreadyInMojo) {
-      // Released movie — add back to mojoData so it shows in Released Undrafted
-      const maxRank = mojoData.reduce((mx, m) => Math.max(mx, m.rank||0), 0);
-      mojoData.push({ rank: maxRank + 1, title: droppedTitle, gross: droppedGross });
-    } else if ((droppedGross === null || droppedGross === undefined) && !alreadyInPool) {
-      // Unreleased movie — add back to waiverPool
+    // A dropped movie is released iff it exists in mojoData; use that as the test
+    // rather than the stale droppedGross value.
+    if (alreadyInMojo) {
+      // Already in mojoData — it will re-appear in Released/Undrafted automatically.
+    } else if (!alreadyInPool) {
       waiverPool.push({ title: droppedTitle, cat: droppedCat, leagueRestriction: 'any', addedManually: false });
     }
   }
@@ -1441,13 +1430,17 @@ function confirmClaim() {
   renderScoreboard();
   if (currentPlayer === player) selectPlayer(player);
   updateSeasonBar();
+  renderGames();
   showToast('✓ ' + player + ' claimed ' + claimedTitle + ', dropped ' + droppedTitle);
 }
 
 // ─── BOX OFFICE ──────────────────────────────────────────────────────────────
 function renderMojo(filter) {
   const tbl = document.getElementById('mojo-table');
-  const filtered = mojoData.filter(m => !filter || m.title.toLowerCase().includes(filter.toLowerCase()));
+  // Show in gross order (highest first) regardless of the rank field, and
+  // renumber so the displayed rank always matches the sort.
+  const sorted = mojoData.slice().sort((a,b) => b.gross - a.gross);
+  const filtered = sorted.filter(m => !filter || m.title.toLowerCase().includes(filter.toLowerCase()));
   tbl.innerHTML = `
     <thead><tr>
       <th style="width:50px">Rank</th>
@@ -1455,13 +1448,15 @@ function renderMojo(filter) {
       <th style="text-align:right">US Gross</th>
     </tr></thead>
     <tbody>
-      ${filtered.map(m => `
+      ${filtered.map((m) => {
+        const displayRank = sorted.indexOf(m) + 1;
+        return `
         <tr>
-          <td class="rank-num">${m.rank}</td>
-          <td class="movie-title">${m.title}</td>
+          <td class="rank-num">${displayRank}</td>
+          <td class="movie-title">${escHtml(m.title)}</td>
           <td style="text-align:right">$${m.gross.toLocaleString()}</td>
-        </tr>
-      `).join('')}
+        </tr>`;
+      }).join('')}
     </tbody>
   `;
 }
@@ -1482,10 +1477,6 @@ function showTab(tab) {
 }
 
 // ─── GAMES TAB ───────────────────────────────────────────────────────────────
-
-
-
-// ─── GAMES TAB ───────────────────────────────────────────────────────────────
 function renderGames() {
   const playerOrder = ['Katie','Daniel','Dom','Reuel','Aarya','Pablo','Micah','Tizzle','Andrew','Cecily','Tracy','AJ','Megan','Josh'];
   const wrap = document.getElementById('games-table-wrap');
@@ -1494,7 +1485,7 @@ function renderGames() {
 
   const rows = playerOrder.map(name => {
     const official = officialTotals[name] || 0;
-    const tabSum   = (rosters[name]||[]).reduce((s,r) => s + (r.gross||0), 0);
+    const tabSum   = getRosterTotal(name);
     const delta    = official - tabSum;
     return { name, official, tabSum, delta };
   }).sort((a,b) => Math.abs(b.delta) - Math.abs(a.delta));
@@ -1527,7 +1518,7 @@ function renderGames() {
       rowBg = 'background:rgba(231,76,60,0.03);';
     }
     html += '<tr style="' + rowBg + '">';
-    html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);font-family:Bebas Neue,sans-serif;font-size:1.2rem;letter-spacing:0.05em">' + r.name + '</td>';
+    html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);font-family:Bebas Neue,sans-serif;font-size:1.2rem;letter-spacing:0.05em">' + escHtml(r.name) + '</td>';
     html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04)">' + lBadge + '</td>';
     html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;font-weight:600;color:var(--gold-light)">' + fmt(r.official) + '</td>';
     html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;color:var(--text-muted)">' + fmt(r.tabSum) + '</td>';
@@ -1541,6 +1532,7 @@ function renderGames() {
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
+syncRosterGrosses();   // <-- refresh all roster grosses from mojoData titles FIRST
 renderScoreboard();
 renderPills();
 selectPlayer(currentPlayer);
@@ -1551,6 +1543,7 @@ renderWaiver();
 renderMojo('');
 updateSeasonBar();
 renderGames();
+
 // ─── HEADER STARS ────────────────────────────────────────────────────────────
 (function() {
   var container = document.getElementById('header-stars');
