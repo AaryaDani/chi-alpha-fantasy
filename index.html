@@ -723,6 +723,19 @@ let rosterLeague = 'all';
 let currentPlayer = 'Katie';
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
+ function normalizeTitle(title) {
+  return String(title)
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function getMovieGrossFromMojo(title) {
+  const match = mojoData.find(m => normalizeTitle(m.title) === normalizeTitle(title));
+  return match ? match.gross : null;
+}
+ 
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -871,10 +884,10 @@ function selectPlayer(name) {
     <tr>
       <td><span class="category-badge ${catClass(r.cat)}">${catShort(r.cat)}</span></td>
       <td class="movie-title">${r.movie}</td>
-      <td style="text-align:right">${r.gross
-        ? `<span class="gross-value">${fmt(r.gross)}</span>`
-        : '<span class="gross-na">Not yet released</span>'
-      }</td>
+      <td style="text-align:right">${(r.gross || getMovieGrossFromMojo(r.movie))
+  ? `<span class="gross-value">${fmt(r.gross || getMovieGrossFromMojo(r.movie))}</span>`
+  : '<span class="gross-na">Not yet released</span>'
+}</td>
     </tr>
   `).join('');
 
