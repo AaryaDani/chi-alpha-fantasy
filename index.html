@@ -130,6 +130,18 @@
   .season-bar-track { height: 6px; background: var(--dark4); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
   .season-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 0.6s ease; }
 
+  /* ── Live-sync status pill ── */
+  .sheet-status-wrap { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
+  .sheet-refresh-btn { background: var(--dark3); border: 1px solid var(--border); color: var(--gold-light); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.95rem; border-radius: 20px; cursor: pointer; transition: all 0.15s; }
+  .sheet-refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .sheet-refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .sheet-status { font-size: 0.68rem; letter-spacing: 0.05em; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.4rem; }
+  .sheet-status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); flex-shrink: 0; }
+  .sheet-status.live   .dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .sheet-status.cached .dot { background: #E7A23C; }
+  .sheet-status.loading .dot { background: var(--gold); animation: status-pulse 1s infinite; }
+  @keyframes status-pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+
   nav { display: flex; justify-content: center; background: var(--dark2); border-bottom: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .nav-btn { padding: 0.85rem 1.4rem; background: none; border: none; color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
   .nav-btn:hover { color: var(--gold-light); }
@@ -303,6 +315,10 @@
         <div class="season-bar-fill" id="season-bar" style="width:0%"></div>
       </div>
     </div>
+    <div class="sheet-status-wrap">
+      <button class="sheet-refresh-btn" id="sheet-refresh-btn" onclick="refreshFromSheet(true)">⟳ Refresh from Sheet</button>
+      <span class="sheet-status" id="sheet-status"><span class="dot"></span> Loading cached data…</span>
+    </div>
   </div>
 </header>
 
@@ -459,7 +475,7 @@
 
 <footer>
   Chi Alpha Fantasy &nbsp;·&nbsp; Box Office 2026 &nbsp;·&nbsp;
-  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated Jul 17, 2026 10:04 UTC</footer>
+  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated <span id="updated-time">Jul 17, 2026 10:04 UTC</span></footer>
 
 <div class="modal-overlay hidden" id="claim-modal">
   <div class="modal">
@@ -485,6 +501,8 @@ const LEAGUE1 = ['AJ','Cecily','Daniel','Katie','Micah','Tizzle','Andrew'];
 const LEAGUE2 = ['Pablo','Reuel','Josh','Dom','Tracy','Aarya','Megan'];
 
 // Scoreboard totals (from SCOREBOARD tab — the "official" numbers)
+// These are the baked-in fallback values; refreshFromSheet() overwrites them
+// live from the SCOREBOARD tab when the sheet is reachable.
 const officialTotals = {
   Katie:761938696, Daniel:827213379, Dom:1264560305, Reuel:547007885,
   Aarya:672928635, Pablo:321852689, Micah:500027387, Tizzle:1000084675,
@@ -494,6 +512,8 @@ const officialTotals = {
 
 // mojoData is the SINGLE SOURCE OF TRUTH for movie grosses.
 // Roster grosses are derived from this by title match (see syncRosterGrosses).
+// These are the baked-in fallback values; refreshFromSheet() replaces them
+// live from the 2026_Mojo tab when the sheet is reachable.
 const mojoData = [
   {rank:1,title:'The Super Mario Galaxy Movie',gross:429814610},
   {rank:2,title:'Michael',gross:372015977},
@@ -789,6 +809,182 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── LIVE GOOGLE SHEET REFRESH ───────────────────────────────────────────────
+// Pulls the 2026_Mojo and SCOREBOARD tabs straight from the published Google
+// Sheet in the browser (no rebuild needed). Uses the gviz CSV endpoint, which
+// references tabs by NAME and needs no API key — the sheet just has to be shared
+// "Anyone with the link can view". If the fetch is blocked (CORS / sharing off)
+// the app silently keeps the baked-in data and the status pill shows "cached".
+const SHEET_ID       = '1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4';
+const MOJO_TAB       = '2026_Mojo';
+const SCOREBOARD_TAB = 'SCOREBOARD';
+
+function gvizUrl(tab) {
+  return 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+         '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(tab) +
+         '&_cb=' + Date.now(); // cache-buster so refresh always gets latest
+}
+
+// Minimal RFC-4180 CSV parser (handles quoted fields, escaped quotes, commas
+// inside quotes, and \r\n line endings).
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+      else if (c === '\r') { /* ignore */ }
+      else field += c;
+    }
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+// Strip $, commas, spaces etc. and parse to an integer. Returns null if there
+// is nothing numeric in the cell.
+function parseGross(s) {
+  if (s == null) return null;
+  const digits = String(s).replace(/[^0-9.]/g, '');
+  if (!digits || digits === '.') return null;
+  const n = Math.round(parseFloat(digits));
+  return isNaN(n) ? null : n;
+}
+
+// Column-order-agnostic parse of the 2026_Mojo tab. Per row: the title is the
+// first cell containing a letter; the gross is the largest number in the row
+// (so a small "rank" cell never wins). Header/footer rows are skipped.
+const MOJO_SKIP = new Set(['rank','title','movie','total','gross','sum','','grand total','name','player']);
+function parseMojoTab(rows) {
+  const out = [];
+  for (const r of rows) {
+    if (!r || !r.length) continue;
+    let title = null, bestGross = null;
+    for (const cell of r) {
+      const t = (cell || '').trim();
+      if (title === null && /[a-zA-Z]/.test(t)) title = t;
+      const g = parseGross(t);
+      if (g !== null && (bestGross === null || g > bestGross)) bestGross = g;
+    }
+    if (title && !MOJO_SKIP.has(title.toLowerCase()) && bestGross !== null && bestGross > 1000) {
+      out.push({ title: title, gross: bestGross });
+    }
+  }
+  return out;
+}
+
+// Column-order-agnostic parse of the SCOREBOARD tab. A row counts only if one of
+// its cells exactly matches a known player name; that player's total is the
+// largest number in the row.
+function parseScoreboardTab(rows) {
+  const known = LEAGUE1.concat(LEAGUE2);
+  const knownLower = known.map(n => n.toLowerCase());
+  const out = {};
+  for (const r of rows) {
+    if (!r || !r.length) continue;
+    let matchedName = null;
+    for (const cell of r) {
+      const idx = knownLower.indexOf((cell || '').trim().toLowerCase());
+      if (idx !== -1) { matchedName = known[idx]; break; }
+    }
+    if (!matchedName) continue;
+    let best = null;
+    for (const cell of r) {
+      const g = parseGross(cell);
+      if (g !== null && (best === null || g > best)) best = g;
+    }
+    if (best !== null) out[matchedName] = best;
+  }
+  return out;
+}
+
+function setSheetStatus(state) {
+  const el  = document.getElementById('sheet-status');
+  const btn = document.getElementById('sheet-refresh-btn');
+  if (!el) return;
+  el.className = 'sheet-status ' + state;
+  if (state === 'loading') {
+    el.innerHTML = '<span class="dot"></span> Refreshing from Google Sheet…';
+    if (btn) btn.disabled = true;
+  } else if (state === 'live') {
+    el.innerHTML = '<span class="dot"></span> Live · synced from Google Sheet';
+    if (btn) btn.disabled = false;
+  } else { // cached
+    el.innerHTML = '<span class="dot"></span> Showing cached data (sheet unreachable)';
+    if (btn) btn.disabled = false;
+  }
+}
+
+function updateUpdatedTimestamp() {
+  const el = document.getElementById('updated-time');
+  if (el) el.textContent = new Date().toLocaleString();
+}
+
+// Push freshly parsed sheet data into the app and re-render everything.
+function applySheetData(newMojo, newTotals) {
+  // Replace mojoData contents in place (keep the same const array reference),
+  // re-ranked by gross so the box office table numbering stays correct.
+  const ranked = newMojo.slice()
+    .sort((a, b) => b.gross - a.gross)
+    .map((m, i) => ({ rank: i + 1, title: m.title, gross: m.gross }));
+  mojoData.length = 0;
+  ranked.forEach(m => mojoData.push(m));
+
+  // Merge official totals — only overwrite names we actually parsed, so a
+  // partial SCOREBOARD read never wipes existing values.
+  Object.keys(newTotals).forEach(n => { officialTotals[n] = newTotals[n]; });
+
+  // Cascade to everything downstream (titles -> roster grosses -> all views).
+  syncRosterGrosses();
+  renderScoreboard();
+  selectPlayer(currentPlayer);
+  renderWaiver();
+  const mojoSearch = document.getElementById('mojo-search');
+  renderMojo(mojoSearch ? mojoSearch.value : '');
+  updateSeasonBar();
+  renderGames();
+  updateUpdatedTimestamp();
+}
+
+let _refreshInFlight = false;
+async function refreshFromSheet(manual) {
+  if (_refreshInFlight) return;
+  _refreshInFlight = true;
+  setSheetStatus('loading');
+  try {
+    const [mojoText, sbText] = await Promise.all([
+      fetch(gvizUrl(MOJO_TAB),       { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('mojo HTTP ' + r.status); return r.text(); }),
+      fetch(gvizUrl(SCOREBOARD_TAB), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('scoreboard HTTP ' + r.status); return r.text(); }),
+    ]);
+
+    const newMojo   = parseMojoTab(parseCSV(mojoText));
+    const newTotals = parseScoreboardTab(parseCSV(sbText));
+
+    // Sanity gate: if a tab came back empty/garbled, treat it as a failure and
+    // keep whatever we already had rather than blanking the app.
+    if (newMojo.length < 3) throw new Error('Mojo parse returned too few rows (' + newMojo.length + ')');
+    if (Object.keys(newTotals).length < 5) throw new Error('Scoreboard parse returned too few players');
+
+    applySheetData(newMojo, newTotals);
+    setSheetStatus('live');
+    if (manual) showToast('✓ Synced from Google Sheet');
+  } catch (e) {
+    console.warn('[refreshFromSheet] falling back to cached data:', e);
+    setSheetStatus('cached');
+    if (manual) showToast('⚠ Could not reach sheet — showing cached data');
+  } finally {
+    _refreshInFlight = false;
+  }
 }
 
 // ─── SEASON PROGRESS BAR ────────────────────────────────────────────────────
@@ -1543,6 +1739,10 @@ renderWaiver();
 renderMojo('');
 updateSeasonBar();
 renderGames();
+
+// Kick off a live pull from the Google Sheet. Renders once with cached data
+// above (instant), then re-renders when the sheet responds. Safe to fail.
+refreshFromSheet(false);
 
 // ─── HEADER STARS ────────────────────────────────────────────────────────────
 (function() {
