@@ -629,7 +629,7 @@ const rosters = {
     {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
     {cat:'Animation',movie:'Cat in the Hat'},
     {cat:'Animation',movie:"Wizards!"},
-    {cat:'Comedy/Horror',movie:'Scary Movie'},
+    {cat:'Comedy/Horror',movie:'Scary Movie 6'},
     {cat:'Comedy/Horror',movie:'Whalefall'},
     {cat:'Drama/Musical',movie:'Moana'},
     {cat:'Drama/Musical',movie:'Practical Magic 2'},
@@ -658,7 +658,7 @@ const rosters = {
     {cat:'Drama/Musical',movie:'Wuthering Heights'},
     {cat:'Drama/Musical',movie:'Social Reckoning'},
     {cat:'Wild Card',movie:'Sunrise on the Reaping'},
-    {cat:'Wild Card',movie:'Scary Movie'},
+    {cat:'Wild Card',movie:'Scary Movie 6'},
   ],
   Daniel: [
     {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
@@ -794,12 +794,14 @@ function getMovieGrossFromMojo(title) {
   return null;
 }
 
-// Pull every roster movie's gross straight from mojoData by title match.
-// This is the "refresh from titles" step: it makes mojoData the single source
-// of truth so roster totals, scoreboard bars, trades and the games tab all
-// reflect the current box office numbers. Titles not in mojoData => unreleased.
+// Pull every roster movie's gross from mojoData by title match. This is the
+// FALLBACK path: it only runs when the app is using its built-in rosters. Once
+// the live player tabs have loaded (rostersFromSheet === true), each movie's
+// gross comes straight from that player's sheet tab and must not be overwritten.
+let rostersFromSheet = false;
 function syncRosterGrosses() {
-  rebuildMojoIndex();
+  rebuildMojoIndex();                 // always keep the index fresh (claims/waiver use it)
+  if (rostersFromSheet) return;       // tab grosses are authoritative — leave them alone
   Object.values(rosters).forEach(roster => {
     roster.forEach(movie => {
       movie.gross = getMovieGrossFromMojo(movie.movie); // null if unreleased
@@ -969,8 +971,52 @@ function updateUpdatedTimestamp() {
   if (el) el.textContent = new Date().toLocaleString();
 }
 
+// ── Player-tab parsing (pull each roster straight from the player's own tab) ──
+// Every player tab (sheet name == player first name) is laid out as:
+//   col A = category, col B = movie title, col C = gross ("$68,041,162" or "#N/A").
+// A row is treated as a real movie ONLY if col A is a recognizable category, which
+// automatically skips the header row ("| Reuel | $$$"), the "Total" row, and any
+// notes/blank rows below the table.
+function looksLikeCategory(c) {
+  c = (c || '').toLowerCase();
+  return c.indexOf('action') !== -1 || c.indexOf('animation') !== -1 ||
+         c.indexOf('comedy') !== -1 || c.indexOf('drama') !== -1 ||
+         c.indexOf('wild') !== -1;
+}
+function parsePlayerTab(rows) {
+  const out = [];
+  for (const r of rows) {
+    if (!r) continue;
+    const cat   = (r[0] || '').trim();
+    const movie = (r[1] || '').trim();
+    if (!movie || !looksLikeCategory(cat)) continue;
+    out.push({ cat: cat, movie: movie, gross: parseGross(r[2]) }); // #N/A -> null (unreleased)
+  }
+  return out;
+}
+
+const ALL_PLAYERS = LEAGUE1.concat(LEAGUE2);
+
+// Fetch all 14 player tabs in parallel. A tab counts only if it parses to a sane
+// number of movies; anything that fails or looks wrong is dropped so that player
+// simply keeps their previous roster (no silent blanking).
+async function fetchPlayerRosters() {
+  const settled = await Promise.allSettled(ALL_PLAYERS.map(name =>
+    fetch(gvizUrl(name), { cache: 'no-store' })
+      .then(r => { if (!r.ok) throw new Error(name + ' HTTP ' + r.status); return r.text(); })
+      .then(txt => ({ name: name, roster: parsePlayerTab(parseCSV(txt)) }))
+  ));
+  const rebuilt = {};
+  settled.forEach(res => {
+    if (res.status === 'fulfilled' && res.value.roster.length >= 5) {
+      rebuilt[res.value.name] = res.value.roster;
+    }
+  });
+  return rebuilt;
+}
+
 // Push freshly parsed sheet data into the app and re-render everything.
-function applySheetData(newMojo, newTotals) {
+function applySheetData(newMojo, newTotals, rebuiltRosters) {
   // Replace mojoData contents in place (keep the same const array reference),
   // re-ranked by gross so the box office table numbering stays correct.
   const ranked = newMojo.slice()
@@ -983,9 +1029,19 @@ function applySheetData(newMojo, newTotals) {
   // partial SCOREBOARD read never wipes existing values.
   Object.keys(newTotals).forEach(n => { officialTotals[n] = newTotals[n]; });
 
-  // Cascade to everything downstream (titles -> roster grosses -> all views).
+  // Install rosters pulled straight from the player tabs (titles + grosses from
+  // the sheet). Once this happens, tab grosses are authoritative and are NOT
+  // re-derived from the box-office tab.
+  if (rebuiltRosters && Object.keys(rebuiltRosters).length) {
+    Object.keys(rebuiltRosters).forEach(n => { rosters[n] = rebuiltRosters[n]; });
+    rostersFromSheet = true;
+  }
+
+  // Cascade to everything downstream. syncRosterGrosses rebuilds the mojo index
+  // and, when tabs are in use, leaves the tab-sourced grosses untouched.
   syncRosterGrosses();
   renderScoreboard();
+  renderPills();
   selectPlayer(currentPlayer);
   renderWaiver();
   const mojoSearch = document.getElementById('mojo-search');
@@ -1001,10 +1057,13 @@ async function refreshFromSheet(manual) {
   _refreshInFlight = true;
   setSheetStatus('loading');
   try {
-    const [mojoText, sbText] = await Promise.all([
+    const corePromise = Promise.all([
       fetch(gvizUrl(MOJO_TAB),       { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('mojo HTTP ' + r.status); return r.text(); }),
       fetch(gvizUrl(SCOREBOARD_TAB), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('scoreboard HTTP ' + r.status); return r.text(); }),
     ]);
+    const rostersPromise = fetchPlayerRosters();   // never rejects (allSettled inside)
+
+    const [[mojoText, sbText], rebuiltRosters] = await Promise.all([corePromise, rostersPromise]);
 
     const newMojo   = parseMojoTab(parseCSV(mojoText));
     const newTotals = parseScoreboardTab(parseCSV(sbText));
@@ -1014,9 +1073,12 @@ async function refreshFromSheet(manual) {
     if (newMojo.length < 3) throw new Error('Mojo parse returned too few rows (' + newMojo.length + ')');
     if (Object.keys(newTotals).length < 5) throw new Error('Scoreboard parse returned too few players');
 
-    applySheetData(newMojo, newTotals);
+    applySheetData(newMojo, newTotals, rebuiltRosters);
     setSheetStatus('live');
-    if (manual) showToast('✓ Synced from Google Sheet');
+    if (manual) {
+      const n = Object.keys(rebuiltRosters).length;
+      showToast(n ? ('✓ Synced ' + n + ' rosters from Google Sheet') : '✓ Synced from Google Sheet');
+    }
   } catch (e) {
     console.warn('[refreshFromSheet] falling back to cached data:', e);
     setSheetStatus('cached');
