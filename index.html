@@ -558,7 +558,7 @@ const rosters = {
     {cat:'Animation',movie:'GOAT'},
     {cat:'Animation',movie:'Angry Birds 3'},
     {cat:'Comedy/Horror',movie:'Scream 7'},
-    {cat:'Comedy/Horror',movie:'Sheep Detectives'},
+    {cat:'Comedy/Horror',movie:'The Sheep Detectives'},
     {cat:'Drama/Musical',movie:'The Bride!'},
     {cat:'Drama/Musical',movie:'How to Make a Killing'},
     {cat:'Wild Card',movie:'Narnia'},
@@ -597,7 +597,7 @@ const rosters = {
     {cat:'Comedy/Horror',movie:'Digger'},
     {cat:'Drama/Musical',movie:'Michael'},
     {cat:'Drama/Musical',movie:'Disclosure Day'},
-    {cat:'Wild Card',movie:'Breadwinner'},
+    {cat:'Wild Card',movie:'The Breadwinner'},
     {cat:'Wild Card',movie:'Artificial'},
   ],
   Tracy: [
@@ -629,7 +629,7 @@ const rosters = {
     {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
     {cat:'Animation',movie:'Cat in the Hat'},
     {cat:'Animation',movie:"Wizards!"},
-    {cat:'Comedy/Horror',movie:'Scary Movie 6'},
+    {cat:'Comedy/Horror',movie:'Scary Movie'},
     {cat:'Comedy/Horror',movie:'Whalefall'},
     {cat:'Drama/Musical',movie:'Moana'},
     {cat:'Drama/Musical',movie:'Practical Magic 2'},
@@ -658,7 +658,7 @@ const rosters = {
     {cat:'Drama/Musical',movie:'Wuthering Heights'},
     {cat:'Drama/Musical',movie:'Social Reckoning'},
     {cat:'Wild Card',movie:'Sunrise on the Reaping'},
-    {cat:'Wild Card',movie:'Scary Movie 6'},
+    {cat:'Wild Card',movie:'Scary Movie'},
   ],
   Daniel: [
     {cat:'Action/Blockbuster',movie:'Masters of the Universe'},
@@ -694,7 +694,7 @@ const rosters = {
     {cat:'Drama/Musical',movie:'The Bride!'},
     {cat:'Drama/Musical',movie:'Crime 101'},
     {cat:'Wild Card',movie:'Star Wars: The Mandalorian and Grogu'},
-    {cat:'Wild Card',movie:'The Breadwinners'},
+    {cat:'Wild Card',movie:'The Breadwinner'},
   ],
   Tizzle: [
     {cat:'Action/Blockbuster',movie:'Digger'},
@@ -713,12 +713,12 @@ const rosters = {
     {cat:'Action/Blockbuster',movie:'Mercy'},
     {cat:'Animation',movie:'Angry Birds 3'},
     {cat:'Animation',movie:'Sense and Sensibility'},
-    {cat:'Comedy/Horror',movie:'Sheep Detective'},
+    {cat:'Comedy/Horror',movie:'The Sheep Detectives'},
     {cat:'Comedy/Horror',movie:'Cold Storage'},
     {cat:'Drama/Musical',movie:'Moana'},
     {cat:'Drama/Musical',movie:'The Drama'},
     {cat:'Wild Card',movie:'Hexed'},
-    {cat:'Wild Card',movie:'Death of Robin Hood'},
+    {cat:'Wild Card',movie:'The Death of Robin Hood'},
   ],
 };
 
@@ -737,22 +737,61 @@ let currentPlayer = 'Katie';
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 function normalizeTitle(title) {
   return String(title)
+    .replace(/[\u2018\u2019\u2032]/g, "'")   // curly / prime apostrophes -> straight
+    .replace(/[\u201C\u201D]/g, '"')          // curly quotes -> straight
     .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase();
 }
 
-// Fast lookup map: normalized title -> gross. Rebuilt whenever mojoData changes.
-let mojoGrossByTitle = {};
-function rebuildMojoIndex() {
-  mojoGrossByTitle = {};
-  mojoData.forEach(m => { mojoGrossByTitle[normalizeTitle(m.title)] = m.gross; });
+// Loose matching key: drops a leading article, punctuation, "&"/"and" differences
+// and simple trailing plurals. Used ONLY for gross lookup and the waiver "already
+// released?" check — never for identity/dedup — so it can't corrupt trade or
+// claim logic. e.g. "The Sheep Detectives", "Sheep Detective" and "Sheep
+// Detectives" all collapse to the same key.
+function looseTitleKey(title) {
+  let s = normalizeTitle(title)
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^(the|a|an) /, '');
+  s = s.split(' ').map(w => (w.length > 3 && w.endsWith('s')) ? w.slice(0, -1) : w).join(' ');
+  return s;
 }
 
+// Fast lookup maps, rebuilt whenever mojoData changes.
+//   mojoGrossByTitle : exact  normalizeTitle -> gross
+//   mojoLooseIndex   : loose  looseTitleKey  -> {gross, first} | 'AMBIGUOUS'
+let mojoGrossByTitle = {};
+let mojoLooseIndex   = {};
+function rebuildMojoIndex() {
+  mojoGrossByTitle = {};
+  mojoLooseIndex   = {};
+  mojoData.forEach(m => {
+    mojoGrossByTitle[normalizeTitle(m.title)] = m.gross;
+    const lk = looseTitleKey(m.title);
+    if (mojoLooseIndex[lk] === undefined) {
+      mojoLooseIndex[lk] = { gross: m.gross, first: lk.split(' ')[0] };
+    } else {
+      mojoLooseIndex[lk] = 'AMBIGUOUS';   // two different movies collapse -> don't trust it
+    }
+  });
+}
+
+// Exact title match first; then a GUARDED loose match — the loose keys must be
+// equal, that key must be unambiguous in mojoData, and the two titles must share
+// their first significant word. This resolves trivial drift ("The X"/"X", "X!"/"X",
+// "Xs"/"X") while making a false match between two different movies effectively
+// impossible. Returns null if there's no confident match (movie unreleased).
 function getMovieGrossFromMojo(title) {
-  const g = mojoGrossByTitle[normalizeTitle(title)];
-  return (g === undefined) ? null : g;
+  const exact = mojoGrossByTitle[normalizeTitle(title)];
+  if (exact !== undefined) return exact;
+  const lk = looseTitleKey(title);
+  const cand = mojoLooseIndex[lk];
+  if (cand && cand !== 'AMBIGUOUS' && lk.split(' ')[0] === cand.first) return cand.gross;
+  return null;
 }
 
 // Pull every roster movie's gross straight from mojoData by title match.
@@ -1367,6 +1406,7 @@ function getLeagueRestriction(titleLower) {
 
 function getWaiverMovies() {
   const releasedTitles = new Set(mojoData.map(m => normalizeTitle(m.title)));
+  const releasedLoose  = new Set(mojoData.map(m => looseTitleKey(m.title)));
 
   const released = mojoData
     .filter(m => {
@@ -1384,6 +1424,7 @@ function getWaiverMovies() {
     .filter(m => {
       if (!m || !m.title || typeof m.title !== 'string') return false;
       if (releasedTitles.has(normalizeTitle(m.title))) return false;
+      if (releasedLoose.has(looseTitleKey(m.title))) return false;
       const tl = normalizeTitle(m.title);
       const inL1 = LEAGUE1.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
       const inL2 = LEAGUE2.some(p => (rosters[p]||[]).some(r => normalizeTitle(r.movie) === tl));
