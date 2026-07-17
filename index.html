@@ -924,27 +924,28 @@ function parseMojoTab(rows) {
   return out;
 }
 
-// Column-order-agnostic parse of the SCOREBOARD tab. A row counts only if one of
-// its cells exactly matches a known player name; that player's total is the
-// largest number in the row.
+// Parse the SCOREBOARD tab. The tab packs TWO players per row —
+//   Reuel | $547,007,885 | Daniel | $827,213,379
+// so we can't just take the biggest number in the row (that would give Reuel
+// Daniel's total). Instead, every time a cell is a known player name, we read
+// that player's OWN total from the cells to its right, stopping at the next
+// player name. This correctly captures all name→value pairs on the line.
 function parseScoreboardTab(rows) {
   const known = LEAGUE1.concat(LEAGUE2);
   const knownLower = known.map(n => n.toLowerCase());
   const out = {};
   for (const r of rows) {
     if (!r || !r.length) continue;
-    let matchedName = null;
-    for (const cell of r) {
-      const idx = knownLower.indexOf((cell || '').trim().toLowerCase());
-      if (idx !== -1) { matchedName = known[idx]; break; }
+    for (let i = 0; i < r.length; i++) {
+      const idx = knownLower.indexOf((r[i] || '').trim().toLowerCase());
+      if (idx === -1) continue;                 // not a name cell
+      const name = known[idx];
+      for (let j = i + 1; j < r.length; j++) {  // look right for this player's value
+        if (knownLower.indexOf((r[j] || '').trim().toLowerCase()) !== -1) break; // hit next player
+        const g = parseGross(r[j]);
+        if (g !== null) { out[name] = g; break; }
+      }
     }
-    if (!matchedName) continue;
-    let best = null;
-    for (const cell of r) {
-      const g = parseGross(cell);
-      if (g !== null && (best === null || g > best)) best = g;
-    }
-    if (best !== null) out[matchedName] = best;
   }
   return out;
 }
