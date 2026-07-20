@@ -475,7 +475,7 @@
 
 <footer>
   Chi Alpha Fantasy &nbsp;·&nbsp; Box Office 2026 &nbsp;·&nbsp;
-  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated Jul 19, 2026 09:57 UTC<span id="updated-time">Jul 17, 2026 10:04 UTC</span></footer>
+  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated Jul 20, 2026 11:07 UTC<span id="updated-time">Jul 17, 2026 10:04 UTC</span></footer>
 
 <div class="modal-overlay hidden" id="claim-modal">
   <div class="modal">
@@ -504,10 +504,10 @@ const LEAGUE2 = ['Pablo','Reuel','Josh','Dom','Tracy','Aarya','Megan'];
 // These are the baked-in fallback values; refreshFromSheet() overwrites them
 // live from the SCOREBOARD tab when the sheet is reachable.
 const officialTotals = {
-  Katie:761960922, Daniel:830463866, Dom:1272324947, Reuel:527838333,
-  Aarya:734187603, Pablo:321862270, Micah:498861478, Tizzle:1015413152,
-  Andrew:300113706, Cecily:132872682, Tracy:161804597, AJ:134936065,
-  Megan:177315147, Josh:176230344
+  Katie:761980922, Daniel:835013866, Dom:1284124947, Reuel:527838333,
+  Aarya:708964533, Pablo:321862270, Micah:500166038, Tizzle:1026662800,
+  Andrew:367925249, Cecily:132872682, Tracy:161804597, AJ:32892995,
+  Megan:174327735, Josh:177534904
 };
 
 // mojoData is the SINGLE SOURCE OF TRUTH for movie grosses.
@@ -516,14 +516,14 @@ const officialTotals = {
 // live from the 2026_Mojo tab when the sheet is reachable.
 const mojoData = [
   {rank:1,title:'The Super Mario Galaxy Movie',gross:429814610},
-  {rank:2,title:'Michael',gross:372055734},
-  {rank:3,title:'Toy Story 5',gross:420318566},
+  {rank:2,title:'Michael',gross:372205734},
+  {rank:3,title:'Toy Story 5',gross:430918566},
   {rank:4,title:'Project Hail Mary',gross:344050007},
-  {rank:5,title:'The Devil Wears Prada 2',gross:220505976},
-  {rank:6,title:'Backrooms',gross:195463816},
+  {rank:5,title:'The Devil Wears Prada 2',gross:220525976},
+  {rank:6,title:'Backrooms',gross:195963464},
   {rank:7,title:'Hoppers',gross:166010783},
   {rank:8,title:'Scream 7',gross:121935967},
-  {rank:9,title:'Disclosure Day',gross:113653560},
+  {rank:9,title:'Disclosure Day',gross:114703560},
   {rank:10,title:'GOAT',gross:103316898},
   {rank:11,title:'Wuthering Heights',gross:84001072},
   {rank:12,title:'Mortal Kombat II',gross:79770110},
@@ -546,7 +546,7 @@ const mojoData = [
   {rank:29,title:'The Pout-Pout Fish',gross:2925502},
   {rank:30,title:'Mother Mary',gross:2565507},
   {rank:31,title:'Cold Storage',gross:1529234},
-  {rank:32,title:'Young Washington',gross:38505648},
+  {rank:32,title:'Young Washington',gross:41018236},
 ];
 
 // Rosters — grosses left null; they are filled from mojoData at runtime by
