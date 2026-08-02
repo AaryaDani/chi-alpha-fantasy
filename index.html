@@ -207,6 +207,7 @@
   .gross-value { font-weight: 600; color: var(--gold-light); font-variant-numeric: tabular-nums; }
   .gross-na    { color: var(--text-muted); font-size: 0.78rem; font-style: italic; }
   .movie-title { font-weight: 500; }
+  .movie-flag { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: #E7A23C; margin-left: 0.5rem; opacity: 0.85; }
 
   .roster-total { display: flex; align-items: center; justify-content: space-between; background: var(--dark4); border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; border: 1px solid var(--border); }
   .roster-total-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -475,7 +476,7 @@
 
 <footer>
   Chi Alpha Fantasy &nbsp;·&nbsp; Box Office 2026 &nbsp;·&nbsp;
-  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated Aug 02, 2026 10:02 UTC<span id="updated-time">Jul 17, 2026 10:04 UTC</span></footer>
+  Data synced from <a href="https://docs.google.com/spreadsheets/d/1OtukeYm-dOOIbti3dujLxFTSEbQsyY_TSMmOeL8e-c4" target="_blank">Google Sheet</a> &nbsp;·&nbsp; Updated <span id="updated-time">Jul 17, 2026 10:04 UTC</span></footer>
 
 <div class="modal-overlay hidden" id="claim-modal">
   <div class="modal">
@@ -984,14 +985,66 @@ function looksLikeCategory(c) {
          c.indexOf('comedy') !== -1 || c.indexOf('drama') !== -1 ||
          c.indexOf('wild') !== -1;
 }
-function parsePlayerTab(rows) {
+
+// Heuristic: does a title cell look like it absorbed a merged/shifted neighbour?
+// A real title here is short and never contains the player's own name (that only
+// happens when the header "AJ" cell bleeds into the movie column via a merge).
+function titleLooksMerged(title, playerName) {
+  const words = String(title).split(/\s+/).filter(Boolean);
+  if (words.length > 7) return true;                              // absurdly long -> blob
+  if (playerName) {
+    const nameRe = new RegExp('\\b' + playerName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
+    if (nameRe.test(title)) return true;                          // header name embedded
+  }
+  return false;
+}
+
+// Hardened player-tab parser. Takes the player's name so it can (1) strip a
+// leaked header prefix off a merged title cell and (2) know when a row is
+// suspect. Grosses are cross-checked against mojoData: because the Mojo tab is
+// the single source of truth for grosses, a per-player cell can NEVER override
+// a known Mojo value — this kills the class of bug where one player's shifted /
+// merged cell shows a wrong number (e.g. Minions reading $25M off the wrong row
+// while everyone else's tab shows the true value). The tab's own number is only
+// trusted for titles Mojo has never heard of (genuinely custom / unreleased).
+function parsePlayerTab(rows, playerName) {
   const out = [];
   for (const r of rows) {
     if (!r) continue;
-    const cat   = (r[0] || '').trim();
-    const movie = (r[1] || '').trim();
+    const cat = (r[0] || '').trim();
+    let movie = (r[1] || '').trim();
     if (!movie || !looksLikeCategory(cat)) continue;
-    out.push({ cat: cat, movie: movie, gross: parseGross(r[2]) }); // #N/A -> null (unreleased)
+
+    // Strip a leaked "<PlayerName> " prefix off a merged title cell.
+    let strippedPrefix = false;
+    if (playerName) {
+      const pfx = new RegExp('^' + playerName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\s+', 'i');
+      if (pfx.test(movie)) { movie = movie.replace(pfx, '').trim(); strippedPrefix = true; }
+    }
+
+    const tabGross = parseGross(r[2]);
+
+    // A stripped prefix is itself evidence of a merge, so the row stays suspect.
+    const suspect = strippedPrefix || titleLooksMerged(movie, playerName || '');
+
+    // Resolve gross, in priority order:
+    //   1. Mojo match — the box office tab is the source of truth, so whenever it
+    //      knows this title its number wins. This is what corrects a shifted/merged
+    //      cell whose title still resolves in Mojo (e.g. Hoppers reading a wrong
+    //      neighbour value gets snapped back to the real gross).
+    //   2. The tab's own cell — for titles Mojo has NOT got (a genuinely new film,
+    //      or one whose Mojo title is worded differently than the app can match),
+    //      the player tab's VLOOKUP may still have resolved a real number in the
+    //      sheet. Trust it rather than blanking the row. A shifted/merged cell shows
+    //      "#N/A" here, which parses to null and correctly falls through to (3).
+    //   3. null -> "Not yet released".
+    const mojoGross = getMovieGrossFromMojo(movie);
+    let gross;
+    if (mojoGross !== null)     gross = mojoGross;   // (1) source of truth
+    else if (tabGross !== null) gross = tabGross;    // (2) tab cell resolved it
+    else                        gross = null;        // (3) nothing -> unreleased
+
+    out.push({ cat: cat, movie: movie, gross: gross, suspect: suspect });
   }
   return out;
 }
@@ -1005,7 +1058,7 @@ async function fetchPlayerRosters() {
   const settled = await Promise.allSettled(ALL_PLAYERS.map(name =>
     fetch(gvizUrl(name), { cache: 'no-store' })
       .then(r => { if (!r.ok) throw new Error(name + ' HTTP ' + r.status); return r.text(); })
-      .then(txt => ({ name: name, roster: parsePlayerTab(parseCSV(txt)) }))
+      .then(txt => ({ name: name, roster: parsePlayerTab(parseCSV(txt), name) }))
   ));
   const rebuilt = {};
   settled.forEach(res => {
@@ -1025,6 +1078,10 @@ function applySheetData(newMojo, newTotals, rebuiltRosters) {
     .map((m, i) => ({ rank: i + 1, title: m.title, gross: m.gross }));
   mojoData.length = 0;
   ranked.forEach(m => mojoData.push(m));
+
+  // Rebuild the mojo index NOW, before parsing player tabs, so the player-tab
+  // gross cross-check runs against the freshly-pulled box office numbers.
+  rebuildMojoIndex();
 
   // Merge official totals — only overwrite names we actually parsed, so a
   // partial SCOREBOARD read never wipes existing values.
@@ -1196,10 +1253,11 @@ function selectPlayer(name) {
     const grossCell = (g !== null && g !== undefined)
       ? `<span class="gross-value">${fmt(g)}</span>`
       : '<span class="gross-na">Not yet released</span>';
+    const flag = r.suspect ? '<span class="movie-flag" title="This row looked merged or misaligned in the sheet — gross taken from the box office tab. Check this player&#39;s sheet for merged cells.">⚠ check sheet</span>' : '';
     return `
     <tr>
       <td><span class="category-badge ${catClass(r.cat)}">${catShort(r.cat)}</span></td>
-      <td class="movie-title">${escHtml(r.movie)}</td>
+      <td class="movie-title">${escHtml(r.movie)}${flag}</td>
       <td style="text-align:right">${grossCell}</td>
     </tr>`;
   }).join('');
@@ -1787,7 +1845,8 @@ function renderGames() {
     const official = officialTotals[name] || 0;
     const tabSum   = getRosterTotal(name);
     const delta    = official - tabSum;
-    return { name, official, tabSum, delta };
+    const flagged  = (rosters[name]||[]).some(r => r.suspect);
+    return { name, official, tabSum, delta, flagged };
   }).sort((a,b) => Math.abs(b.delta) - Math.abs(a.delta));
 
   let html = '<div class="table-wrap"><div class="table-scroll"><table style="width:100%;border-collapse:collapse">';
@@ -1816,6 +1875,9 @@ function renderGames() {
       deltaStr = fmt(r.delta); deltaColor = '#F08080';
       note = '<span style="background:rgba(231,76,60,0.12);color:#F08080;font-size:0.72rem;padding:0.18rem 0.55rem;border-radius:4px;font-weight:600">📉 Docked</span>';
       rowBg = 'background:rgba(231,76,60,0.03);';
+    }
+    if (r.flagged) {
+      note += '<span style="background:rgba(231,162,60,0.12);color:#E7A23C;font-size:0.72rem;padding:0.18rem 0.55rem;border-radius:4px;font-weight:600;margin-left:0.4rem">⚠ Sheet row misaligned</span>';
     }
     html += '<tr style="' + rowBg + '">';
     html += '<td style="padding:0.75rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.04);font-family:Bebas Neue,sans-serif;font-size:1.2rem;letter-spacing:0.05em">' + escHtml(r.name) + '</td>';
