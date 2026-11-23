@@ -1,0 +1,1001 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi Alpha Fantasy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  color-scheme: light;
+  --chrome:#20252E; --chrome-2:#2B313C; --chrome-ink:#F2F4F7; --chrome-mut:#9BA4B2;
+  --bg:#EEF0F3; --card:#FFFFFF; --line:#DDE1E7; --line-2:#C7CCD4;
+  --text:#14181F; --muted:#5C6572;
+  --red:#C8102E; --red-ink:#FFFFFF;
+  --money:#137A4D; --warn:#A8650A; --blue:#1B5FA8;
+  --row-alt:#F7F8FA;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: dark;
+    --chrome:#0C0F14; --chrome-2:#161B23; --chrome-ink:#EEF1F5; --chrome-mut:#8B94A3;
+    --bg:#11151B; --card:#1A1F27; --line:#2A313C; --line-2:#3A434F;
+    --text:#E9EDF2; --muted:#98A2B0;
+    --red:#FF4D5E; --red-ink:#1A0005;
+    --money:#4FD39A; --warn:#E0A33C; --blue:#6FA8E8;
+    --row-alt:#1F252E;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.cond{font-family:"Barlow Condensed",'Arial Narrow',sans-serif;font-weight:600;margin:0;letter-spacing:.01em}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.hidden{display:none!important}
+
+/* chrome */
+.top{background:var(--chrome);color:var(--chrome-ink);position:sticky;top:0;z-index:30;border-bottom:3px solid var(--red)}
+.top-in{max-width:1300px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:"Barlow Condensed",sans-serif;font-size:24px;text-transform:uppercase;line-height:1}
+.brand b{color:var(--red);font-weight:600}
+.season{color:var(--chrome-mut);font-size:12px;border-left:1px solid var(--chrome-2);padding-left:12px}
+.spacer{flex:1}
+.me{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--chrome-mut)}
+.me b{color:var(--chrome-ink);font-weight:600}
+.nav{background:var(--chrome-2);overflow-x:auto}
+.nav-in{max-width:1300px;margin:0 auto;display:flex;padding:0 18px}
+.nav button{background:none;border:none;color:var(--chrome-mut);padding:10px 15px;font-family:"Barlow Condensed",sans-serif;font-size:16px;text-transform:uppercase;white-space:nowrap;border-bottom:3px solid transparent}
+.nav button[aria-selected=true]{color:#fff;border-bottom-color:var(--red)}
+.nav button:disabled{opacity:.35;cursor:not-allowed}
+
+main{max-width:1300px;margin:0 auto;padding:18px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;align-items:start}
+.cols.even{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:1000px){.cols,.cols.even{grid-template-columns:1fr}}
+.stack>*+*{margin-top:18px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.card>header{padding:9px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.card>header h2{font-size:17px;text-transform:uppercase}
+.card>header .spacer{flex:1}
+.body{padding:14px}
+.body>p{margin:0 0 12px;color:var(--muted);max-width:66ch}
+
+label.f{display:block;margin-bottom:12px}
+label.f span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=password],input[type=number],select{width:100%;padding:8px 10px;background:var(--bg);color:var(--text);border:1px solid var(--line-2);border-radius:3px}
+.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.row>*{flex:1;min-width:0}
+.row>.sh{flex:0 0 auto}
+
+.btn{background:var(--red);color:var(--red-ink);border:1px solid transparent;border-radius:3px;padding:8px 15px;font-weight:600}
+.btn:hover{filter:brightness(1.08)}
+.btn.q{background:transparent;color:var(--text);border-color:var(--line-2);font-weight:500;padding:6px 11px}
+.btn.q:hover{background:var(--row-alt)}
+.btn.go{background:var(--money);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.btn.wide{width:100%;padding:11px;font-size:15px}
+.mini{background:none;border:none;color:var(--muted);padding:2px 6px;font-size:15px}
+.mini:hover{color:var(--text)}
+
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+th{font-family:"Barlow Condensed",sans-serif;font-size:13px;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--row-alt)}
+tbody tr:nth-child(even){background:var(--row-alt)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.gross{color:var(--money);font-weight:600}
+.slot{width:112px;color:var(--muted);font-size:12.5px}
+.pos{width:30px;font-family:"Barlow Condensed",sans-serif;font-size:17px;color:var(--muted)}
+tr.mine{box-shadow:inset 3px 0 0 var(--red)}
+
+.pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;border:1px solid var(--line-2);color:var(--muted)}
+.pill.l1{border-color:var(--blue);color:var(--blue)}
+.pill.l2{border-color:var(--warn);color:var(--warn)}
+.pill.open{border-color:var(--money);color:var(--money)}
+.pill.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+
+.clock{background:var(--chrome);color:var(--chrome-ink);border-radius:4px;padding:14px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.clock .who{font-family:"Barlow Condensed",sans-serif;font-size:26px;text-transform:uppercase;line-height:1.1}
+.clock .sub{color:var(--chrome-mut);font-size:12.5px}
+.timer{font-family:"Barlow Condensed",sans-serif;font-size:34px;line-height:1;font-variant-numeric:tabular-nums;padding:4px 14px;border:2px solid var(--chrome-2);border-radius:3px}
+.timer.low{color:var(--red);border-color:var(--red)}
+
+.list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:3px}
+.list table{border-collapse:collapse}
+.list th{position:sticky;top:0;z-index:2}
+.tools{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tools input{flex:1;min-width:140px}
+.tools select{flex:0 0 auto;width:auto}
+
+.feed{max-height:330px;overflow:auto;font-size:13px}
+.feed div{padding:7px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+.feed div b{color:var(--text)}
+.feed time{display:block;font-size:11.5px;opacity:.8}
+
+.note{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--card);padding:10px 13px;border-radius:3px;font-size:13px;color:var(--muted);margin-bottom:14px}
+.empty{color:var(--muted);padding:26px 14px;text-align:center}
+.switch{display:flex;align-items:center;gap:9px;margin-bottom:12px;cursor:pointer}
+.switch input{width:auto;margin:0}
+.switch small{color:var(--muted)}
+.segs{display:inline-flex;border:1px solid var(--line-2);border-radius:3px;overflow:hidden}
+.segs button{background:var(--card);border:none;padding:6px 14px;color:var(--muted);font-size:13px}
+.segs button[aria-pressed=true]{background:var(--chrome);color:#fff}
+
+/* auth */
+.gate{max-width:420px;margin:48px auto}
+.gate .brandbig{font-family:"Barlow Condensed",sans-serif;font-size:40px;text-transform:uppercase;line-height:1;margin-bottom:4px}
+.gate .brandbig b{color:var(--red)}
+.gate p.lede{color:var(--muted);margin:0 0 20px}
+.err{color:var(--red);font-size:13px;min-height:18px}
+
+.trade{border:1px solid var(--line);border-radius:3px;padding:12px;margin-bottom:12px;background:var(--row-alt)}
+.trade .hd{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.trade .hd b{font-size:15px}
+.trade .side{font-size:13px;margin:3px 0}
+.trade .side em{font-style:normal;color:var(--muted)}
+.chk{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px}
+.chk input{width:auto;margin:0}
+.scroller{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:var(--bg)}
+</style>
+
+<!-- ================= SIGN IN ================= -->
+<div id="gate" class="gate">
+  <div class="brandbig">Chi Alpha <b>Fantasy</b></div>
+  <p class="lede">Box office, 2027 season.</p>
+  <div class="card">
+    <header><h2 id="gateTitle">Sign in</h2><span class="spacer"></span>
+      <button class="btn q" id="toggleMode">Create a team</button></header>
+    <div class="body">
+      <div id="signinBox">
+        <label class="f"><span>Your name</span><select id="whoSel"></select></label>
+        <label class="f"><span>PIN</span><input type="password" id="pinIn" inputmode="numeric" maxlength="6" placeholder="4-6 digits"></label>
+        <p class="err" id="signinErr"></p>
+        <button class="btn wide" id="doSignin">Sign in</button>
+      </div>
+      <div id="signupBox" class="hidden">
+        <label class="f"><span>Your name</span><input type="text" id="suName" autocomplete="off" placeholder="e.g. Aarya"></label>
+        <label class="f"><span>Team name</span><input type="text" id="suTeam" autocomplete="off" placeholder="e.g. Opening Weekend Warriors"></label>
+        <label class="f"><span>League</span><select id="suDiv"><option value="l1">League 1</option><option value="l2">League 2</option></select></label>
+        <label class="f"><span>Set a PIN</span><input type="password" id="suPin" inputmode="numeric" maxlength="6" placeholder="4-6 digits"></label>
+        <p class="err" id="signupErr"></p>
+        <button class="btn wide" id="doSignup">Create team</button>
+      </div>
+      <p class="note" style="margin:16px 0 0">The PIN keeps your teammates from picking on your behalf. It is not real security — everything lives in this page's shared storage, so don't reuse a PIN you care about.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+<header class="top">
+  <div class="top-in">
+    <span class="brand">Chi Alpha <b>Fantasy</b></span>
+    <span class="season">Box Office · 2027</span>
+    <span class="spacer"></span>
+    <span class="me" id="meBox"></span>
+    <button class="btn q" id="signout">Sign out</button>
+  </div>
+  <nav class="nav"><div class="nav-in" role="tablist">
+    <button role="tab" data-tab="team" aria-selected="true">My Team</button>
+    <button role="tab" data-tab="league">League</button>
+    <button role="tab" data-tab="draft">Draft</button>
+    <button role="tab" data-tab="wire">Waiver Wire</button>
+    <button role="tab" data-tab="trades">Trades</button>
+    <button role="tab" data-tab="players">Players</button>
+    <button role="tab" data-tab="admin">Commissioner</button>
+  </div></nav>
+</header>
+
+<main>
+  <section id="t-team"></section>
+  <section id="t-league" class="hidden"></section>
+  <section id="t-draft" class="hidden"></section>
+  <section id="t-wire" class="hidden"></section>
+  <section id="t-trades" class="hidden"></section>
+  <section id="t-players" class="hidden"></section>
+  <section id="t-admin" class="hidden"></section>
+</main>
+</div>
+
+<script>
+/* ============================================================
+   DATA LAYER — the only part that talks to storage.
+   To move to a real backend, reimplement load() and commit()
+   as fetch() calls and delete everything else in this block.
+   ============================================================ */
+const api = {
+  KEY: "ca27:league",
+  SESSION: "ca27:session",
+  async load(){
+    try{
+      const raw = localStorage.getItem(this.KEY);
+      if(raw){ const n = JSON.parse(raw); if(n && n.v) return n; }
+    }catch(e){}
+    return null;
+  },
+  async commit(state){
+    try{ localStorage.setItem(this.KEY, JSON.stringify(state)); return true; }
+    catch(e){ console.error("commit failed", e); return false; }
+  },
+  async getSession(){ try{ return localStorage.getItem(this.SESSION); }catch(e){ return null; } },
+  async setSession(id){
+    try{ id ? localStorage.setItem(this.SESSION, id) : localStorage.removeItem(this.SESSION); }catch(e){}
+  }
+};
+
+/* ============================= seed ============================= */
+const CATS = ["Action / Blockbuster","Animation","Comedy / Horror","Drama / Musical","Wild Card"];
+const A="Action / Blockbuster", N="Animation", C="Comedy / Horror", D="Drama / Musical";
+const SEED = [
+  ["The Beekeeper 2","Amazon MGM","Jan 2027",A],["Children of Blood and Bone","Paramount","Jan 2027",A],
+  ["Animal Friends","Warner Bros.","Jan 2027",C],["The Rescue","—","Jan 2027",D],
+  ["Narnia: The Magician's Nephew","Netflix","2027",D],["The Nightingale","TriStar","Feb 12, 2027",D],
+  ["Ice Age: Boiling Point","20th Century","Feb 2027",N],["CoComelon: The Movie","—","Feb 2027",N],
+  ["Remain","—","Feb 2027",D],["Sonic the Hedgehog 4","Paramount","Mar 2027",A],
+  ["Godzilla x Kong: Supernova","Warner Bros.","Mar 2027",A],["The Resurrection of the Christ: Part One","Lionsgate","Mar 2027",D],
+  ["Wolf Creek: Legacy","—","Mar 2027",C],["Day Drinker","—","Mar 2027",A],
+  ["Spaceballs: The New One","Amazon MGM","Apr 2027",C],["F.A.S.T.","—","Apr 2027",A],
+  ["Avengers: Secret Wars","Disney / Marvel","May 7, 2027",A],["The Legend of Zelda","Sony","May 7, 2027",A],
+  ["Bad Fairies","Warner Bros.","May 21, 2027",N],["Star Wars: Starfighter","Disney","May 2027",A],
+  ["Paranormal Activity","Paramount","May 2027",C],["Beach Read","—","May 2027",D],
+  ["Gatto","Disney","Jun 18, 2027",N],["Spider-Man: Beyond the Spider-Verse","Sony","Jun 18, 2027",N],
+  ["Shrek 5","Universal","Jun 30, 2027",N],["How to Train Your Dragon 2 (live action)","Universal","Jun 2027",A],
+  ["Man of Tomorrow","Warner Bros. / DC","Jul 9, 2027",A],["Minecraft 2","Warner Bros.","Jul 23, 2027",A],
+  ["A Quiet Place Part III","Paramount","Jul 30, 2027",C],["Untitled Marvel film","Disney / Marvel","Jul 2027",A],
+  ["Bluey The Movie","Disney","Aug 6, 2027",N],["Miami Vice","Universal","Aug 2027",A],
+  ["TMNT: Mutant Mayhem 2","Paramount","Aug 2027",N],["Shiver","—","Aug 2027",C],
+  ["The Simpsons Movie 2","20th Century","Sep 3, 2027",N],["The Conjuring: First Communion","Warner Bros.","Sep 10, 2027",C],
+  ["The Mummy","Universal","Oct 2027",A],["Blair Witch (untitled)","Lionsgate","Oct 2027",C],
+  ["Frozen III","Disney","Nov 2027",N],["Gremlins 3","Warner Bros.","Nov 2027",C],
+  ["Margie Claus","Warner Bros.","Nov 2027",C],["Untitled Daniels event film","—","Nov 2027",D],
+  ["The Lord of the Rings: The Hunt for Gollum","Warner Bros.","Dec 2027",A],
+  ["Star Wars: New Jedi Order","Disney","Dec 17, 2027",A],["Murder, She Wrote","—","Dec 2027",C],
+  ["The Housemaid's Secret","—","Dec 2027",D],["The Angry Birds Movie 3","Sony","2027",N],
+  ["Oh, The Places You'll Go","Warner Bros.","2027",N]
+];
+const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3);
+const freshState = () => ({
+  v:3, season:"2027", cats:[...CATS], snake:true, pickSeconds:90,
+  members:[],
+  pool: SEED.map(([title,studio,date,cat]) => ({id:uid(),title,studio,date,cat,league:"any"})),
+  draft:{status:"pre", order:{l1:[],l2:[]}, picks:[], startedAt:null, lastPickAt:null},
+  claims:[], priority:{l1:[],l2:[]}, trades:[], gross:{}, feed:[]
+});
+
+/* ============================= state ============================= */
+let S = null, meId = null, tab = "team", busy = false, poller = null, ticker = null;
+let ui = { playersQ:"", playersCat:"", draftQ:"", draftCat:"", wireQ:"", standDiv:null,
+           tradeWith:"", tradeGive:[], tradeGet:[], queue:[] };
+
+const me = () => S.members.find(m => m.id === meId) || null;
+const member = id => S.members.find(m => m.id === id);
+const film = id => S.pool.find(f => f.id === id);
+const divMembers = d => S.members.filter(m => m.league === d);
+const isCommish = () => !!(me() && me().commish);
+const slotCats = () => S.cats;
+
+async function sha(txt){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,"0")).join("");
+}
+function money(m){ return (m==null||isNaN(m)) ? "—" : "$" + Number(m).toLocaleString(undefined,{maximumFractionDigits:1}) + "M"; }
+function esc(s){ const d=document.createElement("div"); d.textContent = s==null?"":s; return d.innerHTML; }
+function ago(ts){
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s < 60) return s + "s ago";
+  if(s < 3600) return Math.floor(s/60) + "m ago";
+  if(s < 86400) return Math.floor(s/3600) + "h ago";
+  return Math.floor(s/86400) + "d ago";
+}
+
+/* ======================= roster + slot logic ======================= */
+/* every owned movie, from the draft plus waivers plus trades, lives in picks */
+const roster = mid => S.draft.picks.filter(p => p.memberId === mid);
+const ownerOf = (movieId, div) => {
+  const p = S.draft.picks.find(x => x.movieId === movieId && member(x.memberId) && member(x.memberId).league === div);
+  return p ? member(p.memberId) : null;
+};
+const openSlots = mid => {
+  const used = roster(mid).map(p => p.slot);
+  return slotCats().filter(c => { const i = used.indexOf(c); if(i === -1) return true; used.splice(i,1); return false; });
+};
+/* can this exact set of movies be legally slotted? backtracking over small sets */
+function assignSlots(movies){
+  const slots = slotCats();
+  const out = new Array(movies.length).fill(null);
+  const taken = new Array(slots.length).fill(false);
+  function go(i){
+    if(i === movies.length) return true;
+    for(let s = 0; s < slots.length; s++){
+      if(taken[s]) continue;
+      if(slots[s] !== "Wild Card" && slots[s] !== movies[i].cat) continue;
+      taken[s] = true; out[i] = slots[s];
+      if(go(i+1)) return true;
+      taken[s] = false; out[i] = null;
+    }
+    return false;
+  }
+  return go(0) ? out : null;
+}
+function reslot(mid){
+  const picks = roster(mid);
+  const asg = assignSlots(picks.map(p => film(p.movieId)).filter(Boolean));
+  if(!asg) return false;
+  picks.forEach((p,i) => p.slot = asg[i]);
+  return true;
+}
+function wouldFit(mid, addIds, dropIds){
+  const keep = roster(mid).filter(p => !dropIds.includes(p.movieId)).map(p => film(p.movieId));
+  const inc = addIds.map(film);
+  const all = keep.concat(inc).filter(Boolean);
+  if(all.length > slotCats().length) return false;
+  return !!assignSlots(all);
+}
+function slotFor(mid, f){
+  const open = openSlots(mid);
+  if(open.includes(f.cat)) return f.cat;
+  if(open.includes("Wild Card")) return "Wild Card";
+  return null;
+}
+function standings(div){
+  return divMembers(div).map(m => {
+    const g = roster(m.id).map(p => Number(S.gross[p.movieId])||0).sort((a,b)=>b-a);
+    return { m, total:g.reduce((a,b)=>a+b,0), top:g[0]||0, second:g[1]||0,
+             slot: divMembers(div).findIndex(x => x.id === m.id) };
+  }).sort((a,b) => b.total-a.total || b.top-a.top || b.second-a.second || a.slot-b.slot);
+}
+
+/* ============================= draft ============================= */
+function draftOrder(div){
+  const base = S.draft.order[div] || [];
+  const out = [];
+  for(let r = 0; r < slotCats().length; r++){
+    const row = (S.snake && r%2===1) ? [...base].reverse() : base;
+    row.forEach(id => out.push({ memberId:id, round:r+1 }));
+  }
+  return out;
+}
+const draftedIn = (div, movieId) => !!ownerOf(movieId, div);
+function onClock(div){
+  if(S.draft.status !== "live") return null;
+  const made = S.draft.picks.filter(p => member(p.memberId) && member(p.memberId).league === div && p.via === "draft").length;
+  return draftOrder(div)[made] || null;
+}
+function secondsLeft(){
+  if(S.draft.status !== "live" || !S.draft.lastPickAt) return S.pickSeconds;
+  return Math.max(0, S.pickSeconds - Math.floor((Date.now() - S.draft.lastPickAt)/1000));
+}
+
+/* ============================= mutations ============================= */
+function log(text){ S.feed.unshift({ ts: Date.now(), text }); S.feed = S.feed.slice(0,120); }
+async function act(fn){
+  busy = true;
+  const r = fn();
+  await api.commit(S);
+  render();
+  setTimeout(() => busy = false, 500);
+  return r;
+}
+function doPick(movieId){
+  const div = me().league, slot = onClock(div);
+  if(!slot) return "The draft isn't live.";
+  if(slot.memberId !== meId && !isCommish()) return "Not your pick.";
+  const f = film(movieId);
+  if(!f) return "No such movie.";
+  if(draftedIn(div, movieId)) return "Already drafted in this league.";
+  if(f.league !== "any" && f.league !== div) return "Restricted to the other league.";
+  const s = slotFor(slot.memberId, f);
+  if(!s) return "No open slot for " + f.cat + ".";
+  S.draft.picks.push({ id:uid(), movieId, memberId:slot.memberId, slot:s, round:slot.round, via:"draft", ts:Date.now() });
+  S.draft.lastPickAt = Date.now();
+  log("<b>" + member(slot.memberId).team + "</b> drafted " + f.title + " (round " + slot.round + ")");
+  ui.queue = ui.queue.filter(q => q !== movieId);
+  if(!onClock(div) && !onClock(div === "l1" ? "l2" : "l1")){
+    S.draft.status = "done";
+    log("<b>The draft is complete.</b>");
+  }
+  return null;
+}
+function submitClaim(addId, dropId){
+  const f = film(addId);
+  if(!f) return "No such movie.";
+  if(ownerOf(addId, me().league)) return "Someone in your league owns that already.";
+  if(f.league !== "any" && f.league !== me().league) return "Restricted to the other league.";
+  const drops = dropId ? [dropId] : [];
+  if(!wouldFit(meId, [addId], drops)) return "That wouldn't slot — pick a drop in a compatible category.";
+  S.claims.push({ id:uid(), memberId:meId, addId, dropId: dropId||null, ts:Date.now(), status:"pending" });
+  log("<b>" + me().team + "</b> put in a claim for " + f.title);
+  return null;
+}
+function processWaivers(){
+  let ran = 0;
+  ["l1","l2"].forEach(div => {
+    let pri = (S.priority[div] && S.priority[div].length) ? [...S.priority[div]] : divMembers(div).map(m=>m.id);
+    pri = pri.filter(id => member(id) && member(id).league === div);
+    divMembers(div).forEach(m => { if(!pri.includes(m.id)) pri.push(m.id); });
+    const winners = [];
+    pri.forEach(mid => {
+      const mine = S.claims.filter(c => c.memberId === mid && c.status === "pending");
+      for(const c of mine){
+        const f = film(c.addId);
+        if(!f || ownerOf(c.addId, div)){ c.status = "failed"; c.why = "taken"; continue; }
+        if(!wouldFit(mid, [c.addId], c.dropId ? [c.dropId] : [])){ c.status = "failed"; c.why = "no slot"; continue; }
+        if(c.dropId) S.draft.picks = S.draft.picks.filter(p => !(p.memberId === mid && p.movieId === c.dropId));
+        S.draft.picks.push({ id:uid(), movieId:c.addId, memberId:mid, slot:f.cat, via:"waiver", ts:Date.now() });
+        reslot(mid);
+        c.status = "won";
+        winners.push(mid); ran++;
+        log("<b>" + member(mid).team + "</b> claimed " + f.title +
+            (c.dropId && film(c.dropId) ? ", dropped " + film(c.dropId).title : ""));
+        S.claims.filter(x => x.memberId === mid && x.status === "pending").forEach(x => { x.status = "failed"; x.why = "used claim"; });
+        break;
+      }
+    });
+    S.priority[div] = pri.filter(id => !winners.includes(id)).concat(winners);
+  });
+  log("<b>Waivers processed.</b> " + ran + " claim" + (ran===1?"":"s") + " granted.");
+  return ran;
+}
+function proposeTrade(toId, give, get){
+  if(!toId || !give.length || !get.length) return "Pick at least one movie on each side.";
+  const to = member(toId);
+  if(to.league !== me().league) return "Trades stay inside one league.";
+  if(!wouldFit(meId, get, give)) return "Your roster wouldn't slot after that trade.";
+  if(!wouldFit(toId, give, get)) return "Their roster wouldn't slot after that trade.";
+  S.trades.push({ id:uid(), from:meId, to:toId, give:[...give], get:[...get], status:"pending", ts:Date.now() });
+  log("<b>" + me().team + "</b> offered a trade to " + to.team);
+  return null;
+}
+function resolveTrade(id, accept){
+  const t = S.trades.find(x => x.id === id);
+  if(!t || t.status !== "pending") return "That offer is gone.";
+  if(!accept){
+    t.status = (t.from === meId) ? "canceled" : "rejected";
+    log("<b>" + me().team + "</b> " + t.status + " a trade");
+    return null;
+  }
+  if(t.to !== meId && !isCommish()) return "Only the other side can accept.";
+  if(!wouldFit(t.from, t.get, t.give) || !wouldFit(t.to, t.give, t.get)){
+    t.status = "failed"; return "Rosters have changed — that trade no longer slots.";
+  }
+  const move = (movieIds, fromId, toId) => movieIds.forEach(mid => {
+    const p = S.draft.picks.find(x => x.memberId === fromId && x.movieId === mid);
+    if(p){ p.memberId = toId; p.via = "trade"; }
+  });
+  move(t.give, t.from, t.to);
+  move(t.get, t.to, t.from);
+  reslot(t.from); reslot(t.to);
+  t.status = "accepted";
+  log("<b>Trade accepted:</b> " + member(t.from).team + " and " + member(t.to).team);
+  return null;
+}
+
+/* ============================= render ============================= */
+function render(){
+  if(!meId){ document.getElementById("gate").classList.remove("hidden"); document.getElementById("app").classList.add("hidden"); renderGate(); return; }
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  const m = me();
+  document.getElementById("meBox").innerHTML =
+    "<b>" + esc(m.team) + "</b> · " + esc(m.name) + " · " + (m.league === "l1" ? "League 1" : "League 2") +
+    (m.commish ? ' <span class="pill">commissioner</span>' : "");
+  document.querySelectorAll(".nav button").forEach(b => {
+    b.setAttribute("aria-selected", b.dataset.tab === tab ? "true":"false");
+    if(b.dataset.tab === "admin") b.classList.toggle("hidden", !isCommish());
+  });
+  ["team","league","draft","wire","trades","players","admin"].forEach(t =>
+    document.getElementById("t-"+t).classList.toggle("hidden", t !== tab));
+  ({team:vTeam, league:vLeague, draft:vDraft, wire:vWire, trades:vTrades, players:vPlayers, admin:vAdmin})[tab]();
+}
+function renderGate(){
+  const sel = document.getElementById("whoSel");
+  sel.innerHTML = S && S.members.length
+    ? S.members.map(m => '<option value="'+m.id+'">'+esc(m.name)+" — "+esc(m.team)+"</option>").join("")
+    : '<option value="">No teams yet — create one</option>';
+}
+
+function vTeam(){
+  const m = me(), r = roster(m.id);
+  const total = r.reduce((a,p) => a + (Number(S.gross[p.movieId])||0), 0);
+  const st = standings(m.league);
+  const rank = st.findIndex(x => x.m.id === m.id) + 1;
+  const bySlot = {};
+  r.forEach(p => { (bySlot[p.slot] = bySlot[p.slot] || []).push(p); });
+  let rows = "";
+  slotCats().forEach(c => {
+    const list = bySlot[c] || [];
+    const p = list.shift();
+    bySlot[c] = list;
+    const f = p ? film(p.movieId) : null;
+    rows += "<tr><td class='slot'>" + esc(c) + "</td>" +
+      (f ? "<td><b>" + esc(f.title) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(f.studio) + " · " + esc(f.date) + " · " + esc(f.cat) + "</div></td>" +
+           "<td class='num gross'>" + money(S.gross[f.id]) + "</td>" +
+           "<td class='num'><span class='pill'>" + esc(p.via) + "</span></td>"
+         : "<td colspan='3' style='color:var(--muted)'>Empty</td>") + "</tr>";
+  });
+  document.getElementById("t-team").innerHTML = `
+  <div class="cols"><div class="stack">
+    <div class="card"><header><h2>${esc(m.team)}</h2><span class="spacer"></span>
+      <span class="pill ${m.league}">${m.league === "l1" ? "League 1" : "League 2"}</span></header>
+      <div class="body" style="padding:0">
+        <table><thead><tr><th>Slot</th><th>Movie</th><th class="num">Domestic</th><th class="num">Acquired</th></tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr><th></th><th>Total</th><th class="num gross" style="font-size:16px">${money(total)}</th><th class="num">${rank ? "#" + rank : ""}</th></tr></tfoot></table>
+      </div></div>
+  </div>
+  <div class="card"><header><h2>League activity</h2></header><div class="body">
+    <div class="feed">${S.feed.length ? S.feed.map(f =>
+      "<div>" + f.text + "<time>" + ago(f.ts) + "</time></div>").join("") : '<div class="empty">Nothing yet.</div>'}</div>
+  </div></div></div>`;
+}
+
+function vLeague(){
+  const div = ui.standDiv || me().league;
+  const st = standings(div);
+  document.getElementById("t-league").innerHTML = `
+  <div class="cols even"><div class="card">
+    <header><h2>Standings</h2><span class="spacer"></span>
+      <span class="segs">
+        <button data-div="l1" aria-pressed="${div==="l1"}">League 1</button>
+        <button data-div="l2" aria-pressed="${div==="l2"}">League 2</button>
+      </span></header>
+    <div class="body" style="padding:0">
+      <table><thead><tr><th class="pos"></th><th>Team</th><th class="num">Top film</th><th class="num">Domestic</th></tr></thead><tbody>
+      ${st.length ? st.map((r,i) => {
+        const tie = i && st[i-1].total === r.total && r.total > 0;
+        return "<tr class='" + (r.m.id === meId ? "mine" : "") + "'><td class='pos'>" + (i+1) + "</td>" +
+          "<td><b>" + esc(r.m.team) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(r.m.name) +
+          (tie ? " · tie broken on top film" : "") + "</div></td>" +
+          "<td class='num'>" + money(r.top) + "</td><td class='num gross'>" + money(r.total) + "</td></tr>";
+      }).join("") : '<tr><td class="empty" colspan="4">No teams in this league yet.</td></tr>'}
+      </tbody></table></div></div>
+    <div class="card"><header><h2>Waiver priority</h2></header><div class="body">
+      <p>Lowest number claims first. Winning a claim drops you to the back.</p>
+      <table><tbody>${
+        (S.priority[div] && S.priority[div].length ? S.priority[div] : divMembers(div).map(m=>m.id))
+        .filter(id => member(id)).map((id,i) =>
+          "<tr><td class='pos'>" + (i+1) + "</td><td>" + esc(member(id).team) + "</td></tr>").join("")
+        || '<tr><td class="empty">No teams yet.</td></tr>'}</tbody></table>
+    </div></div></div>`;
+  document.querySelectorAll("#t-league [data-div]").forEach(b =>
+    b.onclick = () => { ui.standDiv = b.dataset.div; render(); });
+}
+
+function vDraft(){
+  const div = me().league, el = document.getElementById("t-draft");
+  if(S.draft.status === "pre"){
+    el.innerHTML = `<div class="card"><header><h2>Draft</h2></header><div class="body">
+      <p>The draft hasn't started. ${isCommish() ? "Set the order and start it from the commissioner tab." : "Your commissioner will start it."}</p></div></div>`;
+    return;
+  }
+  const slot = onClock(div);
+  const sec = secondsLeft();
+  const myTurn = slot && (slot.memberId === meId || isCommish());
+  const q = ui.draftQ.toLowerCase(), cat = ui.draftCat;
+  const avail = S.pool.filter(f => !draftedIn(div, f.id) && (f.league === "any" || f.league === div))
+    .filter(f => f.title.toLowerCase().includes(q) && (!cat || f.cat === cat));
+  const madeAll = draftOrder(div);
+  const picks = S.draft.picks.filter(p => p.via === "draft" && member(p.memberId) && member(p.memberId).league === div);
+
+  el.innerHTML = `
+  <div class="clock">
+    ${slot ? `<div><div class="sub">Round ${slot.round} · pick ${picks.length+1} of ${madeAll.length}</div>
+      <div class="who">${esc(member(slot.memberId).team)}</div>
+      <div class="sub">${esc(member(slot.memberId).name)}${slot.memberId===meId?" · that's you":""}</div></div>
+      <span class="spacer"></span>
+      <div class="timer ${sec<=15?"low":""}" id="tmr">${String(Math.floor(sec/60))}:${String(sec%60).padStart(2,"0")}</div>`
+    : `<div><div class="who">Draft complete</div><div class="sub">All ${madeAll.length} picks are in.</div></div>`}
+  </div>
+  <div class="cols" style="margin-top:18px"><div class="card">
+    <header><h2>Available</h2><span class="spacer"></span><span class="pill">${avail.length} left</span></header>
+    <div class="body">
+      <div class="tools">
+        <input type="text" id="dq" placeholder="Search" value="${esc(ui.draftQ)}" autocomplete="off">
+        <select id="dc"><option value="">All categories</option>${
+          slotCats().filter(c=>c!=="Wild Card").map(c =>
+            '<option'+(cat===c?" selected":"")+">"+esc(c)+"</option>").join("")}</select>
+      </div>
+      ${!myTurn && slot ? '<p class="note">Waiting on ' + esc(member(slot.memberId).team) + '.</p>' : ""}
+      <div class="list"><table><thead><tr><th>Movie</th><th>Category</th><th>Release</th><th></th></tr></thead><tbody>
+      ${avail.length ? avail.map(f => {
+        const fit = slot ? slotFor(slot.memberId, f) : null;
+        return "<tr><td><b>" + esc(f.title) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(f.studio) + "</div></td>" +
+          "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.cat) + "</td>" +
+          "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.date) + "</td>" +
+          "<td class='num' style='white-space:nowrap'>" +
+          "<button class='mini' data-q='" + f.id + "' title='Queue'>+</button> " +
+          "<button class='btn q' data-pick='" + f.id + "'" + (myTurn && fit ? "" : " disabled") + ">Draft</button></td></tr>";
+      }).join("") : '<tr><td class="empty" colspan="4">Nothing available.</td></tr>'}
+      </tbody></table></div>
+    </div></div>
+    <div class="stack">
+      <div class="card"><header><h2>My queue</h2></header><div class="body" style="padding:0">
+        <table><tbody>${ui.queue.filter(id=>film(id)&&!draftedIn(div,id)).map((id,i) =>
+          "<tr><td class='pos'>" + (i+1) + "</td><td>" + esc(film(id).title) + "</td>" +
+          "<td class='num'><button class='btn q' data-pick='" + id + "'" + (myTurn && slot && slotFor(slot.memberId, film(id)) ? "" : " disabled") + ">Draft</button>" +
+          " <button class='mini' data-unq='" + id + "'>&times;</button></td></tr>").join("")
+          || '<tr><td class="empty">Queue is empty. Use + to add.</td></tr>'}</tbody></table>
+      </div></div>
+      <div class="card"><header><h2>Recent picks</h2></header><div class="body" style="padding:0">
+        <table><tbody>${[...picks].reverse().slice(0,14).map(p =>
+          "<tr><td class='pos'>" + p.round + "</td><td>" + esc(member(p.memberId).team) + "</td>" +
+          "<td>" + esc((film(p.movieId)||{}).title) + "</td></tr>").join("")
+          || '<tr><td class="empty">No picks yet.</td></tr>'}</tbody></table>
+      </div></div>
+    </div>
+  </div>`;
+  document.getElementById("dq").oninput = e => { ui.draftQ = e.target.value; render(); document.getElementById("dq").focus(); };
+  document.getElementById("dc").onchange = e => { ui.draftCat = e.target.value; render(); };
+  el.querySelectorAll("[data-pick]").forEach(b => b.onclick = async () => {
+    const err = await act(() => doPick(b.dataset.pick)); if(err) alert(err);
+  });
+  el.querySelectorAll("[data-q]").forEach(b => b.onclick = () => {
+    if(!ui.queue.includes(b.dataset.q)) ui.queue.push(b.dataset.q); render();
+  });
+  el.querySelectorAll("[data-unq]").forEach(b => b.onclick = () => {
+    ui.queue = ui.queue.filter(x => x !== b.dataset.unq); render();
+  });
+}
+
+function vWire(){
+  const div = me().league, q = ui.wireQ.toLowerCase();
+  const free = S.pool.filter(f => !ownerOf(f.id, div) && (f.league === "any" || f.league === div))
+    .filter(f => f.title.toLowerCase().includes(q));
+  const mine = roster(meId);
+  const myClaims = S.claims.filter(c => c.memberId === meId).slice(-12).reverse();
+  document.getElementById("t-wire").innerHTML = `
+  <div class="cols"><div class="card">
+    <header><h2>Waiver wire</h2><span class="spacer"></span><span class="pill">${free.length} unowned</span></header>
+    <div class="body">
+      <p>Claims don't go through right away. They're processed in priority order, so two people can chase the same movie.</p>
+      <div class="tools"><input type="text" id="wq" placeholder="Search unowned movies" value="${esc(ui.wireQ)}" autocomplete="off"></div>
+      <div class="list"><table><thead><tr><th>Movie</th><th>Category</th><th>Release</th><th></th></tr></thead><tbody>
+      ${free.length ? free.map(f =>
+        "<tr><td><b>" + esc(f.title) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(f.studio) + "</div></td>" +
+        "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.cat) + "</td>" +
+        "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.date) + "</td>" +
+        "<td class='num'><button class='btn q' data-claim='" + f.id + "'>Claim</button></td></tr>").join("")
+        : '<tr><td class="empty" colspan="4">Nothing unowned matches.</td></tr>'}
+      </tbody></table></div>
+    </div></div>
+    <div class="stack">
+      <div class="card"><header><h2>Pending claims</h2></header><div class="body" style="padding:0">
+        <table><tbody>${myClaims.length ? myClaims.map(c =>
+          "<tr><td>" + esc((film(c.addId)||{}).title) + (c.dropId ? "<div style='color:var(--muted);font-size:12px'>drop " + esc((film(c.dropId)||{}).title) + "</div>" : "") + "</td>" +
+          "<td class='num'><span class='pill " + (c.status==="won"?"open":"") + "'>" + esc(c.status + (c.why ? " · " + c.why : "")) + "</span>" +
+          (c.status === "pending" ? " <button class='mini' data-unclaim='" + c.id + "'>&times;</button>" : "") + "</td></tr>").join("")
+          : '<tr><td class="empty">No claims.</td></tr>'}</tbody></table>
+      </div></div>
+      <div class="card"><header><h2>My roster</h2></header><div class="body" style="padding:0">
+        <table><tbody>${mine.map(p =>
+          "<tr><td class='slot'>" + esc(p.slot) + "</td><td>" + esc((film(p.movieId)||{}).title) + "</td></tr>").join("")
+          || '<tr><td class="empty">Empty.</td></tr>'}</tbody></table>
+      </div></div>
+    </div></div>`;
+  document.getElementById("wq").oninput = e => { ui.wireQ = e.target.value; render(); document.getElementById("wq").focus(); };
+  document.querySelectorAll("#t-wire [data-claim]").forEach(b => b.onclick = () => openClaim(b.dataset.claim));
+  document.querySelectorAll("#t-wire [data-unclaim]").forEach(b => b.onclick = () => act(() => {
+    S.claims = S.claims.filter(c => c.id !== b.dataset.unclaim);
+  }));
+}
+function openClaim(addId){
+  const f = film(addId), mine = roster(meId);
+  const opts = mine.map(p => (film(p.movieId)||{}).title + " [" + p.slot + "]");
+  const needDrop = !wouldFit(meId, [addId], []);
+  let dropId = null;
+  if(needDrop || mine.length >= slotCats().length){
+    const pick = prompt("Claim " + f.title + " (" + f.cat + ")\n\nDrop which movie? Enter a number:\n" +
+      opts.map((t,i) => (i+1) + ". " + t).join("\n"));
+    if(pick === null) return;
+    const i = parseInt(pick) - 1;
+    if(isNaN(i) || i < 0 || i >= mine.length) return alert("That wasn't one of the numbers.");
+    dropId = mine[i].movieId;
+  } else if(!confirm("Claim " + f.title + " into an open slot?")) return;
+  act(() => submitClaim(addId, dropId)).then(err => { if(err) alert(err); });
+}
+
+function vTrades(){
+  const div = me().league;
+  const others = divMembers(div).filter(m => m.id !== meId);
+  const withId = ui.tradeWith && others.some(o => o.id === ui.tradeWith) ? ui.tradeWith : (others[0] ? others[0].id : "");
+  ui.tradeWith = withId;
+  const mine = roster(meId), theirs = withId ? roster(withId) : [];
+  const open = S.trades.filter(t => t.status === "pending" && (t.from === meId || t.to === meId));
+  const past = S.trades.filter(t => t.status !== "pending" &&
+    (member(t.from) && member(t.from).league === div)).slice(-10).reverse();
+  const line = (p, chosen, key) =>
+    "<label class='chk'><input type='checkbox' data-" + key + "='" + p.movieId + "'" +
+    (chosen.includes(p.movieId) ? " checked" : "") + "><span>" + esc((film(p.movieId)||{}).title) +
+    " <em style='font-style:normal;color:var(--muted)'>" + esc(p.slot) + " · " + money(S.gross[p.movieId]) + "</em></span></label>";
+  document.getElementById("t-trades").innerHTML = `
+  <div class="cols even">
+    <div class="card"><header><h2>Propose a trade</h2></header><div class="body">
+      ${others.length ? `
+      <label class="f"><span>Trade with</span><select id="twith">${
+        others.map(o => '<option value="'+o.id+'"'+(o.id===withId?" selected":"")+">"+esc(o.team)+" — "+esc(o.name)+"</option>").join("")}</select></label>
+      <div class="row" style="align-items:flex-start">
+        <div><span style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px">You send</span>
+          <div class="scroller">${mine.map(p => line(p, ui.tradeGive, "give")).join("") || '<div class="empty">Empty roster.</div>'}</div></div>
+        <div><span style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px">You get</span>
+          <div class="scroller">${theirs.map(p => line(p, ui.tradeGet, "get")).join("") || '<div class="empty">Empty roster.</div>'}</div></div>
+      </div>
+      <button class="btn wide" id="sendTrade" style="margin-top:12px">Send offer</button>
+      <p class="note" style="margin-top:12px">Both rosters have to still fit the category slots after the swap, so a Drama for an Animation only works if one side has a Wild Card free.</p>`
+      : '<p>No other teams in your league yet.</p>'}
+    </div></div>
+    <div class="stack">
+      <div class="card"><header><h2>Open offers</h2></header><div class="body">
+        ${open.length ? open.map(t => {
+          const inbound = t.to === meId, other = member(inbound ? t.from : t.to);
+          return `<div class="trade">
+            <div class="hd"><b>${inbound ? "From" : "To"} ${esc(other.team)}</b><span class="pill">${ago(t.ts)}</span></div>
+            <div class="side"><em>${inbound ? "You get" : "You send"}:</em> ${t.give.map(id => esc((film(id)||{}).title)).join(", ")}</div>
+            <div class="side"><em>${inbound ? "You send" : "You get"}:</em> ${t.get.map(id => esc((film(id)||{}).title)).join(", ")}</div>
+            <div class="row" style="margin-top:8px">
+              ${inbound ? '<button class="btn go sh" data-yes="'+t.id+'">Accept</button>' : ""}
+              <button class="btn q sh" data-no="${t.id}">${inbound ? "Reject" : "Cancel"}</button>
+            </div></div>`;
+        }).join("") : '<div class="empty">No open offers.</div>'}
+      </div></div>
+      <div class="card"><header><h2>Trade history</h2></header><div class="body" style="padding:0">
+        <table><tbody>${past.length ? past.map(t =>
+          "<tr><td>" + esc(member(t.from).team) + " &harr; " + esc((member(t.to)||{}).team) + "</td>" +
+          "<td class='num'><span class='pill'>" + esc(t.status) + "</span></td></tr>").join("")
+          : '<tr><td class="empty">Nothing yet.</td></tr>'}</tbody></table>
+      </div></div>
+    </div></div>`;
+  const sel = document.getElementById("twith");
+  if(sel) sel.onchange = e => { ui.tradeWith = e.target.value; ui.tradeGet = []; render(); };
+  document.querySelectorAll("#t-trades [data-give]").forEach(c => c.onchange = () => {
+    const id = c.dataset.give;
+    ui.tradeGive = c.checked ? [...ui.tradeGive, id] : ui.tradeGive.filter(x => x !== id);
+  });
+  document.querySelectorAll("#t-trades [data-get]").forEach(c => c.onchange = () => {
+    const id = c.dataset.get;
+    ui.tradeGet = c.checked ? [...ui.tradeGet, id] : ui.tradeGet.filter(x => x !== id);
+  });
+  const send = document.getElementById("sendTrade");
+  if(send) send.onclick = async () => {
+    const err = await act(() => proposeTrade(ui.tradeWith, ui.tradeGive, ui.tradeGet));
+    if(err) alert(err); else { ui.tradeGive = []; ui.tradeGet = []; render(); }
+  };
+  document.querySelectorAll("#t-trades [data-yes]").forEach(b => b.onclick = async () => {
+    const err = await act(() => resolveTrade(b.dataset.yes, true)); if(err) alert(err);
+  });
+  document.querySelectorAll("#t-trades [data-no]").forEach(b => b.onclick = () => act(() => resolveTrade(b.dataset.no, false)));
+}
+
+function vPlayers(){
+  const q = ui.playersQ.toLowerCase(), cat = ui.playersCat;
+  const list = S.pool.filter(f => f.title.toLowerCase().includes(q) && (!cat || f.cat === cat));
+  document.getElementById("t-players").innerHTML = `
+  <div class="card"><header><h2>All movies</h2><span class="spacer"></span><span class="pill">${S.pool.length} titles</span></header>
+    <div class="body">
+      <div class="tools">
+        <input type="text" id="pq" placeholder="Search" value="${esc(ui.playersQ)}" autocomplete="off">
+        <select id="pc"><option value="">All categories</option>${
+          slotCats().filter(c=>c!=="Wild Card").map(c => '<option'+(cat===c?" selected":"")+">"+esc(c)+"</option>").join("")}</select>
+      </div>
+      <div class="list" style="max-height:620px"><table>
+      <thead><tr><th>Movie</th><th>Category</th><th>Release</th><th>League 1</th><th>League 2</th><th class="num">Domestic</th></tr></thead><tbody>
+      ${list.map(f => {
+        const o1 = ownerOf(f.id,"l1"), o2 = ownerOf(f.id,"l2");
+        return "<tr><td><b>" + esc(f.title) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(f.studio) + "</div></td>" +
+          "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.cat) + "</td>" +
+          "<td style='font-size:12.5px;color:var(--muted)'>" + esc(f.date) + "</td>" +
+          "<td style='font-size:12.5px'>" + (o1 ? esc(o1.team) : "<span class='pill open'>free</span>") + "</td>" +
+          "<td style='font-size:12.5px'>" + (o2 ? esc(o2.team) : "<span class='pill open'>free</span>") + "</td>" +
+          "<td class='num gross'>" + money(S.gross[f.id]) + "</td></tr>";
+      }).join("") || '<tr><td class="empty" colspan="6">No titles match.</td></tr>'}
+      </tbody></table></div>
+    </div></div>`;
+  document.getElementById("pq").oninput = e => { ui.playersQ = e.target.value; render(); document.getElementById("pq").focus(); };
+  document.getElementById("pc").onchange = e => { ui.playersCat = e.target.value; render(); };
+}
+
+function vAdmin(){
+  const drafted = new Set(S.draft.picks.map(p => p.movieId));
+  const pending = S.claims.filter(c => c.status === "pending").length;
+  document.getElementById("t-admin").innerHTML = `
+  <div class="cols even"><div class="stack">
+    <div class="card"><header><h2>Draft control</h2></header><div class="body">
+      <p>Status: <span class="pill ${S.draft.status==="live"?"on":""}">${S.draft.status}</span></p>
+      <label class="f"><span>Seconds per pick</span><input type="number" id="psec" min="15" max="600" value="${S.pickSeconds}"></label>
+      <div class="row">
+        <button class="btn sh" id="startDraft">${S.draft.status==="pre"?"Start the draft":"Restart"}</button>
+        <button class="btn q sh" id="randOrder">Randomize both orders</button>
+        <button class="btn q sh" id="undoPick">Undo last pick</button>
+      </div>
+      <p class="note" style="margin-top:12px">Restarting wipes every pick, claim and trade. The order is the team list for each league, in the order shown below.</p>
+      ${["l1","l2"].map(d => `<h3 style="font-size:15px;margin:12px 0 4px">${d==="l1"?"League 1":"League 2"} order</h3>
+        <table><tbody>${(S.draft.order[d]||[]).filter(id=>member(id)).map((id,i) =>
+          "<tr><td class='pos'>"+(i+1)+"</td><td>"+esc(member(id).team)+"</td>" +
+          "<td class='num'><button class='mini' data-up='"+d+":"+id+"'>&uarr;</button>" +
+          "<button class='mini' data-down='"+d+":"+id+"'>&darr;</button></td></tr>").join("")
+          || '<tr><td class="empty">No teams.</td></tr>'}</tbody></table>`).join("")}
+    </div></div>
+    <div class="card"><header><h2>Waivers</h2><span class="spacer"></span><span class="pill">${pending} pending</span></header>
+      <div class="body">
+        <p>Runs every pending claim in priority order, drops the loser's claim, and rotates winners to the back.</p>
+        <button class="btn" id="runWaivers" ${pending?"":"disabled"}>Process waivers now</button>
+      </div></div>
+  </div>
+  <div class="stack">
+    <div class="card"><header><h2>Box office</h2></header><div class="body">
+      <p>Millions of US dollars, domestic. One number per movie, shared by both leagues.</p>
+      <div class="list" style="max-height:420px"><table><tbody>${
+        S.pool.filter(f => drafted.has(f.id)).map(f =>
+          "<tr><td>" + esc(f.title) + "</td><td class='num' style='width:130px'>$<input type='number' step='0.1' min='0' style='width:92px;text-align:right' data-g='" +
+          f.id + "' value='" + (S.gross[f.id] != null ? S.gross[f.id] : "") + "' placeholder='0.0'>M</td></tr>").join("")
+          || '<tr><td class="empty">Nothing drafted yet.</td></tr>'}</tbody></table></div>
+    </div></div>
+    <div class="card"><header><h2>Teams</h2></header><div class="body" style="padding:0">
+      <table><tbody>${S.members.map(m =>
+        "<tr><td><b>" + esc(m.team) + "</b><div style='color:var(--muted);font-size:12px'>" + esc(m.name) + "</div></td>" +
+        "<td><span class='pill " + m.league + "'>" + (m.league==="l1"?"L1":"L2") + "</span></td>" +
+        "<td class='num'><button class='mini' data-commish='" + m.id + "' title='Toggle commissioner'>" + (m.commish?"&starf;":"&star;") + "</button>" +
+        "<button class='mini' data-kick='" + m.id + "'>&times;</button></td></tr>").join("")
+        || '<tr><td class="empty">No teams.</td></tr>'}</tbody></table>
+    </div></div>
+    <div class="card"><header><h2>Export</h2></header><div class="body">
+      <button class="btn q" id="csv">Download rosters CSV</button>
+    </div></div>
+  </div></div>`;
+
+  document.getElementById("psec").onchange = e => act(() => S.pickSeconds = Math.max(15, Math.min(600, parseInt(e.target.value)||90)));
+  document.getElementById("startDraft").onclick = () => {
+    if(S.draft.status !== "pre" && !confirm("Restart wipes every pick, claim and trade. Continue?")) return;
+    act(() => {
+      ["l1","l2"].forEach(d => {
+        if(!S.draft.order[d] || !S.draft.order[d].length) S.draft.order[d] = divMembers(d).map(m => m.id);
+        S.priority[d] = [...S.draft.order[d]].reverse();
+      });
+      S.draft.picks = []; S.claims = []; S.trades = [];
+      S.draft.status = "live"; S.draft.startedAt = Date.now(); S.draft.lastPickAt = Date.now();
+      log("<b>The draft is live.</b>");
+    });
+  };
+  document.getElementById("randOrder").onclick = () => act(() => {
+    ["l1","l2"].forEach(d => {
+      const a = divMembers(d).map(m => m.id);
+      for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+      S.draft.order[d] = a;
+    });
+    log("<b>Draft order randomized.</b>");
+  });
+  document.getElementById("undoPick").onclick = () => act(() => {
+    const last = [...S.draft.picks].reverse().find(p => p.via === "draft");
+    if(!last) return;
+    S.draft.picks = S.draft.picks.filter(p => p.id !== last.id);
+    S.draft.status = "live";
+    log("<b>Pick undone:</b> " + (film(last.movieId)||{}).title);
+  });
+  document.getElementById("runWaivers").onclick = () => act(processWaivers);
+  document.querySelectorAll("#t-admin [data-up],#t-admin [data-down]").forEach(b => b.onclick = () => {
+    const up = b.dataset.up, [d,id] = (up || b.dataset.down).split(":");
+    act(() => {
+      const a = S.draft.order[d], i = a.indexOf(id), j = up ? i-1 : i+1;
+      if(i<0||j<0||j>=a.length) return;
+      [a[i],a[j]] = [a[j],a[i]];
+    });
+  });
+  document.querySelectorAll("#t-admin [data-g]").forEach(inp => inp.onchange = () => act(() => {
+    const id = inp.dataset.g;
+    if(inp.value === "") delete S.gross[id]; else S.gross[id] = Math.max(0, parseFloat(inp.value)||0);
+  }));
+  document.querySelectorAll("#t-admin [data-commish]").forEach(b => b.onclick = () => act(() => {
+    const m = member(b.dataset.commish); m.commish = !m.commish;
+  }));
+  document.querySelectorAll("#t-admin [data-kick]").forEach(b => b.onclick = () => {
+    const m = member(b.dataset.kick);
+    if(!confirm("Remove " + m.team + " and everything they own?")) return;
+    act(() => {
+      S.members = S.members.filter(x => x.id !== m.id);
+      S.draft.picks = S.draft.picks.filter(p => p.memberId !== m.id);
+      S.claims = S.claims.filter(c => c.memberId !== m.id);
+      S.trades = S.trades.filter(t => t.from !== m.id && t.to !== m.id);
+      ["l1","l2"].forEach(d => {
+        S.draft.order[d] = (S.draft.order[d]||[]).filter(id => id !== m.id);
+        S.priority[d] = (S.priority[d]||[]).filter(id => id !== m.id);
+      });
+      log("<b>" + m.team + "</b> was removed from the league");
+    });
+  });
+  document.getElementById("csv").onclick = () => {
+    const rows = [["League","Team","Manager","Slot","Movie","Studio","Release","Category","Acquired","Domestic gross ($M)"]];
+    S.members.forEach(m => roster(m.id).forEach(p => {
+      const f = film(p.movieId) || {};
+      rows.push([m.league==="l1"?"League 1":"League 2", m.team, m.name, p.slot,
+        f.title||"", f.studio||"", f.date||"", f.cat||"", p.via,
+        S.gross[p.movieId] != null ? S.gross[p.movieId] : ""]);
+    }));
+    const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+    a.download = "chi-alpha-2027-rosters.csv"; a.click();
+  };
+}
+
+/* ============================= auth + boot ============================= */
+document.getElementById("toggleMode").onclick = () => {
+  const up = document.getElementById("signupBox").classList.toggle("hidden");
+  document.getElementById("signinBox").classList.toggle("hidden", !up);
+  document.getElementById("gateTitle").textContent = up ? "Sign in" : "Create a team";
+  document.getElementById("toggleMode").textContent = up ? "Create a team" : "Have a team? Sign in";
+};
+document.getElementById("doSignup").onclick = async () => {
+  const name = document.getElementById("suName").value.trim();
+  const team = document.getElementById("suTeam").value.trim();
+  const league = document.getElementById("suDiv").value;
+  const pin = document.getElementById("suPin").value.trim();
+  const err = document.getElementById("signupErr");
+  err.textContent = "";
+  if(!name || !team) return err.textContent = "Name and team name are both needed.";
+  if(!/^\d{4,6}$/.test(pin)) return err.textContent = "PIN should be 4 to 6 digits.";
+  await pull();
+  if(S.members.some(m => m.name.toLowerCase() === name.toLowerCase()))
+    return err.textContent = "Someone already signed up with that name.";
+  const m = { id: uid(), name, team, league, pin: await sha(pin), commish: S.members.length === 0, joined: Date.now() };
+  S.members.push(m);
+  if(!S.draft.order[league].includes(m.id)) S.draft.order[league].push(m.id);
+  S.priority[league] = (S.priority[league]||[]).concat(m.id);
+  log("<b>" + team + "</b> joined " + (league==="l1"?"League 1":"League 2"));
+  await api.commit(S);
+  meId = m.id; await api.setSession(meId);
+  tab = "team"; render(); startPoll();
+};
+document.getElementById("doSignin").onclick = async () => {
+  const id = document.getElementById("whoSel").value;
+  const pin = document.getElementById("pinIn").value.trim();
+  const err = document.getElementById("signinErr");
+  err.textContent = "";
+  await pull(); renderGate();
+  const m = member(id);
+  if(!m) return err.textContent = "Pick a team.";
+  if(m.pin !== await sha(pin)) return err.textContent = "Wrong PIN.";
+  meId = m.id; await api.setSession(meId);
+  document.getElementById("pinIn").value = "";
+  tab = "team"; render(); startPoll();
+};
+document.getElementById("pinIn").onkeydown = e => { if(e.key === "Enter") document.getElementById("doSignin").click(); };
+document.getElementById("signout").onclick = async () => {
+  meId = null; await api.setSession(null); clearInterval(poller); render();
+};
+document.querySelector(".nav").onclick = e => {
+  const b = e.target.closest("button[data-tab]");
+  if(b && !b.disabled){ tab = b.dataset.tab; render(); window.scrollTo({top:0}); }
+};
+
+async function pull(){
+  const n = await api.load();
+  if(n) S = n;
+  if(!S) S = freshState();
+  ["l1","l2"].forEach(d => { S.draft.order[d] = S.draft.order[d] || []; S.priority[d] = S.priority[d] || []; });
+}
+function startPoll(){
+  clearInterval(poller);
+  poller = setInterval(async () => {
+    if(busy || document.hidden || !meId) return;
+    const before = JSON.stringify([S.draft.picks.length, S.trades.length, S.claims.length, S.members.length, S.draft.status]);
+    await pull();
+    if(JSON.stringify([S.draft.picks.length, S.trades.length, S.claims.length, S.members.length, S.draft.status]) !== before) render();
+  }, tab === "draft" ? 6000 : 15000);
+}
+clearInterval(ticker);
+ticker = setInterval(() => {
+  const t = document.getElementById("tmr");
+  if(!t || !S || S.draft.status !== "live") return;
+  const s = secondsLeft();
+  t.textContent = Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+  t.classList.toggle("low", s <= 15);
+}, 1000);
+
+(async function boot(){
+  await pull();
+  const sid = await api.getSession();
+  if(sid && member(sid)) meId = sid;
+  render();
+  if(meId) startPoll();
+})();
+</script>
