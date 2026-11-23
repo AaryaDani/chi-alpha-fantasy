@@ -1000,19 +1000,37 @@ function looksLikeCategory(c) {
 function parsePlayerTab(rows, playerName) {
   const out = [];
   for (const r of rows) {
-    if (!r) continue;
-    const cat   = (r[0] || '').trim();
-    const movie = (r[1] || '').trim();
-    if (!movie || !looksLikeCategory(cat)) continue;
+    if (!r || !r.length) continue;
 
-    const tabGross  = parseGross(r[2]);
+    // 1. locate the category cell
+    let ci = -1;
+    for (let i = 0; i < r.length; i++) {
+      if (looksLikeCategory((r[i] || '').trim())) { ci = i; break; }
+    }
+    if (ci === -1) continue;
+    const cat = r[ci].trim();
+
+    // 2. title = next cell after it containing a letter
+    let movie = null, ti = -1;
+    for (let i = ci + 1; i < r.length; i++) {
+      const t = (r[i] || '').trim();
+      if (t && /[a-zA-Z]/.test(t)) { movie = t; ti = i; break; }
+    }
+    if (!movie) continue;
+
+    // 3. gross = first numeric cell after the title ("#N/A" parses to null)
+    let tabGross = null;
+    for (let i = ti + 1; i < r.length; i++) {
+      const g = parseGross(r[i]);
+      if (g !== null) { tabGross = g; break; }
+    }
+
     const mojoGross = getMovieGrossFromMojo(movie);
-    let gross;
-    if (mojoGross !== null)     gross = mojoGross;   // (1) source of truth
-    else if (tabGross !== null) gross = tabGross;    // (2) tab cell resolved it
-    else                        gross = null;        // (3) nothing -> unreleased
-
-    out.push({ cat: cat, movie: movie, gross: gross });
+    out.push({
+      cat: cat,
+      movie: movie,
+      gross: mojoGross !== null ? mojoGross : tabGross
+    });
   }
   return out;
 }
